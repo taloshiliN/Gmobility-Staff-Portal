@@ -1,0 +1,82 @@
+.profile-card {
+    position: fixed;
+    /* Fixed positioning to keep it in place */
+    left: 50%;
+    /* Center horizontally */
+    top: 250px;
+    /* Adjust to position below the top */
+    transform: translateX(-50%);
+    /* Offset for true centering */
+    width: 900px;
+    /* Width for the card */
+    background-color: #f9f9f9;
+    /* Light background for the card */
+    border: 1px solid #ccc;
+    /* Border for card */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    padding: 20px;
+    /* Padding inside the card */
+    text-align: center;
+    /* Center text */
+}
+
+.profile-image {
+    width: 120px;
+    /* Fixed width for image */
+    height: 120px;
+    /* Fixed height for image */
+    border-radius: 50%;
+    /* Circular image */
+    margin: 0 auto 15px auto;
+    /* Center the image and space below */
+    display: block;
+    /* Center the image block */
+}
+
+.profile-info {
+    margin-top: 10px;
+    /* Space above profile info */
+}
+
+.profile-row {
+    display: flex;
+    /* Use flexbox for alignment */
+    justify-content: center;
+    /* Center items */
+    align-items: center;
+    /* Center vertically */
+    margin-bottom: 10px;
+    /* Space between rows */
+    padding-left: 130px;
+    /* Add padding to move text to the right */
+}
+
+.label {
+    font-weight: bold;
+    /* Bold for labels */
+    margin-right: 10px;
+    /* Space between label and value */
+    flex: 1;
+    /* Allow label to grow */
+}
+
+.value {
+    text-align: left;
+    /* Left align the value text */
+    flex: 1;
+    /* Allow value to grow */
+}
+
+.profile-card h2 {
+    margin-bottom: 20px;
+    /* Space below the heading */
+    font-size: 24px;
+    /* Font size for the heading */
+    font-weight: bold;
+    /* Bold text */
+    text-align: center;
+    /* Center the heading text */
+}

@@ -1,0 +1,18 @@
+import React from "react"
+import StaffRegistrationForm from "../../components/StaffRegister"
+import SidebarNav from "../../components/sidebarNav"
+import Header from "../../components/header"
+import { useSelector } from "react-redux"
+
+function StaffRegistration () {
+    const position = useSelector((state)=> state.auth.position)
+
+    return (
+        <>
+        <StaffRegistrationForm />
+        <SidebarNav position={position} />
+        </>
+    )
+}
+
+export default StaffRegistration

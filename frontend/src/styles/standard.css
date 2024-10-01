@@ -1,0 +1,16 @@
+
+.contain {
+    width: 100%;
+}
+
+.main-content {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    padding: 60px 100px;
+}
+.Employee-sidebar ~ .header {
+    position: fixed;
+}
+.Employee-sidebar:hover ~ .main-content {
+    margin-left: 12%; /* Adjust to match the expanded sidebar */
+  }

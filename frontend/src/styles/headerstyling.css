@@ -1,0 +1,17 @@
+.header {
+    background-color: rgb(28, 28, 141);
+    width: 100%;
+    height: 20%;
+    display: inline-flex;
+    text-align: center;
+  }
+  .header img{
+    width: 4%;
+    height: 5%;
+  }
+  .header p{
+    color: white;
+    font-weight: 600;
+    margin-top: 1%;
+    margin-left: 0.5%;
+  }

@@ -1,0 +1,79 @@
+/* body, html{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+h1{
+  color: azure;
+  padding: 20px;
+}
+.loginform{
+  margin: 0;
+  padding: 250px 0px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.form-container {
+  background-image: linear-gradient(#91b9e7, white);
+  font: 10px sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 10px 25px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  /* overflow: hidden; */
+  }
+  .form-input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #b0b0b0;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .form-button {
+    width: 30%;
+    padding: 10px;
+    margin: 20px 0;
+    background-color: #1e1e1e;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.50s ease-in-out;
+  }
+  
+  .form-button:hover {
+    background-color: #91b9e7; 
+  }
+
+  
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
