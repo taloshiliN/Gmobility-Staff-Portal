@@ -20,7 +20,6 @@ const db = mysql.createConnection({
     database:"sp_db"
 })
 
-
 app.post("/api/data", (req, res) => {
     const {firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password} = req.body;
     
@@ -61,6 +60,44 @@ app.post("/api/login", (req, res) => {
           res.status(401).json({ message: "Invalid username or password" });
         }
       }
+    );
+});
+
+app.post("/api/leave", (req, res) => {
+    const {
+        employeeName, 
+        date, 
+        supervisorName, 
+        leaveType, 
+        startDate, 
+        endDate, 
+        totalDays, 
+        resumingWorkDay, 
+        emergencyName, 
+        emergencyAddress, 
+        emergencyPhone
+    } = req.body;
+
+    db.query(
+        "INSERT INTO leave_requests (employee_name, date, supervisor_name, leave_type, start_date, end_date, total_days, resuming_work_day, emergency_name, emergency_address, emergency_phone) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        [employeeName, date, supervisorName, leaveType, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone],
+        (err) => {
+            if (err) throw err;
+            const newLeaveRequest = {
+                EmployeeName:employeeName,
+                Date:date,
+                SuperVisorName:supervisorName,
+                LeaveType:leaveType,
+                StartDate:startDate,
+                EndDate:endDate,
+                TotalDays:totalDays,
+                ResumingWorkDay:resumingWorkDay,
+                EmergencyName:emergencyName,
+                EmergencyAddress:emergencyAddress,
+                EmergencyPhone:emergencyPhone
+            };
+            res.json(newLeaveRequest);
+        }
     );
 });
 

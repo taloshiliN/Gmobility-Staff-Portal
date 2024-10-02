@@ -1,41 +1,100 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SidebarNav from '../../components/sidebarNav'
 import Header from '../../components/header'
 import '../../styles/leaverequest.css'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { createLeaveRequest } from '../../leaveSlice'
 
 function LeaveRequest() {
-  const position = useSelector((state)=> state.auth.position)
+  const position = useSelector((state) => state.auth.position);
 
-  const [employeeName, setEmployeeName] = useState("")
-  const [date, setDate] = useState("")
-  const [supervisorName, setSupervisorName] = useState("")
-  const [leaveType, setLeaveType] = useState("");
+  const [employeeName, setEmployeeName] = useState("");
+  const [date, setDate] = useState("");
+  const [supervisorName, setSupervisorName] = useState("");
+  const [leaveType, setLeaveType] = useState({
+    vacation: false,
+    leaveOfAbsence: false,
+    sickFamily: false,
+    sickSelf:false,
+    drAppointment: false,
+    funeral: false,
+    other:false,
+  });
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [totalDays, setTotalDays] = useState("");
+  const [totalDays, setTotalDays] = useState(0); // Change to number
   const [resumingWorkDay, setResumingWorkDay] = useState("");
   const [emergencyName, setEmergencyName] = useState("");
   const [emergencyAddress, setEmergencyAddress] = useState("");
   const [emergencyPhone, setEmergencyPhone] = useState("");
+  const dispatch = useDispatch();
+
+  const calculateResumingWorkDay = () => {
+    if (endDate) {
+      const end = new Date(endDate);
+      const resumingDay = new Date(end);
+      resumingDay.setDate(resumingDay.getDate() + 1);
+      setResumingWorkDay(resumingDay.toISOString().split("T")[0]);
+    } else {
+      setResumingWorkDay("");
+    }
+  };
+
+  const calculateTotalDays = () => {
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Including the start day
+      setTotalDays(diffDays);
+    } else {
+      setTotalDays(0); // Reset to 0 if no valid dates
+    }
+  };
+
+  useEffect(() => {
+    calculateResumingWorkDay();
+    calculateTotalDays();
+  }, [startDate, endDate]);
+
+  const handleLeaveTypeChange = (e) => {
+    const {name, checked} = e.target;
+    setLeaveType((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(
+    console.log("Form submitted with data:", {
+      employeeName,
+      date,
+      supervisorName,
+      leaveType,
+      startDate,
+      endDate,
+      totalDays,
+      resumingWorkDay,
+      emergencyName,
+      emergencyAddress,
+      emergencyPhone,
+    });
+    if (
       employeeName &&
       date &&
       supervisorName &&
       leaveType &&
       startDate &&
       endDate &&
-      totalDays &&
+      totalDays > 0 && 
       resumingWorkDay &&
       emergencyName &&
       emergencyAddress &&
       emergencyPhone
     ) {
-      console.log('Form submitted', {
+      dispatch(createLeaveRequest({
         employeeName,
         date,
         supervisorName,
@@ -47,14 +106,15 @@ function LeaveRequest() {
         emergencyName,
         emergencyAddress,
         emergencyPhone,
-      });
+      }));
+      // Clear form fields after submission
       setEmployeeName("");
       setDate("");
       setSupervisorName("");
       setLeaveType("");
       setStartDate("");
       setEndDate("");
-      setTotalDays("");
+      setTotalDays(0);
       setResumingWorkDay("");
       setEmergencyName("");
       setEmergencyAddress("");
@@ -78,8 +138,8 @@ function LeaveRequest() {
                     type="text" 
                     name="EmployeeName" 
                     value={employeeName} 
-                    onChange={e=>setEmployeeName(e.target.value)}/>
-                    
+                    onChange={e=>setEmployeeName(e.target.value)}
+                    required/>
                     </td>
                   </tr>
                   <tr>
@@ -88,7 +148,8 @@ function LeaveRequest() {
                     type="date" 
                     name="date" 
                     value={date} 
-                    onChange={e=>setDate(e.target.value)}/>
+                    onChange={e=>setDate(e.target.value)}
+                    required/>
                     </td>
                   </tr>
                   <tr>
@@ -97,7 +158,8 @@ function LeaveRequest() {
                     type="text" 
                     name="SupervisorName" 
                     value={supervisorName} 
-                    onChange={e=>setSupervisorName(e.target.value)}/>
+                    onChange={e=>setSupervisorName(e.target.value)}
+                    required/>
                     </td>
                   </tr>
                 </table>
@@ -107,35 +169,78 @@ function LeaveRequest() {
           <tbody>
             <tr>
               <td><input 
-              type="checkbox" 
+              type="checkbox"
+              name="vacation"
+              checked={leaveType.vacation}
               className="leave-type" 
+              onChange={handleLeaveTypeChange}
               /> Vacation</td>
 
               <td><input 
               type="checkbox" 
+              name="LeaveOfAbsence"
+              checked={leaveType.leaveOfAbsence}
               className="leave-type" 
+              onChange={handleLeaveTypeChange}
               /> Leave of Absence</td>
 
               <td><input 
               type="checkbox" 
+              name="SickFamily"
+              checked={leaveType.sickFamily}
               className="leave-type" 
+              onChange={handleLeaveTypeChange}
               /> Sick - Family</td>
 
             </tr>
             <tr>
-              <td><input type="checkbox" className="leave-type"/> Sick - Self</td>
-              <td><input type="checkbox" className="leave-type"/> Dr. Appointment</td>
+              <td><input 
+              type="checkbox"
+              checked={leaveType.sickSelf}
+              className="leave-type"
+              onChange={handleLeaveTypeChange}
+              /> Sick - Self</td>
+
+              <td><input 
+              type="checkbox" 
+              checked={leaveType.drAppointment}
+              className="leave-type"
+              onChange={handleLeaveTypeChange}
+              /> Dr. Appointment</td>
+
             </tr>
             <tr>
-              <td><input type="checkbox" className="leave-type"/> Sick for Family</td>
-              <td><input type="text" name="sick-family-member"/></td>
+              <td>
+                <input 
+                type="checkbox" 
+                checked={leaveType.sickFamily}
+                className="leave-type"
+                onChange={handleLeaveTypeChange}
+                /> Sick for Family</td>
+
+              <td><input 
+              type="text" 
+              name="sick-family-member"
+              /></td>
+
             </tr>
             <tr>
-              <td><input type="checkbox" className="leave-type"/> Funeral for</td>
+              <td><input 
+              type="checkbox" 
+              checked={leaveType.funeral}
+              className="leave-type"
+              onChange={handleLeaveTypeChange}
+              /> Funeral for</td>
+
               <td><input type="text" name="late-person"/></td>
             </tr>
             <tr>
-              <td><input type="checkbox" className="leave-type"/> Other</td>
+              <td><input 
+              type="checkbox" 
+              checked={leaveType.other}
+              className="leave-type"
+              onChange={handleLeaveTypeChange}
+              /> Other</td>
               <td><input type="text" name="Other"/></td>
             </tr>
           </tbody>
@@ -143,37 +248,73 @@ function LeaveRequest() {
         {/*leave Details*/}
         <h3>Leave Requested</h3>
         <table>
-            <tr>
-                <td>Start Date:</td>
-                <td><input type="date" name="start_date"/></td>
-            </tr>
-            <tr>
-                <td>End Date:</td>
-                <td><input type="date" name="end_date"/></td>
-            </tr>
-            <tr>
-                <td>Total Days:</td>
-                <td><input type="number" name="total_days"/></td>
-            </tr>
-            <tr>
-                <td>Resuming Work Day:</td>
-                <td><input type="date" name="resuming_work_day"/></td>
-            </tr>
-        </table>
+                <tbody>
+                  <tr>
+                    <td>Start Date:</td>
+                    <td><input 
+                      type="date" 
+                      name="start_date"
+                      value={startDate}
+                      onChange={e => setStartDate(e.target.value)}
+                      required /></td>
+                  </tr>
+                  <tr>
+                    <td>End Date:</td>
+                    <td><input 
+                      type="date" 
+                      name="end_date"
+                      value={endDate}
+                      onChange={e => setEndDate(e.target.value)}
+                      required /></td>
+                  </tr>
+                  <tr>
+                    <td>Total Days:</td>
+                    <td><input 
+                      type="number" 
+                      name="total_days"
+                      value={totalDays}
+                      readOnly />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Resuming Work Day:</td>
+                    <td><input 
+                      type="date" 
+                      name="resuming_work_day"
+                      value={resumingWorkDay}
+                      readOnly /></td>
+                  </tr>
+                </tbody>
+              </table>
         {/**emergency contact */}
         <h3>Emergency Contact</h3>
         <table>
             <tr>
                 <td>Name:</td>
-                <td><input type="text" name="emergency_name"/></td>
+                <td><input 
+                type="text" 
+                name="emergency_name"
+                value={emergencyName}
+                onChange={e => setEmergencyName(e.target.value)}
+                required/></td>
             </tr>
             <tr>
                 <td>Address:</td>
-                <td><input type="text" name="emergency_address"/></td>
+                <td><input 
+                type="text" 
+                name="emergency_address"
+                value={emergencyAddress}
+                onChange={e => setEmergencyAddress(e.target.value)}
+                required/></td>
             </tr>
             <tr>
                 <td>Phone Number:</td>
-                <td><input type="text" name="emergency_phone"/></td>
+                <td><input 
+                type="text" 
+                name="emergency_phone"
+                value={emergencyPhone}
+                onChange={e=>setEmergencyPhone(e.target.value)}
+                required/></td>
             </tr>
         </table>
         <div class="instructions">
@@ -186,7 +327,7 @@ function LeaveRequest() {
             </ol>
         </div>
         <button>Clear</button>
-        <button type='submit'>Submit</button>
+        <button type='submit' onClick={handleSubmit}>Submit</button>
             </form>
           </div>  
         </div>

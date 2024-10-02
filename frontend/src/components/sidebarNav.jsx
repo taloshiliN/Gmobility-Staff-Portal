@@ -1,5 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { logout } from '../authslice'
+import { useNavigate } from 'react-router-dom'
 import '../styles/sidebarstyling.css'
 import profile from '../assets/defaulticon.png'
 import image1 from '../assets/person3.png'
@@ -10,6 +13,13 @@ import arrow from '../assets/arrow.png'
 import Header from './header'
 
 function SidebarNav({position}) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login')
+  }
 
   if (!position) {
     console.warn('Position is undefined in SidebarNav component');
@@ -48,20 +58,20 @@ function SidebarNav({position}) {
           {position === 'Human Resource' && (
             <>
             <li>
+              <NavLink to="/hrhome">Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/hremployees">Employees</NavLink>
+            </li>
+            <li>
               <NavLink to="/staffregistration">Staff registration</NavLink>
             </li>
-              <li>
-                <NavLink to="/hrleaverequest">View Leave Request</NavLink>
-              </li>
-              <li>
-                <NavLink to="/overtimerequest">View Overtime Request</NavLink>
-              </li>
-              <li>
-                <NavLink to="/hrovertimerequests">View Overtime</NavLink>
-              </li>
-              <li>
-                <NavLink to="/clockinclockout">View Employee Clock In Hours</NavLink>
-              </li>
+            <li>
+              <NavLink to="/hrleaverequest">View Leave Request</NavLink>
+            </li>
+            <li>
+              <NavLink to="/hrovertimerequests">View Overtime Requests</NavLink>
+            </li>
             </>
           )}
 
@@ -86,7 +96,9 @@ function SidebarNav({position}) {
             </>
           )}
         </ul>
-        <button className='hrlogout'>Logout</button>
+        <button className='hrlogout' onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

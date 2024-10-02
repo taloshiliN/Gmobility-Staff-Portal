@@ -10,10 +10,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import dataReducer from "./dataSlice"
 import authReducer from "./dataloginslice"
+import leaveReducer from "./leaveSlice"
 
 export const store = configureStore({
     reducer: {
         data: dataReducer,
-        auth: authReducer
+        auth: authReducer,
+        leave: leaveReducer
     }
 });
