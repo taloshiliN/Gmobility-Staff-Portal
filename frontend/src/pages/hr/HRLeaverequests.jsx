@@ -10,7 +10,7 @@ function HRLeaverequests() {
   const [selectedRequest, setSelectedRequest] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/leaverequests')
+    fetch('http://localhost:8080/leaverequests') // Updated port to 8080
       .then(res => {
         if (!res.ok) {
           throw new Error('Network response was not ok');
@@ -18,33 +18,40 @@ function HRLeaverequests() {
         return res.json();
       })
       .then(data => {
-        console.log(data); // Log the fetched data to inspect its structure
+        console.log(data);
         setData(data);
       })
       .catch(err => console.error('Fetch error:', err));
   }, []);
 
   const updateRequestStatus = (requestId, status, msgstatus) => {
-    fetch(`http://localhost:3000/leaverequests/${requestId}`, {
+    fetch(`http://localhost:8080/leaverequests/${requestId}`, { // Updated port to 8080
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ status, msgstatus }),
     })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return res.json();
-    })
-    .then(data => {
-      console.log('Status updated:', data);
-    })
-    .catch(err => console.error('Error updating status:', err));
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log('Status updated:', data);
+        // Update local state to reflect changes
+        setData(prevData => 
+          prevData.map(request => 
+            request.id === requestId ? { ...request, status, msgstatus } : request
+          )
+        );
+      })
+      .catch(err => console.error('Error updating status:', err));
   };
 
   const handleClick = (request) => {
+    // Mark the request as seen
     const updatedData = data.map(d =>
       d.id === request.id ? { ...d, msgstatus: 'seen' } : d
     );
@@ -54,20 +61,10 @@ function HRLeaverequests() {
   };
 
   const handleApprove = (request) => {
-    const updatedData = data.map(d =>
-      d.id === request.id ? { ...d, status: 'Approved', msgstatus: 'seen' } : d
-    );
-    setData(updatedData);
-    setSelectedRequest(request);
     updateRequestStatus(request.id, 'Approved', 'seen');
   };
 
   const handleReject = (request) => {
-    const updatedData = data.map(d =>
-      d.id === request.id ? { ...d, status: 'Rejected', msgstatus: 'seen' } : d
-    );
-    setData(updatedData);
-    setSelectedRequest(request);
     updateRequestStatus(request.id, 'Rejected', 'seen');
   };
 
@@ -85,7 +82,7 @@ function HRLeaverequests() {
                   </tr>
                 ) : (
                   data.map((d, i) => (
-                    <tr key={i} onClick={() => handleClick(d)}>
+                    <tr key={d.id} onClick={() => handleClick(d)}>
                       <td>
                         <img id="innerpropic" src={d.profile || defaultimg} alt="profile" />
                       </td>
@@ -129,16 +126,16 @@ function HRLeaverequests() {
               <p>Select a request to see the details.</p>
             )}
             {selectedRequest && (
-              <div id='leavereason'>
-                <div id='leavereasontext'>
+              <div id="leavereason">
+                <div id="leavereasontext">
                   <p>{selectedRequest.reason || 'N/A'}</p>
                 </div>
               </div>
             )}
             {selectedRequest && selectedRequest.status === 'Pending' && (
               <>
-                <button className='leavebuttons' id='but1' onClick={() => handleApprove(selectedRequest)}>Approve</button>
-                <button className='leavebuttons' id='but2' onClick={() => handleReject(selectedRequest)}>Reject</button>
+                <button className='leavebuttons' id="but1" onClick={() => handleApprove(selectedRequest)}>Approve</button>
+                <button className='leavebuttons' id="but2" onClick={() => handleReject(selectedRequest)}>Reject</button>
               </>
             )}
           </div>
