@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2024 at 03:42 PM
+-- Generation Time: Oct 03, 2024 at 10:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -32,14 +32,60 @@ CREATE TABLE `leave_requests` (
   `employee_name` varchar(100) NOT NULL,
   `date` date NOT NULL,
   `supervisor_name` varchar(100) NOT NULL,
-  `leave_type` enum('vacation','leave_of_absence','sick_self','sick_family','dr_appointment','funeral','other') DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `total_days` int(11) NOT NULL,
-  `resuming_work_day` date NOT NULL,
+  `resuming_work_days` date NOT NULL,
   `emergency_name` varchar(100) NOT NULL,
   `emergency_address` varchar(100) NOT NULL,
-  `emergency_phone` varchar(10) NOT NULL
+  `emergency_phone_number` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leave_requests`
+--
+
+INSERT INTO `leave_requests` (`id`, `employee_name`, `date`, `supervisor_name`, `start_date`, `end_date`, `total_days`, `resuming_work_days`, `emergency_name`, `emergency_address`, `emergency_phone_number`) VALUES
+(1, 'Taloshili', '2024-10-03', 'Bra G', '2024-10-17', '2024-10-24', 8, '2024-10-25', 'Mom', 'Soweto', 2147483647);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `leave_types`
+--
+
+CREATE TABLE `leave_types` (
+  `id` int(11) NOT NULL,
+  `type_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leave_types`
+--
+
+INSERT INTO `leave_types` (`id`, `type_name`) VALUES
+(1, 'Vacation'),
+(2, 'Leave of Absence'),
+(3, 'Sick - Family'),
+(4, 'Sick - Self'),
+(5, 'Doctor Appointment'),
+(6, 'Funeral'),
+(7, 'Other');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `overtime_requests`
+--
+
+CREATE TABLE `overtime_requests` (
+  `id` int(11) NOT NULL,
+  `employee_name` varchar(100) NOT NULL,
+  `date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `duration` int(11) NOT NULL,
+  `reason` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -74,7 +120,9 @@ INSERT INTO `staff_members` (`Id`, `Name`, `Surname`, `ID_Number`, `DOB`, `Natio
 (8, 'John', 'Doe', 1234567890123, '1985-11-14', 'Namibian', 'IDK', 'English', 'Admin', 'Monkey2002'),
 (9, 'jane', 'doe', 34567890924, '2002-09-12', 'Namibian', 'IDK', 'English', 'Admin', 'Monkey2002'),
 (10, 'Taloshili', 'Eden', 1234567890143, '2002-09-12', 'Namibian', 'Oshiwambo', 'English', 'Employee', 'Monkey2002'),
-(11, 'Johnny', 'Eden', 12345678901098, '2002-09-12', 'Namibian', 'Oshiwambo', 'English', 'Employee', 'Monkey2002');
+(11, 'Johnny', 'Eden', 12345678901098, '2002-09-12', 'Namibian', 'Oshiwambo', 'English', 'Employee', 'Monkey2002'),
+(12, 'Hafeni', 'Neliwa', 1234567890100, '2009-02-01', 'Namibian', 'Oshiwambo', 'English', 'Employee', 'Monkey2002'),
+(14, 'Floyd', 'Mayweather', 12345678901666, '2002-09-12', 'Namibian', 'Oshiwambo', 'English', 'Employee', 'Monkey2002');
 
 --
 -- Indexes for dumped tables
@@ -84,6 +132,18 @@ INSERT INTO `staff_members` (`Id`, `Name`, `Surname`, `ID_Number`, `DOB`, `Natio
 -- Indexes for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `leave_types`
+--
+ALTER TABLE `leave_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `overtime_requests`
+--
+ALTER TABLE `overtime_requests`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -101,13 +161,25 @@ ALTER TABLE `staff_members`
 -- AUTO_INCREMENT for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `leave_types`
+--
+ALTER TABLE `leave_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `overtime_requests`
+--
+ALTER TABLE `overtime_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `staff_members`
 --
 ALTER TABLE `staff_members`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
