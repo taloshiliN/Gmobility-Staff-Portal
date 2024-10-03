@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import '../../styles/OvertimerequestPage.css'; // Assuming you use a CSS file for styles
 import Header from '../../components/header';
 import SidebarNav from '../../components/sidebarNav';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createOvertimeRequest } from '../../overtimeSlice';
 
 function OvertimerequestPage() {
 
@@ -10,8 +11,9 @@ function OvertimerequestPage() {
   const [date, setDate] = useState("")
   const [duration, setDuration] = useState("")
   const [reason, setReason] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
+  const dispatch = useDispatch();
 
   const position = useSelector((state)=> state.auth.position)
   // State to handle form inputs
@@ -59,22 +61,32 @@ function OvertimerequestPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formattedStartTime = startTime.includes(':') ? `${startTime}:00` : startTime;
+    const formattedEndTime = endTime.includes(':') ? `${endTime}:00` : endTime;
+
     if(
       employeeName &&
       date &&
+      startTime &&
+      endTime &&
       duration &&
       reason
     ) {
-      employeeName,
-      date,
-      startTime,
-      endTime,
-      duration,
-      reason
+      dispatch(createOvertimeRequest({
+        employeeName,
+        date,
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
+        duration,
+        reason
+      }))
     };
 
     setName("");
     setDate("");
+    setStartTime();
+    setEndTime();
     setDuration("");
     setReason("");
   }
@@ -153,7 +165,8 @@ function OvertimerequestPage() {
         </div>
         <button 
         type="submit" 
-        className="submit-btn">
+        className="submit-btn"
+        onClick={handleSubmit}>
           Submit Request</button>
       </form>
     </div>

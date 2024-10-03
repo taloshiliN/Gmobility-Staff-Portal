@@ -64,30 +64,17 @@ app.post("/api/login", (req, res) => {
 });
 
 app.post("/api/leave", (req, res) => {
-    const {
-        employeeName, 
-        date, 
-        supervisorName, 
-        leaveType, 
-        startDate, 
-        endDate, 
-        totalDays, 
-        resumingWorkDay, 
-        emergencyName, 
-        emergencyAddress, 
-        emergencyPhone
-    } = req.body;
+    const {employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone} = req.body;
 
     db.query(
-        "INSERT INTO leave_requests (employee_name, date, supervisor_name, leave_type, start_date, end_date, total_days, resuming_work_day, emergency_name, emergency_address, emergency_phone) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        [employeeName, date, supervisorName, leaveType, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone],
+        "INSERT INTO leave_requests (employee_name, date, supervisor_name, start_date, end_date, total_days, resuming_work_days, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        [employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone],
         (err) => {
             if (err) throw err;
             const newLeaveRequest = {
                 EmployeeName:employeeName,
                 Date:date,
                 SuperVisorName:supervisorName,
-                LeaveType:leaveType,
                 StartDate:startDate,
                 EndDate:endDate,
                 TotalDays:totalDays,
@@ -100,6 +87,27 @@ app.post("/api/leave", (req, res) => {
         }
     );
 });
+
+app.post("/api/overtime", (req, res) => {
+    const {employeeName, date, startTime, endTime, duration, reason} = req.body;
+
+    db.query(
+        "INSERT INTO leave_requests (employee_name, date, start_time, end_time, duration, reason) VALUES (?,?,?,?,?,?)",
+        [employeeName, date, startTime, endTime, duration, reason],
+        (err) => {
+            if (err) throw err;
+            const newOvertimeRequest = {
+                EmployeeName:employeeName,
+                Date:date,
+                StartTime:startTime,
+                EndTime:endTime,
+                Duration:duration,
+                Reason:reason
+            };
+            res.json(newOvertimeRequest);
+        }
+    )
+})
 
 app.listen(8080, ()=>{
     console.log("Server started on port 8080");

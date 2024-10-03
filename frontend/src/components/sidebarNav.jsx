@@ -53,7 +53,6 @@ function SidebarNav({position}) {
               </li>
             </>
           )}
-
           {/*Human Resource */}
           {position === 'Human Resource' && (
             <>
@@ -74,7 +73,6 @@ function SidebarNav({position}) {
             </li>
             </>
           )}
-
           {/*Admin */}
           {position === 'Admin' && (
             <>

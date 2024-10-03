@@ -12,15 +12,15 @@ function LeaveRequest() {
   const [employeeName, setEmployeeName] = useState("");
   const [date, setDate] = useState("");
   const [supervisorName, setSupervisorName] = useState("");
-  const [leaveType, setLeaveType] = useState({
-    vacation: false,
-    leaveOfAbsence: false,
-    sickFamily: false,
-    sickSelf:false,
-    drAppointment: false,
-    funeral: false,
-    other:false,
-  });
+  // const [leaveType, setLeaveType] = useState({
+  //   vacation: false,
+  //   leaveOfAbsence: false,
+  //   sickFamily: false,
+  //   sickSelf:false,
+  //   drAppointment: false,
+  //   funeral: false,
+  //   other:false,
+  // });
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [totalDays, setTotalDays] = useState(0); // Change to number
@@ -58,13 +58,13 @@ function LeaveRequest() {
     calculateTotalDays();
   }, [startDate, endDate]);
 
-  const handleLeaveTypeChange = (e) => {
-    const {name, checked} = e.target;
-    setLeaveType((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }))
-  }
+  // const handleLeaveTypeChange = (e) => {
+  //   const {name, checked} = e.target;
+  //   setLeaveType((prevState) => ({
+  //     ...prevState,
+  //     [name]: checked,
+  //   }))
+  // }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ function LeaveRequest() {
       employeeName,
       date,
       supervisorName,
-      leaveType,
+      // leaveType,
       startDate,
       endDate,
       totalDays,
@@ -85,7 +85,7 @@ function LeaveRequest() {
       employeeName &&
       date &&
       supervisorName &&
-      leaveType &&
+      // leaveType &&
       startDate &&
       endDate &&
       totalDays > 0 && 
@@ -98,7 +98,7 @@ function LeaveRequest() {
         employeeName,
         date,
         supervisorName,
-        leaveType,
+        // leaveType,
         startDate,
         endDate,
         totalDays,
@@ -111,7 +111,7 @@ function LeaveRequest() {
       setEmployeeName("");
       setDate("");
       setSupervisorName("");
-      setLeaveType("");
+      // setLeaveType("");
       setStartDate("");
       setEndDate("");
       setTotalDays(0);
@@ -165,7 +165,7 @@ function LeaveRequest() {
                 </table>
               {/* Leave Request*/}
               <h3>Reason For Leave</h3>
-        <table>
+        {/* <table>
           <tbody>
             <tr>
               <td><input 
@@ -244,7 +244,7 @@ function LeaveRequest() {
               <td><input type="text" name="Other"/></td>
             </tr>
           </tbody>
-        </table>
+        </table> */}
         {/*leave Details*/}
         <h3>Leave Requested</h3>
         <table>
