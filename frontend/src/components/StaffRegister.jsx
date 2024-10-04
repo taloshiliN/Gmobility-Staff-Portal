@@ -4,7 +4,7 @@ import {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {createData} from "../dataSlice";
-import SidebarNav from './sidebarNav'
+import HRheader from '../pages/hr/HRheader'
 import Header from './header'
 
 function StaffRegistrationForm() {
@@ -69,8 +69,8 @@ function StaffRegistrationForm() {
   // }
   return (
     <>
-    <Header />
-      <SidebarNav position={userposition}/>
+    <HRheader />
+     
         <div className='main-content'>
         <div className="overtime-view-page">
         <form onSubmit={handleSubmit}>

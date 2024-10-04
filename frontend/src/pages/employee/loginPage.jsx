@@ -1,28 +1,26 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { loginUser } from '../../dataloginslice'
-import '../../styles/login.css'
-import glogo from '../../assets/glogo.png'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../dataloginslice';
+import '../../styles/login.css';
+import glogo from '../../assets/glogo.png';
 
 function LoginPage() {
   const [firstname, setFirstname] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { isAuthenticated } = useSelector((state) => state.auth);
   const position = useSelector((state) => state.auth.position);
-  const error = useSelector((state)=> state.auth.error);
-  // const isAuthenticated = auth?.isAuthenticated;
+  const error = useSelector((state) => state.auth.error);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted:",{firstname, password})
+    console.log("Form Submitted:", { firstname, password });
     dispatch(loginUser({
-      firstname, 
-      password
+      firstname,
+      password,
     }));
   };
 
@@ -30,11 +28,11 @@ function LoginPage() {
     console.log("Authentication status updated:", isAuthenticated);
     if (isAuthenticated) {
       console.log("User Position:", position);
-      if(position === 'Human Resource'){
-        navigate('/home');
+      if (position === 'Human Resource') {
+        navigate('/hrhome');
       } else if (position === 'Employee') {
         navigate('/home');
-      } else if (position === 'Admin'){
+      } else if (position === 'Admin') {
         navigate('/home');
       }
     }
@@ -42,37 +40,37 @@ function LoginPage() {
 
   return (
     <>
-        <div className='loginform'>
-            <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
-              <div className='heading-for-login-form'>
-                <img src={glogo} alt="glogo" />
-                <h1>Log in to G Mobility's Staff Portal</h1>
-              </div>
-            <input 
-                className="form-input" 
-                type="firstname" 
-                value={firstname}
-                onChange={(e)=>setFirstname(e.target.value)}
-                placeholder="Firstname"
-                required
-            />
-            <input 
-                className="form-input" 
-                type="password" 
-                value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-                placeholder="Password"
-                required
-            />
-            {error && <p className='error'>{error}</p>}
-            <p>Forgot Password?</p>
-            <button className="form-button" type="submit">
-              login
-            </button>
+      <div className='loginform'>
+        <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
+          <div className='heading-for-login-form'>
+            <img src={glogo} alt="glogo" />
+            <h1>Log in to G Mobility's Staff Portal</h1>
+          </div>
+          <input
+            className="form-input"
+            type="firstname"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+            placeholder="Firstname"
+            required
+          />
+          <input
+            className="form-input"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
+          {error && <p className='error'>{error}</p>}
+          <p>Forgot Password?</p>
+          <button className="form-button" type="submit">
+            Login
+          </button>
         </form>
-    </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

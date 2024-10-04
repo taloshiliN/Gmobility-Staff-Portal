@@ -10,7 +10,7 @@ function HROvertimerequests(){
    const [selectedRequest, setSelectedRequest] = useState(null);
 
    useEffect(() => {
-      fetch('http://localhost:3000/overtimerequest')
+      fetch('http://localhost:8080/overtimerequest')
         .then(res => {
           if (!res.ok) {
             throw new Error('Network response was not ok');
@@ -25,7 +25,7 @@ function HROvertimerequests(){
     }, []);
    
     const updateRequestStatus = (requestId, status, reqstatus) => {
-      fetch(`http://localhost:3000/overtimerequest/${requestId}`, {
+      fetch(`http://localhost:8080/overtimerequest/${requestId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

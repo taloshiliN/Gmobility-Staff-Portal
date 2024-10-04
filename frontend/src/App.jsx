@@ -14,7 +14,6 @@ import StaffRegistrationForm from "./components/StaffRegister"
 import HRLeaverequests from "./pages/hr/HRLeaverequests"
 import HRheader from "./pages/hr/HRheader"
 import HROvertimerequests from "./pages/hr/HROvertimerequests"
-import HRProfile from "./pages/hr/HRProfile"
 import ProtectedRoute from "./components/ProtectedRoute"
 import AdminHomePage from "./pages/admin/adminHomePage"
 import StaffRegistration from "./pages/admin/staffRegistration"
@@ -138,21 +137,12 @@ function App() {
         />
 
         <Route 
-        path="/hrleaverequest" 
+        path="/hrleaverequests" 
         element={
         <ProtectedRoute>
           <HRLeaverequests />
         </ProtectedRoute>
         } 
-        />
-
-        <Route 
-        path="/hrhome" 
-        element={
-        <ProtectedRoute>
-          <HRheader />
-        </ProtectedRoute>
-        }
         />
 
         <Route 
@@ -164,14 +154,6 @@ function App() {
         }
         />
 
-        <Route 
-        path="/hrprofile" 
-        element={
-        <ProtectedRoute>
-          <HRProfile />
-        </ProtectedRoute>
-        }
-        />
 
         {/* Admin Portal*/}
         {/* Protected Routes - Employee */}
