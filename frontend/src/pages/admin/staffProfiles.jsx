@@ -1,50 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminSidebar from '../../components/adminSidebar';
 import '../../styles/StaffProfiles.css'; // Importing CSS for styling
 
 const StaffProfiles = () => {
-  const staffList = [
-    'Erastus', 'Talo', 'Hozei', 'David', 'Domingo', 'Owen', 'Hafeni', 'Selma', 'Emily', 'Christy'
-  ];
-
-  const [selectedStaff, setSelectedStaff] = useState({
-    name: 'Hozei',
-    surname: 'Naubeb',
-    idNumber: '4567899876',
-    dateOfBirth: '06/11/1982',
-    nationality: 'Namibian',
-    homeLanguage: 'Oshiwambo',
-    otherLanguages: 'English, French',
-    position: 'Software Intern',
-    profilePicture: '/images/profile-picture.jpg',
-  });
-
-  // State to track whether we are in edit mode
+  const [staffList, setStaffList] = useState([]); // State for storing staff list
+  const [selectedStaff, setSelectedStaff] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+
+  // Fetch staff data from the database
+  const fetchStaffData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/users'); // Adjust the URL as needed
+      const data = await response.json();
+      setStaffList(data);
+    } catch (error) {
+      console.error('Error fetching staff data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStaffData(); 
+  }, []);
 
   // Handler for saving changes
   const handleSave = () => {
-    setIsEditing(false); // Exit edit mode
-  };
-
-// Retrieve profile picture URL from database when user logs in
-const handleLogin = async (username, password) => {
-  // Make API call to backend to retrieve profile picture URL
-  const response = await fetch('/api/user/profile-picture', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
-  });
-
-  const profilePictureUrl = await response.json();
-
-    // Update selectedStaff state with the retrieved profile picture URL
-    setSelectedStaff({ ...selectedStaff, profilePicture: profilePictureUrl });
-  };
-
-  // Simulate login functionality
-  const handleLoginClick = () => {
-    handleLogin('username', 'password');
+    setIsEditing(false); 
   };
 
   return (
@@ -52,71 +32,65 @@ const handleLogin = async (username, password) => {
       <AdminSidebar />
       <div className="staff-profiles-container">
         <header className="header">
-          <h1>Staff profiles</h1>
+          <h1>Staff Profiles</h1>
         </header>
 
         <div className="content-container">
           <div className="staff-list">
             <ul>
-              {staffList.map((staff, index) => (
+              {staffList.map((staff) => (
                 <li
-                  key={index}
-                  className={staff === selectedStaff.name ? 'selected' : ''}
-                  onClick={() => setSelectedStaff({
-                    name: staff, 
-                    surname: 'Naubeb',
-                    idNumber: '4567899876',
-                    dateOfBirth: '06/11/1982',
-                    nationality: 'Namibian',
-                    homeLanguage: 'Oshiwambo',
-                    otherLanguages: 'English, French',
-                    position: 'Software Intern',
-                    profilePicture: '/images/profile-picture.jpg',
-                  })}
+                  key={staff.Id} 
+                  className={staff.Id === selectedStaff.Id ? 'selected' : ''}
+                  onClick={() => setSelectedStaff(staff)}
                 >
-                  {staff}
+                  {staff.Name} {/* Assuming Name is the field to display */}
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="profile-card">
-            <div className="profile-picture">
-              <img src={selectedStaff.profilePicture} alt="Profile" />
-            </div>
+            {selectedStaff.Id && (
+              <>
+                <div className="profile-picture">
+                  {/*<img src={`http://localhost:8080/${selectedStaff.profileImg}`} alt="Profile" />*/}
+                </div>
 
-            <div className="profile-details">
-              {isEditing ? (
-                <>
-                  <p><strong>Name:</strong> <input value={selectedStaff.name} onChange={(e) => setSelectedStaff({ ...selectedStaff, name: e.target.value })} /></p>
-                  <p><strong>Surname:</strong> <input value={selectedStaff.surname} onChange={(e) => setSelectedStaff({ ...selectedStaff, surname: e.target.value })} /></p>
-                  <p><strong>ID Number:</strong> <input value={selectedStaff.idNumber} onChange={(e) => setSelectedStaff({ ...selectedStaff, idNumber: e.target.value })} /></p>
-                  <p><strong>Date of Birth:</strong> <input value={selectedStaff.dateOfBirth} onChange={(e) => setSelectedStaff({ ...selectedStaff, dateOfBirth: e.target.value })} /></p>
-                  <p><strong>Nationality:</strong> <input value={selectedStaff.nationality} onChange={(e) => setSelectedStaff({ ...selectedStaff, nationality: e.target.value })} /></p>
-                  <p><strong>Home language:</strong> <input value={selectedStaff.homeLanguage} onChange={(e) => setSelectedStaff({ ...selectedStaff, homeLanguage: e.target.value })} /></p>
-                  <p><strong>Other languages:</strong> <input value={selectedStaff.otherLanguages} onChange={(e) => setSelectedStaff({ ...selectedStaff, otherLanguages: e.target.value })} /></p>
-                  <p><strong>Position:</strong> <input value={selectedStaff.position} onChange={(e) => setSelectedStaff({ ...selectedStaff, position: e.target.value })} /></p>
-                </>
-              ) : (
-                <>
-                  <p><strong>Name:</strong> <span>{selectedStaff.name}</span></p>
-                  <p><strong>Surname:</strong> <span>{selectedStaff.surname}</span></p>
-                  <p><strong>ID Number:</strong> <span>{selectedStaff.idNumber}</span></p>
-                  <p><strong>Date of Birth:</strong> <span>{selectedStaff.dateOfBirth}</span></p>
-                  <p><strong>Nationality:</strong> <span>{selectedStaff.nationality}</span></p>
-                  <p><strong>Home language:</strong> <span>{selectedStaff.homeLanguage}</span></p>
-                  <p><strong>Other languages:</strong> <span>{selectedStaff.otherLanguages}</span></p>
-                  <p><strong>Position:</strong> <span>{selectedStaff.position}</span></p>
-                </>
-              )}
-            </div>
+                <div className="profile-details">
+                  {isEditing ? (
+                    <>
+                      <p><strong>Name:</strong> <input value={selectedStaff.Name} onChange={(e) => setSelectedStaff({ ...selectedStaff, Name: e.target.value })} /></p>
+                      <p><strong>Surname:</strong> <input value={selectedStaff.Surname} onChange={(e) => setSelectedStaff({ ...selectedStaff, Surname: e.target.value })} /></p>
+                      <p><strong>ID Number:</strong> <input value={selectedStaff.ID_Number} onChange={(e) => setSelectedStaff({ ...selectedStaff, ID_Number: e.target.value })} /></p>
+                      <p><strong>Date of Birth:</strong> <input value={selectedStaff.DOB} onChange={(e) => setSelectedStaff({ ...selectedStaff, DOB: e.target.value })} /></p>
+                      <p><strong>Nationality:</strong> <input value={selectedStaff.Nationality} onChange={(e) => setSelectedStaff({ ...selectedStaff, Nationality: e.target.value })} /></p>
+                      <p><strong>Home Language:</strong> <input value={selectedStaff.Home_Language} onChange={(e) => setSelectedStaff({ ...selectedStaff, Home_Language: e.target.value })} /></p>
+                      <p><strong>Other Languages:</strong> <input value={selectedStaff.Other_Languages} onChange={(e) => setSelectedStaff({ ...selectedStaff, Other_Languages: e.target.value })} /></p>
+                      <p><strong>Position:</strong> <input value={selectedStaff.Position} onChange={(e) => setSelectedStaff({ ...selectedStaff, Position: e.target.value })} /></p>
+                    </>
+                  ) : (
+                    <>
+                      <p><strong>Name:</strong> <span>{selectedStaff.Name}</span></p>
+                      <p><strong>Surname:</strong> <span>{selectedStaff.Surname}</span></p>
+                      <p><strong>ID Number:</strong> <span>{selectedStaff.ID_Number}</span></p>
+                      <p><strong>Date of Birth:</strong> <span>{selectedStaff.DOB}</span></p>
+                      <p><strong>Nationality:</strong> <span>{selectedStaff.Nationality}</span></p>
+                      <p><strong>Home Language:</strong> <span>{selectedStaff.Home_Language}</span></p>
+                      <p><strong>Other Languages:</strong> <span>{selectedStaff.Other_Languages}</span></p>
+                      <p><strong>Position:</strong> <span>{selectedStaff.Position}</span></p>
+                    </>
+                  )}
+                </div>
 
-            <button 
-              className="edit-btn" 
-              onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-            >
-              {isEditing ? 'Save' : 'Edit'}
-            </button>
+                <button 
+                  className="edit-btn" 
+                  onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+                >
+                  {isEditing ? 'Save' : 'Edit'}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
