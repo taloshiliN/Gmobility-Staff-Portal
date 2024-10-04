@@ -85,10 +85,10 @@ function HROvertimerequests(){
                   data.map((d, i) => (
                     <tr key={i} onClick={() => handleClick(d)}>
                       <td>
-                        <img id="innerpropic" src={d.profile || defaultimg} alt="profile" />
+                        <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
                       <td>{d.sender}</td>
-                      <td>
+                      <td id="reqstatus">
                         {d.reqstatus === 'unseen' && <img id="reqstatus" src={unseen} alt="unseen" />}
                         {d.reqstatus === 'seen' && <img id="reqstatus" src={seen} alt="seen" />}
                       </td>

@@ -213,7 +213,7 @@ app.delete('/users/:id', (req, res) => {
 
 ////
 app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests";
+    const sql = "SELECT * FROM leaverequests ORDER BY id DESC"; // Replace 'created_at' with your actual date column name
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -222,6 +222,7 @@ app.get('/leaverequests', (req, res) => {
         return res.json(data);
     });
 });
+
 
 // Update leave request
 app.patch('/leaverequests/:id', (req, res) => {
@@ -264,6 +265,18 @@ app.patch('/overtimerequest/:id', (req, res) => {
             return res.status(404).json({ message: 'Request not found' });
         }
         return res.json({ message: 'Status updated successfully', result });
+    });
+});
+
+///payroll section
+app.get('/hrpayroll', (req, res) => {
+    const sql = "SELECT * FROM payroll";
+    db.query(sql, (err, data) => {
+        if (err) {
+            console.error('Error fetching leave requests:', err);
+            return res.status(500).json({ message: "Error fetching leave requests", error: err });
+        }
+        return res.json(data);
     });
 });
 

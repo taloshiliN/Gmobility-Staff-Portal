@@ -368,6 +368,9 @@ body {
   }
   /* Leav requests section*/
   
+  .requestcontainer{
+    display: flex;
+  }
   .hrleaverequests {
     background-color: #ffffff;
     border-radius: 16px;
@@ -387,13 +390,23 @@ body {
     cursor: pointer;
     background-color: rgb(0, 0, 136);
   }
+  .fromtable tr{
+    width: 100%;
+    display: inline-block;
+  }
+  #leavesender{
+    width: 40%;
+  }
+  #picdiv{
+    width: 100%;
+  }
   .fromtable #innerpropic{
-    width: 30%;
-    height: 100%;
-    margin-right: 4%;
+    width: 100%;
+    height: 4rem;
+    text-align: center;
   }
   .fromtable #msgstatus{
-    width: 80%;
+    width: 1rem;
   }
   .hrleaverequests .fromtable p{
     width: 30%;
@@ -493,4 +506,86 @@ body {
     background-color: rgb(146, 0, 0);
     cursor: pointer;
   }
+
+  #newleaverequest{
+    width: 11rem;
+    height: 4rem;
+    margin-left: 0.3rem;
+    margin-top: 1rem;
+    display: inline-flex;
+    background-color: #0400f3;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid #090057;
+  }
+  #newleaverequest:hover{
+    background-color: #090057;
+    cursor: pointer;
+  }
+  #newleaverequest img{
+    width: 25%;
+    height: 55%;
+    margin-top: 0.8rem;
+    margin-left: 0.5rem;
+    padding-right: 0.9rem;
+    padding-left: 0.2rem;
+  }
+  /* Payroll section */
   
+  #hrpayrolldiv{
+    background-color: white;
+    width: 85%;
+    height: 31rem;
+    margin-left: 10%;
+    text-align: center;
+  }
+  #hrpayrolldiv h4{
+    color: white;
+    background-color: #090081;
+  }
+  #hrpayroll{
+    background-color: #ffffff;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+  }
+  #payrollemployees{
+    width: 20%;
+    height: 100%;
+    background-color: #e7e7e7;
+    overflow-y: scroll;
+  }
+  #payrollemployees tr{
+    background-color: #d3d3d3;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #payrollemployees tr:hover{
+    background-color: #363636;
+    cursor: pointer;
+  }
+  #payrollemployees td{
+    background-color: white;
+    text-align: center;
+    padding-top: 2rem;
+    height: 3rem;
+    width: 95%;
+  }
+  #payrollemployees td:hover{
+    background-color: #b3b3b3;
+  }
+#hrpayinfo{
+  width: 80%;
+  height: 100%;
+  background-color: #ebebeb;
+}
+#hrpayrollinfo{
+  width: 100%;
+  height: 20%;
+}
+#hrpayrollinfo tbody td{
+  background-color: white;
+}

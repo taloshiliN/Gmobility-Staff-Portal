@@ -3,9 +3,12 @@ import HRheader from './HRheader.jsx';
 import defaultimg from './assets/defaulticon.png';
 import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
+import plus from './assets/plus.png'
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 function HRLeaverequests() {
+  const navigate = useNavigate()
   const [data, setData] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
@@ -84,9 +87,9 @@ function HRLeaverequests() {
                   data.map((d, i) => (
                     <tr key={d.id} onClick={() => handleClick(d)}>
                       <td>
-                        <img id="innerpropic" src={d.profile || defaultimg} alt="profile" />
+                        <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
-                      <td>{d.sender}</td>
+                      <td id="leavesender">{d.sender}</td>
                       <td>
                         {d.msgstatus === 'unseen' && <img id="msgstatus" src={unseen} alt="unseen" />}
                         {d.msgstatus === 'seen' && <img id="msgstatus" src={seen} alt="seen" />}
@@ -140,6 +143,12 @@ function HRLeaverequests() {
             )}
           </div>
         </div>
+
+        <div id="newleaverequest" onClick={event =>  navigate('/hrrequestleave')}>
+             <img src={plus}></img>
+             <p>Create Leave request</p>
+        </div>
+
       </div>
     </>
   );
