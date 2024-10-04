@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2024 at 10:05 AM
+-- Generation Time: Oct 04, 2024 at 08:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `sp_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clock_log`
+--
+
+CREATE TABLE `clock_log` (
+  `id` int(11) NOT NULL,
+  `action` varchar(50) NOT NULL,
+  `time` varchar(50) NOT NULL,
+  `date` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `clock_log`
+--
+
+INSERT INTO `clock_log` (`id`, `action`, `time`, `date`) VALUES
+(1, 'Clock In', '12:28:20 PM', '10/3/2024'),
+(2, 'Clock Out', '12:29:19 PM', '10/3/2024'),
+(3, 'Clock In', '12:37:46 PM', '10/3/2024'),
+(4, 'Clock Out', '12:37:59 PM', '10/3/2024');
 
 -- --------------------------------------------------------
 
@@ -91,6 +114,27 @@ CREATE TABLE `overtime_requests` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `printing_requests`
+--
+
+CREATE TABLE `printing_requests` (
+  `id` int(11) NOT NULL,
+  `from` varchar(100) NOT NULL,
+  `to` varchar(100) NOT NULL,
+  `subject` varchar(100) NOT NULL,
+  `message` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `printing_requests`
+--
+
+INSERT INTO `printing_requests` (`id`, `from`, `to`, `subject`, `message`) VALUES
+(1, 'Taloshili', 'Dylan', 'ID', 'I want to make a copy of my ID');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `staff_members`
 --
 
@@ -129,6 +173,12 @@ INSERT INTO `staff_members` (`Id`, `Name`, `Surname`, `ID_Number`, `DOB`, `Natio
 --
 
 --
+-- Indexes for table `clock_log`
+--
+ALTER TABLE `clock_log`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
@@ -147,6 +197,12 @@ ALTER TABLE `overtime_requests`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `printing_requests`
+--
+ALTER TABLE `printing_requests`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `staff_members`
 --
 ALTER TABLE `staff_members`
@@ -156,6 +212,12 @@ ALTER TABLE `staff_members`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `clock_log`
+--
+ALTER TABLE `clock_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `leave_requests`
@@ -174,6 +236,12 @@ ALTER TABLE `leave_types`
 --
 ALTER TABLE `overtime_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `printing_requests`
+--
+ALTER TABLE `printing_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `staff_members`

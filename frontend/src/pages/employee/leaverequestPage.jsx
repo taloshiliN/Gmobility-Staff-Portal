@@ -326,8 +326,12 @@ function LeaveRequest() {
                 <li>The original application will be given back to HR. Employee will be given a copy.</li>
             </ol>
         </div>
-        <button>Clear</button>
-        <button type='submit' onClick={handleSubmit}>Submit</button>
+        <div className='button-container'>
+        <button className='clear-button'>
+          Clear
+        </button>
+        <button className='submit-button' type='submit' onClick={handleSubmit}>Submit</button>
+        </div>
             </form>
           </div>  
         </div>

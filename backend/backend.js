@@ -92,7 +92,7 @@ app.post("/api/overtime", (req, res) => {
     const {employeeName, date, startTime, endTime, duration, reason} = req.body;
 
     db.query(
-        "INSERT INTO leave_requests (employee_name, date, start_time, end_time, duration, reason) VALUES (?,?,?,?,?,?)",
+        "INSERT INTO overtime_requests (employee_name, date, start_time, end_time, duration, reason) VALUES (?,?,?,?,?,?)",
         [employeeName, date, startTime, endTime, duration, reason],
         (err) => {
             if (err) throw err;
@@ -108,6 +108,43 @@ app.post("/api/overtime", (req, res) => {
         }
     )
 })
+
+app.post("/api/clock", (req, res) => {
+    const { action, time, date } = req.body;
+
+    db.query(
+        "INSERT INTO clock_log (action, time, date) VALUES (?,?,?)",
+        [action, time, date],
+        (err) => {
+            if (err) throw err;
+            const newClockLog = {
+                action,
+                time,
+                date,
+            };
+            res.json(newClockLog);
+        }
+    );
+});
+
+app.post("/api/printing", (req, res) => {
+    const {from, to, subject, message} = req.body;
+
+    db.query(
+        "INSERT INTO printing_requests (`from`, `to`, `subject`, `message`) VALUES (?,?,?,?)",
+        [from, to, subject, message],
+        (err) => {
+            if (err) throw err;
+            const newPrintingRequest = {
+                from,
+                to,
+                subject,
+                message,
+            }
+            res.json(newPrintingRequest);
+        }
+    )
+});
 
 app.listen(8080, ()=>{
     console.log("Server started on port 8080");

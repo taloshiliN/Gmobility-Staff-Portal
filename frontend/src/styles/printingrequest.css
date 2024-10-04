@@ -1,10 +1,11 @@
 .Printing_Request_Page {
+    max-width: 800px;
     margin: 0 auto;
-    width: 300px;
     padding: 20px;
-    background-color: #d3d3d3;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
 }
 .Printing_Request_Page p {
     margin: 0;
