@@ -241,7 +241,7 @@ app.patch('/leaverequests/:id', (req, res) => {
 
 // Overtime request section
 app.get('/overtimerequest', (req, res) => {
-    const sql = "SELECT * FROM overtimerequests";
+    const sql = "SELECT * FROM overtimerequests ORDER BY id DESC";
     db.query(sql, (err, data) => {
         if (err) return res.json(err);
         return res.json(data);
@@ -270,7 +270,7 @@ app.patch('/overtimerequest/:id', (req, res) => {
 
 ///payroll section
 app.get('/hrpayroll', (req, res) => {
-    const sql = "SELECT * FROM payroll";
+    const sql = "SELECT * FROM payroll ORDER BY id DESC";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -280,14 +280,9 @@ app.get('/hrpayroll', (req, res) => {
     });
 });
 
-// Start server
-app.listen(8080, () => {
-    console.log("Server started on port 8080");
-})
-
 // Get users
 app.get('/users', (req, res) => {
-    const sql = "SELECT * FROM staff_members";
+    const sql = "SELECT * FROM staff_members ";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching users:', err);
@@ -342,7 +337,7 @@ app.delete('/users/:id', (req, res) => {
 
 ////
 app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests";
+    const sql = "SELECT * FROM leaverequests ";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -369,7 +364,7 @@ app.patch('/leaverequests/:id', (req, res) => {
 
 // Overtime request section
 app.get('/overtimerequest', (req, res) => {
-    const sql = "SELECT * FROM overtimerequests";
+    const sql = "SELECT * FROM overtimerequests ORDER BY id DESC";
     db.query(sql, (err, data) => {
         if (err) return res.json(err);
         return res.json(data);

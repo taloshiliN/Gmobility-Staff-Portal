@@ -73,6 +73,7 @@ function HROvertimerequests(){
     return(
         <>
         <HRheader/>
+        <div id="hrovertimediv">
         <div className='overtimediv'>
            <div className='fromtablecontainer'>
            <table className='fromtable'>
@@ -83,7 +84,7 @@ function HROvertimerequests(){
                   </tr>
                 ) : (
                   data.map((d, i) => (
-                    <tr key={i} onClick={() => handleClick(d)}>
+                    <tr id="innerrow" key={i} onClick={() => handleClick(d)}>
                       <td>
                         <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
@@ -135,6 +136,10 @@ function HROvertimerequests(){
             )}
           </div>
         </div>
+        <div id="newovertimereq">
+              <p>Create Overtime Request</p>
+          </div>
+          </div>
     </>
   );
 }

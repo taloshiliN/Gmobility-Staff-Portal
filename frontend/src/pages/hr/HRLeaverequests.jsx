@@ -86,7 +86,7 @@ function HRLeaverequests() {
                 ) : (
                   data.map((d, i) => (
                     <tr key={d.id} onClick={() => handleClick(d)}>
-                      <td>
+                      <td id="picdiv">
                         <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
                       <td id="leavesender">{d.sender}</td>

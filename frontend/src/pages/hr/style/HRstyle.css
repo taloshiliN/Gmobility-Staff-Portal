@@ -1,5 +1,5 @@
 .overtimediv{
-  width: 90%;
+  width: 75%;
   height: 480px;
   background-color: rgb(255, 255, 255);
   margin-left: 6%;
@@ -47,6 +47,9 @@
 .fromtable tr:hover{
   background-color: #000a92;
   cursor: pointer;
+}
+#hrovertimediv{
+  display: flex;
 }
 .overtimecontent{
   width: 70%;
@@ -106,4 +109,8 @@
 .overtimereject:hover{
   background-color: rgb(150, 0, 0);
   cursor: pointer;
+}
+#newovertimereq{
+  background-color: #000a92;
+  color: white;
 }
