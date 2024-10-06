@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
 import {Provider} from 'react-redux'
 import { store } from "./store"
 import LoginPage from "./pages/employee/loginPage"
@@ -17,12 +18,14 @@ import HROvertimerequests from "./pages/hr/HROvertimerequests"
 import HRProfile from "./pages/hr/HRProfile"
 import ProtectedRoute from "./components/ProtectedRoute"
 import AdminHomePage from "./pages/admin/adminHomePage"
-import StaffRegistration from "./pages/admin/staffRegistration"
+import StaffRegistrationAdmin from "./pages/admin/staffRegistrationAdmin"
 import ViewLeaveRequest from "./pages/admin/viewleaveRequest"
 import ViewOvertimeRequests from "./pages/admin/viewovertimeRequests"
 import ViewPrintingrequest from "./pages/admin/viewPrintingRequests"
 import HRhome from "./pages/hr/HRhome"
 import HREmployees from "./pages/hr/HREmployees"
+import StaffProfiles from "./pages/admin/staffProfiles"
+import ChangeStaffInfo from "./pages/admin/changeStaffInfo"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
 function Logout(){
@@ -40,7 +43,7 @@ function App() {
       {/* Login */}
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<LoginPage />}/>
-
+      
       {/* Protected Routes - Home Page */}
         <Route 
         path="/home"
@@ -176,7 +179,7 @@ function App() {
         {/* Admin Portal*/}
         {/* Protected Routes - Employee */}
         <Route 
-        path="/adminhomepage" 
+        path="/adminHomePage" 
         element={
         <ProtectedRoute>
           <AdminHomePage />
@@ -185,16 +188,33 @@ function App() {
         />
 
         <Route 
-        path="/staffregistrationadmin" 
+        path="/staffRegistrationAdmin" 
         element={
         <ProtectedRoute>
-          <StaffRegistration />
+          <StaffRegistrationAdmin />
         </ProtectedRoute>
         }
         />
 
         <Route 
-        path="/leaverequestview" 
+        path="/staffProfiles" 
+        element={
+        <ProtectedRoute>
+        <StaffProfiles />
+        </ProtectedRoute>
+        }  />
+
+        <Route 
+        path="/changeStaffInfo" 
+        element={
+        <ProtectedRoute>
+          <ChangeStaffInfo />
+        </ProtectedRoute>
+        }
+        />
+
+        <Route 
+        path="/viewleaveRequest" 
         element={
         <ProtectedRoute>
           <ViewLeaveRequest />
@@ -203,7 +223,7 @@ function App() {
         />
 
         <Route 
-        path="/overtimerequestview" 
+        path="/viewovertimeRequests" 
         element={
         <ProtectedRoute>
           <ViewOvertimeRequests />
@@ -212,7 +232,7 @@ function App() {
         />
 
         <Route 
-        path="/printingrequestview" 
+        path="/viewPrintingRequests" 
         element={
         <ProtectedRoute>
           <ViewPrintingrequest />

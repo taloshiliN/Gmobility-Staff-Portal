@@ -10,7 +10,7 @@ function HRProfile() {
     const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
 
     useEffect(() => {
-        fetch('http://localhost:3000/users')
+        fetch('http://localhost:5173/users')
             .then(res => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok');

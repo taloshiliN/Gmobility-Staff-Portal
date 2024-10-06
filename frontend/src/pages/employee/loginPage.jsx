@@ -35,7 +35,7 @@ function LoginPage() {
       } else if (position === 'Employee') {
         navigate('/home');
       } else if (position === 'Admin'){
-        navigate('/home');
+        navigate('/adminHomePage');
       }
     }
   }, [isAuthenticated, position, navigate]);

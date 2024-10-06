@@ -1,4 +1,6 @@
+import React from 'react';
 import './style/index.css'
+import { useNavigate, NavLink } from 'react-router-dom'; 
 import profile from './assets/defaulticon.png'
 import image1 from './assets/person3.png'
 import image2 from './assets/time.png'
@@ -8,14 +10,22 @@ import glogo from './assets/glogo.png'
 import arrow from './assets/arrow.png'
 
 function HRheader() {
+
+  const navigate = useNavigate();
+
+  //Function to handle logout
+  const handleLogout = () => {
+    navigate('/loginPage');
+  };
+
   return (
     <>
       <div className="hrheader w-100 p-3">
         <img src={glogo}></img><p> Staff Portal</p>
       </div>
       <div className='hrsidebar'>
-        <img className='profileimg' src={profile} alt="Profile" />
-        <p className='usersname'>Hafeni Neliwa</p>
+        {/*<img className='profileimg' src={profile} alt="Profile" />
+        <p className='usersname'>Hafeni Neliwa</p>*/}
         <img className='arrow' src={arrow}></img>
         <ul>
           <li onClick={event =>  window.location.href='./hrleaverequests'}>
@@ -34,7 +44,7 @@ function HRheader() {
             <img className='icons' src={image4} alt="Edit Profile" /> Edit Profile
             </li>
         </ul>
-        <button className='hrlogout'>Logout</button>
+        <button className='hrlogout' onClick={handleLogout}>Logout</button>
       </div>
     </>
   );

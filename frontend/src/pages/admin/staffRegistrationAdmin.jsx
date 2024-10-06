@@ -4,7 +4,7 @@ import SidebarNav from "../../components/sidebarNav"
 import Header from "../../components/header"
 import { useSelector } from "react-redux"
 
-function StaffRegistration () {
+function StaffRegistrationAdmin () {
     const position = useSelector((state)=> state.auth.position)
 
     return (
@@ -15,4 +15,4 @@ function StaffRegistration () {
     )
 }
 
-export default StaffRegistration
+export default StaffRegistrationAdmin

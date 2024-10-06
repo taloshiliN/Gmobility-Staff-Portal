@@ -36,6 +36,9 @@ function SidebarNav({position}) {
           {/*Employee */}
           {position === 'Employee' && (
             <>
+               <li>
+                <NavLink to="/homePage">Home</NavLink>
+              </li>
               <li>
                 <NavLink to="/leaverequest">Leave Requests</NavLink>
               </li>

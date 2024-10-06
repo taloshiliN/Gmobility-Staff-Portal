@@ -1,17 +1,15 @@
-import '../../styles/AdminHomePage.css'; // Ensure this CSS file exists
+import '../../styles/AdminHomePage.css'; 
 import Header from '../../components/header';
-import SidebarNav from '../../components/sidebarNav';
-import { useSelector } from 'react-redux';
+import AdminSidebar from '../../components/adminSidebar';
+import { useNavigate } from 'react-router-dom';
 
 function AdminHomePage() {
-  const position = useSelector((state)=> state.auth.position)
-
-  const adminName = "Samantha"; // Replace with the dynamic name if needed
+  const adminName = "Samantha"; 
 
   return (
     <>
     <Header />
-    <SidebarNav position={position}/>
+      <AdminSidebar />
       <div className="profile-card">
         <h2>Welcome {adminName}</h2> {/* Welcome message */}
         <img className="profile-image" src="https://via.placeholder.com/150" alt="Profile" />
