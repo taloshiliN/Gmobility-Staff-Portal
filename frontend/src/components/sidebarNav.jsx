@@ -71,6 +71,9 @@ function SidebarNav({position}) {
             <li>
               <NavLink to="/hrovertimerequests">View Overtime Requests</NavLink>
             </li>
+            <li>
+              <NavLink to="/hrpayroll">View Payrolls</NavLink>
+            </li>
             </>
           )}
           {/*Admin */}
