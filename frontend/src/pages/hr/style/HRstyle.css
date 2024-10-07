@@ -111,6 +111,25 @@
   cursor: pointer;
 }
 #newovertimereq{
-  background-color: #000a92;
+  width: 11rem;
+  height: 4rem;
+  margin-left: 0.9rem;
+  margin-top: 1rem;
+  display: inline-flex;
+  background-color: #0400f3;
   color: white;
+  border-radius: 10px;
+  border: 1px solid #090057;
+}
+#newovertimereq:hover{
+  background-color: #090057;
+  cursor: pointer;
+}
+#newovertimereq img{
+  width: 25%;
+  height: 55%;
+  margin-top: 0.8rem;
+  margin-left: 0.5rem;
+  padding-right: 0.9rem;
+  padding-left: 0.2rem;
 }

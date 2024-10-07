@@ -3,9 +3,12 @@ import './style/HRstyle.css'
 import defaultimg from './assets/defaulticon.png'
 import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
+import plus from './assets/plus.png'
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 
 function HROvertimerequests(){
+  const navigate = useNavigate()
    const [data, setData] = useState([]);
    const [selectedRequest, setSelectedRequest] = useState(null);
 
@@ -136,7 +139,8 @@ function HROvertimerequests(){
             )}
           </div>
         </div>
-        <div id="newovertimereq">
+        <div id="newovertimereq"  onClick={event =>  navigate('/hrrequestovertime')}>
+              <img src={plus}></img>
               <p>Create Overtime Request</p>
           </div>
           </div>
