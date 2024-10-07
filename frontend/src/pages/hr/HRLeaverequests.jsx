@@ -5,10 +5,11 @@ import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
 import plus from './assets/plus.png'
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import SidebarNav from '../../components/sidebarNav.jsx';
+import Header from '../../components/header.jsx';
+import { useSelector } from 'react-redux';
 
 function HRLeaverequests() {
-  const navigate = useNavigate()
   const [data, setData] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
@@ -73,7 +74,10 @@ function HRLeaverequests() {
 
   return (
     <>
-      <HRheader />
+      {/* <HRheader /> */}
+      <Header />
+      <SidebarNav position={position} />
+      <div className='main-content'>
       <div className='requestcontainer'>
         <div className='hrleaverequests'>
           <div className='tablediv'>
@@ -143,12 +147,7 @@ function HRLeaverequests() {
             )}
           </div>
         </div>
-
-        <div id="newleaverequest" onClick={event =>  navigate('/hrrequestleave')}>
-             <img src={plus}></img>
-             <p>Create Leave request</p>
-        </div>
-
+      </div>
       </div>
     </>
   );

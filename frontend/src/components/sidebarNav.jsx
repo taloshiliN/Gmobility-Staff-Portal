@@ -66,7 +66,7 @@ function SidebarNav({position}) {
               <NavLink to="/staffregistration">Staff registration</NavLink>
             </li>
             <li>
-              <NavLink to="/hrleaverequest">View Leave Request</NavLink>
+              <NavLink to="/hrleaverequests">View Leave Request</NavLink>
             </li>
             <li>
               <NavLink to="/hrovertimerequests">View Overtime Requests</NavLink>
