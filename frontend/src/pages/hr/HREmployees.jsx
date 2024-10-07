@@ -11,13 +11,14 @@ function HREmployees() {
     const [data, setData] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    
+
     const [editedEmployee, setEditedEmployee] = useState({
         firstname: '',
         lastname: '',
         id_number: '',
         DOB: '',
-        gender: '',
+        Supervisor: '',
+        Gender: '',
         nationality: '',
         languages: '',
         position: '',
@@ -42,9 +43,10 @@ function HREmployees() {
         setEditedEmployee({
             firstname: employee.Name,
             lastname: employee.Surname,
+            Supervisor: employee.Supervisor,
             id_number: employee.ID_Number,
-            DOB: employee.DOB ? employee.DOB.split('T')[0] : '', // Format to YYYY-MM-DD for input
-            gender: employee.gender,
+            DOB: employee.DOB.stringify ? employee.DOB.split('T')[0] : '', // Format to YYYY-MM-DD for input
+            Gender: employee.Gender,
             nationality: employee.Nationality,
             languages: employee.Other_Languages,
             position: employee.Position,
@@ -103,8 +105,9 @@ function HREmployees() {
                 firstname: '',
                 lastname: '',
                 id_number: '',
+                Supervisor: '',
                 DOB: '',
-                gender: '',
+                Gender: '',
                 nationality: '',
                 languages: '',
                 position: '',
@@ -117,6 +120,7 @@ function HREmployees() {
         return (
             employee.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             employee.Surname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.Supervisor.toLowerCase().includes(searchQuery.toLowerCase()) ||
             employee.Position.toLowerCase().includes(searchQuery.toLowerCase())
         );
     });
@@ -146,6 +150,7 @@ function HREmployees() {
                                 <th>Name</th>
                                 <th>Surname</th>
                                 <th>Position</th>
+                                <th>Supervisor</th>
                                 <th>Clock-In Time</th>
                                 <th>Clock-Out Time</th>
                             </tr>
@@ -161,6 +166,7 @@ function HREmployees() {
                                         <td>{d.Name}</td>
                                         <td>{d.Surname}</td>
                                         <td>{d.Position}</td>
+                                        <td>{d.Supervisor || 'N/A'}</td>
                                         <td>{d.ClockInTime || 'N/A'}</td>
                                         <td>{d.ClockOutTime || 'N/A'}</td>
                                     </tr>
@@ -199,6 +205,19 @@ function HREmployees() {
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td className='chosendetails'>Supervisor:</td>
+                                    <td>
+                                        {selectedEmployee ? (
+                                            <input 
+                                                type="text" 
+                                                name="Supervisor" // Changed to match state
+                                                value={editedEmployee.Supervisor} 
+                                                onChange={handleInputChange} 
+                                            />
+                                        ) : '-----'}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td className='chosendetails'>ID Number:</td>
                                     <td>
                                         {selectedEmployee ? (
@@ -230,8 +249,8 @@ function HREmployees() {
                                         {selectedEmployee ? (
                                             <input 
                                                 type="text" 
-                                                name="gender" 
-                                                value={editedEmployee.gender} 
+                                                name="Gender" // Changed to match state
+                                                value={editedEmployee.Gender} 
                                                 onChange={handleInputChange} 
                                             />
                                         ) : '-----'}

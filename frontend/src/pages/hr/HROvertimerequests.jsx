@@ -3,11 +3,14 @@ import './style/HRstyle.css'
 import defaultimg from './assets/defaulticon.png'
 import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
+import plus from './assets/plus.png'
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import Header from '../../components/header.jsx';
 import SidebarNav from '../../components/sidebarNav.jsx';
 import { useSelector } from 'react-redux';
 function HROvertimerequests(){
+  const navigate = useNavigate()
    const [data, setData] = useState([]);
    const [selectedRequest, setSelectedRequest] = useState(null);
    const userposition = useSelector((state)=> state.auth.position)
@@ -75,7 +78,7 @@ function HROvertimerequests(){
     };
     return(
         <>
-        <Header />
+                <Header />
         <SidebarNav position={userposition}/>
         <div className='main-content'>
         <div className='overtimediv'>
@@ -88,12 +91,12 @@ function HROvertimerequests(){
                   </tr>
                 ) : (
                   data.map((d, i) => (
-                    <tr key={i} onClick={() => handleClick(d)}>
+                    <tr id="innerrow" key={i} onClick={() => handleClick(d)}>
                       <td>
-                        <img id="innerpropic" src={d.profile || defaultimg} alt="profile" />
+                        <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
-                      <td>{d.sender}</td>
-                      <td>
+                      <td>{d.employee_name}</td>
+                      <td id="reqstatus">
                         {d.reqstatus === 'unseen' && <img id="reqstatus" src={unseen} alt="unseen" />}
                         {d.reqstatus === 'seen' && <img id="reqstatus" src={seen} alt="seen" />}
                       </td>
@@ -110,18 +113,18 @@ function HROvertimerequests(){
                 <tbody>
                   <tr>
                     <td><p className='titl'>From:</p></td>
-                    <td><p>{selectedRequest.sender}</p></td>
+                    <td><p>{selectedRequest.employee_name}</p></td>
                     <td><p className='titl'>Position:</p></td>
                     <td><p>{selectedRequest.position || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Start Date:</p></td>
-                    <td><p>{selectedRequest.startDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.start_date || 'N/A'}</p></td>
                     <td><p className='titl'>End Date:</p></td>
-                    <td><p>{selectedRequest.endDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.end_date || 'N/A'}</p></td>
                   </tr>
                   <tr>
-                    <td><p className='titl'>Time Frame:</p></td>
+                    <td><p className='titl'>Total Days:</p></td>
                     <td><p>{selectedRequest.duration || 'N/A'}</p></td>
                     <td><p className='titl'>Status:</p></td>
                     <td><p>{selectedRequest.status || 'Pending'}</p></td>

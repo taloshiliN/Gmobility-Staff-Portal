@@ -26,7 +26,7 @@ function HRhome() {
             <SidebarNav position={position}/>
             <div className='main-content'>
             <div className="homecontent">
-            <h4 className='greeting'>Welcome {user.Name}</h4>
+                <h4 className='greeting'>Welcome {user.Name}</h4>
                 <div className='innerhomecontent'>
                     <div className='innercontent1'>
                         <h4>Profile</h4>

@@ -30,11 +30,11 @@ db.connect(err => {
 
 // Insert staff member
 app.post("/api/data", (req, res) => {
-    const { firstname, surname, id_Number, gender, DOB, nationality, homeLanguage, otherLanguages, position, supervisor, password } = req.body;
+    const { firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password } = req.body;
 
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, Gender, DOB, Nationality, Home_Language, Other_Languages, Position, Supervisor, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number,gender, DOB, nationality, homeLanguage, otherLanguages, position, supervisor, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB, Nationality, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?)",
+        [firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password],
         (err) => {
             if (err) throw err;
             const newData = {
@@ -43,7 +43,9 @@ app.post("/api/data", (req, res) => {
                 ID_Number: id_Number,
                 Gender: gender,
                 DOB: DOB,
+                Gender: Gender,
                 Nationality: nationality,
+                Supervisor: Supervisor,
                 Home_Language: homeLanguage,
                 Other_Languages: otherLanguages,
                 Position: position,
@@ -76,21 +78,23 @@ app.post("/api/login", (req, res) => {
 });
 
 app.post("/api/leave", (req, res) => {
-    const {employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone} = req.body;
+    const {employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone} = req.body;
 
     db.query(
-        "INSERT INTO leave_requests (employee_name, date, supervisor_name, start_date, end_date, total_days, resuming_work_days, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        [employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone],
+        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, resuming_work_days,reason, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        [employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone],
         (err) => {
             if (err) throw err;
             const newLeaveRequest = {
                 EmployeeName:employeeName,
+                position: position,
                 Date:date,
                 SuperVisorName:supervisorName,
                 StartDate:startDate,
                 EndDate:endDate,
                 TotalDays:totalDays,
                 ResumingWorkDay:resumingWorkDay,
+                reason: reason,
                 EmergencyName:emergencyName,
                 EmergencyAddress:emergencyAddress,
                 EmergencyPhone:emergencyPhone
@@ -104,7 +108,7 @@ app.post("/api/overtime", (req, res) => {
     const {employeeName, date, startTime, endTime, duration, reason} = req.body;
 
     db.query(
-        "INSERT INTO overtime_requests (employee_name, date, start_time, end_time, duration, reason) VALUES (?,?,?,?,?,?)",
+        "INSERT INTO overtime_requests (employee_name, date, start_date, end_date, duration, reason, status, reqstatus) VALUES (?,?,?,?,?,?,'Pending', 'unseen')",
         [employeeName, date, startTime, endTime, duration, reason],
         (err) => {
             if (err) throw err;
@@ -176,17 +180,17 @@ app.get('/users', (req, res) => {
 //     const { id } = req.params;
 //     const updatedData = req.body;
 
-//     const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
-//     const values = [
-//         updatedData.firstname,
-//         updatedData.lastname,
-//         updatedData.dateofbirth,
-//         updatedData.nationality,
-//         updatedData.languages, // Assuming these correspond correctly
-//         updatedData.languages, // Assuming this is your home language
-//         updatedData.position,
-//         id
-//     ];
+    // const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
+    // const values = [
+    //     updatedData.firstname,
+    //     updatedData.lastname,
+    //     updatedData.dateofbirth,
+    //     updatedData.nationality,
+    //     updatedData.languages, // Assuming these correspond correctly
+    //     updatedData.languages, // Assuming this is your home language
+    //     updatedData.position,
+    //     id
+    // ];
 
 //     db.query(sql, values, (err, result) => {
 //         if (err) {
@@ -213,9 +217,9 @@ app.get('/users', (req, res) => {
 
 // // Leave request operations
 
-// ////
-app.get('/leave_requests', (req, res) => {
-    const sql = "SELECT * FROM leave_requests";
+////
+app.get('/leaverequests', (req, res) => {
+    const sql = "SELECT * FROM leaverequests";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -224,6 +228,7 @@ app.get('/leave_requests', (req, res) => {
         return res.json(data);
     });
 });
+
 
 // // Update leave request
 // app.patch('/leaverequests/:id', (req, res) => {
@@ -240,7 +245,7 @@ app.get('/leave_requests', (req, res) => {
 //     });
 // });
 
-// // Overtime request section
+// Overtime request section
 // app.get('/overtimerequest', (req, res) => {
 //     const sql = "SELECT * FROM overtimerequests";
 //     db.query(sql, (err, data) => {
@@ -270,21 +275,21 @@ app.get('/leave_requests', (req, res) => {
 // });
 
 // Start server
-// app.listen(8080, () => {
-//     console.log("Server started on port 8080");
-// })
+app.listen(8080, () => {
+    console.log("Server started on port 8080");
+})
 
-// // Get users
-// app.get('/users', (req, res) => {
-//     const sql = "SELECT * FROM staff_members";
-//     db.query(sql, (err, data) => {
-//         if (err) {
-//             console.error('Error fetching users:', err);
-//             return res.status(500).json({ message: "Error fetching users", error: err });
-//         }
-//         return res.json(data);
-//     });
-// });
+// Get users
+app.get('/users', (req, res) => {
+    const sql = "SELECT * FROM staff_members";
+    db.query(sql, (err, data) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            return res.status(500).json({ message: "Error fetching users", error: err });
+        }
+        return res.json(data);
+    });
+});
 
 
 // // Update user
@@ -292,17 +297,17 @@ app.get('/leave_requests', (req, res) => {
 //     const { id } = req.params;
 //     const updatedData = req.body;
 
-//     const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
-//     const values = [
-//         updatedData.firstname,
-//         updatedData.lastname,
-//         updatedData.dateofbirth,
-//         updatedData.nationality,
-//         updatedData.languages, // Assuming these correspond correctly
-//         updatedData.languages, // Assuming this is your home language
-//         updatedData.position,
-//         id
-//     ];
+    // const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
+    // const values = [
+    //     updatedData.firstname,
+    //     updatedData.lastname,
+    //     updatedData.dateofbirth,
+    //     updatedData.nationality,
+    //     updatedData.languages, // Assuming these correspond correctly
+    //     updatedData.languages, // Assuming this is your home language
+    //     updatedData.position,
+    //     id
+    // ];
 
 //     db.query(sql, values, (err, result) => {
 //         if (err) {
@@ -329,17 +334,17 @@ app.get('/leave_requests', (req, res) => {
 
 // // Leave request operations
 
-// ////
-// app.get('/leaverequests', (req, res) => {
-//     const sql = "SELECT * FROM leaverequests";
-//     db.query(sql, (err, data) => {
-//         if (err) {
-//             console.error('Error fetching leave requests:', err);
-//             return res.status(500).json({ message: "Error fetching leave requests", error: err });
-//         }
-//         return res.json(data);
-//     });
-// });
+////
+app.get('/leaverequests', (req, res) => {
+    const sql = "SELECT * FROM leaverequests";
+    db.query(sql, (err, data) => {
+        if (err) {
+            console.error('Error fetching leave requests:', err);
+            return res.status(500).json({ message: "Error fetching leave requests", error: err });
+        }
+        return res.json(data);
+    });
+});
 
 // // Update leave request
 // app.patch('/leaverequests/:id', (req, res) => {
@@ -356,7 +361,7 @@ app.get('/leave_requests', (req, res) => {
 //     });
 // });
 
-// // Overtime request section
+// Overtime request section
 // app.get('/overtimerequest', (req, res) => {
 //     const sql = "SELECT * FROM overtimerequests";
 //     db.query(sql, (err, data) => {

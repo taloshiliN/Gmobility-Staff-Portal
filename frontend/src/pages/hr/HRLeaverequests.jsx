@@ -3,14 +3,13 @@ import HRheader from './HRheader.jsx';
 import defaultimg from './assets/defaulticon.png';
 import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
+import plus from './assets/plus.png'
 import { useEffect, useState } from 'react';
 import SidebarNav from '../../components/sidebarNav.jsx';
 import Header from '../../components/header.jsx';
 import { useSelector } from 'react-redux';
 
 function HRLeaverequests() {
-  const position = useSelector((state)=> state.auth.position)
-
   const [data, setData] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
@@ -91,10 +90,10 @@ function HRLeaverequests() {
                 ) : (
                   data.map((d, i) => (
                     <tr key={d.id} onClick={() => handleClick(d)}>
-                      <td>
-                        <img id="innerpropic" src={d.profile || defaultimg} alt="profile" />
+                      <td id="picdiv">
+                        <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
-                      <td>{d.sender}</td>
+                      <td id="leavesender">{d.employee_name}</td>
                       <td>
                         {d.msgstatus === 'unseen' && <img id="msgstatus" src={unseen} alt="unseen" />}
                         {d.msgstatus === 'seen' && <img id="msgstatus" src={seen} alt="seen" />}
@@ -112,19 +111,19 @@ function HRLeaverequests() {
                 <tbody>
                   <tr>
                     <td><p className='titl'>From:</p></td>
-                    <td><p>{selectedRequest.sender}</p></td>
+                    <td><p>{selectedRequest.employee_name}</p></td>
                     <td><p className='titl'>Start Date:</p></td>
-                    <td><p>{selectedRequest.startDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.start_date || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Position:</p></td>
                     <td><p>{selectedRequest.position || 'N/A'}</p></td>
                     <td><p className='titl'>End Date:</p></td>
-                    <td><p>{selectedRequest.endDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.end_date || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Total Days:</p></td>
-                    <td><p>{selectedRequest.duration || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.total_days || 'N/A'}</p></td>
                     <td><p className='titl'>Status:</p></td>
                     <td><p>{selectedRequest.status || 'Pending'}</p></td>
                   </tr>

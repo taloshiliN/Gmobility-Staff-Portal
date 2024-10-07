@@ -9,14 +9,16 @@ const initialState = {
 
 export const createData = createAsyncThunk(
     "data/createData",
-    async ({firstname, surname, id_Number, gender, DOB, nationality, homeLanguage, otherLanguages, position, supervisor, password})=>{
+    async ({firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password})=>{
         const response = await axios.post("http://localhost:8080/api/data", {
             firstname, 
             surname, 
             id_Number,
             gender,
             DOB, 
+            Gender,
             nationality, 
+            Supervisor,
             homeLanguage, 
             otherLanguages, 
             position, 
