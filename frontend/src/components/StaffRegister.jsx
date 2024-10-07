@@ -13,7 +13,9 @@ function StaffRegistrationForm() {
   const [firstname, setName] = useState("")
   const [surname, setSurname] = useState("")
   const [id_Number, setIdNumber] = useState("")
+  const [Gender, setGender] = useState("")
   const [DOB, setDOB] = useState("")
+  const [Supervisor, setSupervisor] = useState("")
   const [nationality, setNationality] = useState("")
   const [homeLanguage, setHomeLanguage] = useState("")
   const [otherLanguages, setOtherLanguages] = useState("")
@@ -32,6 +34,8 @@ function StaffRegistrationForm() {
       surname && 
       id_Number.trim() !== "" && 
       DOB && 
+      Supervisor &&
+      Gender &&
       nationality && 
       homeLanguage && 
       otherLanguages && 
@@ -43,6 +47,8 @@ function StaffRegistrationForm() {
         surname, 
         id_Number, 
         DOB, 
+        Supervisor,
+        Gender,
         nationality, 
         homeLanguage, 
         otherLanguages, 
@@ -54,6 +60,8 @@ function StaffRegistrationForm() {
       setSurname("");
       setIdNumber("");
       setDOB("");
+      setSupervisor("");
+      setGender("");
       setNationality("");
       setHomeLanguage("");
       setOtherLanguages("");
@@ -115,6 +123,19 @@ function StaffRegistrationForm() {
         </div>
 
         <div className="form-group">
+          <label htmlFor="gender">Gender</label>
+          <input 
+            type="text" 
+            id="gender" 
+            name="gender"
+            placeholder='Gender'
+            value={Gender}
+            onChange={e=>setGender(e.target.value)}
+            required 
+          />
+        </div>
+
+        <div className="form-group">
           <label htmlFor="dateOfBirth">Date of Birth</label>
           <input 
             type="date" 
@@ -136,6 +157,19 @@ function StaffRegistrationForm() {
             placeholder='Nationality'
             value={nationality}
             onChange={e=>setNationality(e.target.value)}
+            required 
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="supervisor">Supervisor</label>
+          <input 
+            type="text" 
+            id="supervisor" 
+            name="supervisor" 
+            placeholder='Supervisor'
+            value={Supervisor}
+            onChange={e=>setSupervisor(e.target.value)}
             required 
           />
         </div>
@@ -176,7 +210,7 @@ function StaffRegistrationForm() {
             value={position} 
             onChange={e=>setPosition(e.target.value)}
             required 
-          >
+          > 
             <option value="Employee">Employee</option>
             <option value="Human Resource">Human Resource</option>
             <option value="Admin">Admin</option>

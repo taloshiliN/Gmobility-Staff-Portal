@@ -73,7 +73,6 @@ body {
   }
   .hrlogout {
     width: 80%; /* Set a width for the button */
-    margin: 50px 0; /* Add some vertical margin */
     padding: 10px; /* Add some padding */
     background-color: rgb(255, 0, 0); /* Set a background color */
     color: white; /* Set text color */

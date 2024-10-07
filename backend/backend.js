@@ -30,11 +30,11 @@ db.connect(err => {
 
 // Insert staff member
 app.post("/api/data", (req, res) => {
-    const { firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password } = req.body;
+    const { firstname, surname, id_Number, DOB,Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password } = req.body;
 
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB, Nationality, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB,Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        [firstname, surname, id_Number, DOB, Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password],
         (err) => {
             if (err) throw err;
             const newData = {
@@ -42,7 +42,9 @@ app.post("/api/data", (req, res) => {
                 Surname: surname,
                 ID_Number: id_Number,
                 DOB: DOB,
+                Gender: Gender,
                 Nationality: nationality,
+                Supervisor: Supervisor,
                 Home_Language: homeLanguage,
                 Other_Languages: otherLanguages,
                 Position: position,
@@ -102,7 +104,7 @@ app.post("/api/overtime", (req, res) => {
     const {employeeName, date, startTime, endTime, duration, reason} = req.body;
 
     db.query(
-        "INSERT INTO overtime_requests (employee_name, date, start_time, end_time, duration, reason) VALUES (?,?,?,?,?,?)",
+        "INSERT INTO overtime_requests (employee_name, date, start_date, end_date, duration, reason, status, reqstatus) VALUES (?,?,?,?,?,?,'Pending', 'unseen')",
         [employeeName, date, startTime, endTime, duration, reason],
         (err) => {
             if (err) throw err;
@@ -213,7 +215,7 @@ app.delete('/users/:id', (req, res) => {
 
 ////
 app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests ORDER BY id DESC"; // Replace 'created_at' with your actual date column name
+    const sql = "SELECT * FROM leave_requests ORDER BY id DESC"; // Replace 'created_at' with your actual date column name
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -229,7 +231,7 @@ app.patch('/leaverequests/:id', (req, res) => {
     const { id } = req.params;
     const { status, msgstatus } = req.body;
 
-    const sql = "UPDATE leaverequests SET status = ?, msgstatus = ? WHERE id = ?";
+    const sql = "UPDATE leave_requests SET status = ?, msgstatus = ? WHERE id = ?";
     db.query(sql, [status, msgstatus, id], (err, result) => {
         if (err) {
             console.error('Error updating leave request:', err);
@@ -241,7 +243,7 @@ app.patch('/leaverequests/:id', (req, res) => {
 
 // Overtime request section
 app.get('/overtimerequest', (req, res) => {
-    const sql = "SELECT * FROM overtimerequests ORDER BY id DESC";
+    const sql = "SELECT * FROM overtime_requests ORDER BY id DESC";
     db.query(sql, (err, data) => {
         if (err) return res.json(err);
         return res.json(data);
@@ -255,7 +257,7 @@ app.patch('/overtimerequest/:id', (req, res) => {
 
     console.log(`Updating request ID: ${requestId}, status: ${status}, reqstatus: ${reqstatus}`);
 
-    const sql = "UPDATE overtimerequests SET status = ?, reqstatus = ? WHERE id = ?";
+    const sql = "UPDATE overtime_requests SET status = ?, reqstatus = ? WHERE id = ?";
     db.query(sql, [status, reqstatus, requestId], (err, result) => {
         if (err) {
             console.error('Error updating status:', err);
@@ -270,7 +272,7 @@ app.patch('/overtimerequest/:id', (req, res) => {
 
 ///payroll section
 app.get('/hrpayroll', (req, res) => {
-    const sql = "SELECT * FROM payroll ORDER BY id DESC";
+    const sql = "SELECT * FROM pay_roll ORDER BY id DESC";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -337,7 +339,7 @@ app.delete('/users/:id', (req, res) => {
 
 ////
 app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests ";
+    const sql = "SELECT * FROM leave_requests ";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -364,7 +366,7 @@ app.patch('/leaverequests/:id', (req, res) => {
 
 // Overtime request section
 app.get('/overtimerequest', (req, res) => {
-    const sql = "SELECT * FROM overtimerequests ORDER BY id DESC";
+    const sql = "SELECT * FROM overtime_requests ORDER BY id DESC";
     db.query(sql, (err, data) => {
         if (err) return res.json(err);
         return res.json(data);
@@ -378,7 +380,7 @@ app.patch('/overtimerequest/:id', (req, res) => {
 
     console.log(`Updating request ID: ${requestId}, status: ${status}, reqstatus: ${reqstatus}`);
 
-    const sql = "UPDATE overtimerequests SET status = ?, reqstatus = ? WHERE id = ?";
+    const sql = "UPDATE overtime_requests SET status = ?, reqstatus = ? WHERE id = ?";
     db.query(sql, [status, reqstatus, requestId], (err, result) => {
         if (err) {
             console.error('Error updating status:', err);

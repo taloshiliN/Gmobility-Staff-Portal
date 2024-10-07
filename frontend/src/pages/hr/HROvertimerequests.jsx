@@ -91,7 +91,7 @@ function HROvertimerequests(){
                       <td>
                         <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
-                      <td>{d.sender}</td>
+                      <td>{d.employee_name}</td>
                       <td id="reqstatus">
                         {d.reqstatus === 'unseen' && <img id="reqstatus" src={unseen} alt="unseen" />}
                         {d.reqstatus === 'seen' && <img id="reqstatus" src={seen} alt="seen" />}
@@ -109,18 +109,18 @@ function HROvertimerequests(){
                 <tbody>
                   <tr>
                     <td><p className='titl'>From:</p></td>
-                    <td><p>{selectedRequest.sender}</p></td>
+                    <td><p>{selectedRequest.employee_name}</p></td>
                     <td><p className='titl'>Position:</p></td>
                     <td><p>{selectedRequest.position || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Start Date:</p></td>
-                    <td><p>{selectedRequest.startDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.start_date || 'N/A'}</p></td>
                     <td><p className='titl'>End Date:</p></td>
-                    <td><p>{selectedRequest.endDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.end_date || 'N/A'}</p></td>
                   </tr>
                   <tr>
-                    <td><p className='titl'>Time Frame:</p></td>
+                    <td><p className='titl'>Total Days:</p></td>
                     <td><p>{selectedRequest.duration || 'N/A'}</p></td>
                     <td><p className='titl'>Status:</p></td>
                     <td><p>{selectedRequest.status || 'Pending'}</p></td>

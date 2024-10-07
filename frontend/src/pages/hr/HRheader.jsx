@@ -52,9 +52,10 @@ function HRheader() {
           <li onClick={event =>  navigate('/hremployees')}>
             <img className='icons' src={image3} alt="Attendance" /> Staff
           </li>
-
+          <li>
+          <button className='hrlogout' onClick={(event) =>window.location.reload()}>Logout</button>
+          </li>
         </ul>
-        <button className='hrlogout' onClick={(event) =>window.location.reload()}>Logout</button>
       </div>
     </>
   );
