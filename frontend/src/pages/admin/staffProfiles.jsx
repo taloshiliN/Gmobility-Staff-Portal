@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const StaffProfiles = () => {
   const [staffList, setStaffList] = useState([]); 
   const [selectedStaff, setSelectedStaff] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing] = useState(false);
 
   // Fetch staff data from the database
   const fetchStaffData = async () => {
@@ -23,11 +23,7 @@ const StaffProfiles = () => {
     fetchStaffData(); 
   }, []);
 
-  // Handler for saving changes
-  const handleSave = () => {
-    setIsEditing(false); 
-  };
-
+  
   const navigate = useNavigate();
 
   const handleEditClick = () => {
@@ -58,10 +54,9 @@ const StaffProfiles = () => {
           </div>
 
           <div className="profile-card">
-            {selectedStaff.Id && (
+            {selectedStaff.Id ? (
               <>
                 <div className="profile-picture">
-                  {/* Updated URL for fetching the profile image */}
                   {<img src={`http://localhost:8080/staff/${selectedStaff.Id}/profile-image`} alt="Profile" onError={(e) => { e.target.src = '/default-image.jpg'; }} />}
                 </div>
 
@@ -95,6 +90,8 @@ const StaffProfiles = () => {
                 className="edit-btn" onClick={handleEditClick}>Edit
                 </button>
               </>
+            ) : (
+              <p>No profile selected</p>
             )}
           </div>
         </div>

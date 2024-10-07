@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
+const json = require("body-parser/lib/types/json");
 const app = express();
+const router = express.Router();
 
 const corsOptions = {
     origin: ["http://localhost:5173"],
@@ -91,7 +93,7 @@ app.get('/users', (req, res) => {
 app.get('/getStaffDetails/:id', (req, res) => {
     const staffId = req.params.id; 
   
-    // Query database to get staff details for this ID
+    //Query database to get staff details for this ID
     db.query('SELECT * FROM staff_members WHERE Id = ?', [staffId], (error, results) => {
       if (error) {
         return res.status(500).json({ error: 'Error retrieving staff details' });
@@ -117,7 +119,7 @@ app.get('/getStaffDetails/:id', (req, res) => {
         const image = result[0].profileImg; 
         
     
-        res.set('Content-Type', 'image/jpg'); // Adjust based on the image format
+        res.set('Content-Type', 'image/jpg'); 
         
         // Send the image data as the response
         res.send(image);
@@ -126,7 +128,19 @@ app.get('/getStaffDetails/:id', (req, res) => {
       }
     });
   });
-    
+
+ 
+//Change Staff Info
+app.get('/api/staff', (req, res) => {
+    const query = 'SELECT Name, Surname, Position FROM staff_members'; 
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error retrieving staff data' });
+        }
+        console.log(results); 
+        res.json(results);  
+    });
+});
 
 // Update user
 app.patch('/users/:id', (req, res) => {
