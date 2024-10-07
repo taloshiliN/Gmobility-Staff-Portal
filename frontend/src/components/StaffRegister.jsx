@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {createData} from "../dataSlice";
 import HRheader from '../pages/hr/HRheader'
-import Header from './header'
+import SidebarNav from './sidebarNav';
+import Header from './header';
 
 function StaffRegistrationForm() {
   const userposition = useSelector((state)=> state.auth.position)
@@ -13,11 +14,13 @@ function StaffRegistrationForm() {
   const [firstname, setName] = useState("")
   const [surname, setSurname] = useState("")
   const [id_Number, setIdNumber] = useState("")
+  const [gender, setGender] = useState("")
   const [DOB, setDOB] = useState("")
   const [nationality, setNationality] = useState("")
   const [homeLanguage, setHomeLanguage] = useState("")
   const [otherLanguages, setOtherLanguages] = useState("")
   const [position, setPosition] = useState("")
+  const [supervisor, setSupervisor] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,33 +34,39 @@ function StaffRegistrationForm() {
       firstname && 
       surname && 
       id_Number.trim() !== "" && 
+      gender &&
       DOB && 
       nationality && 
       homeLanguage && 
       otherLanguages && 
       position && 
+      supervisor &&
       password
     ) {
       dispatch(createData({
         firstname, 
         surname, 
         id_Number, 
+        gender,
         DOB, 
         nationality, 
         homeLanguage, 
         otherLanguages, 
         position, 
+        supervisor,
         password
       }));
 
       setName("");
       setSurname("");
       setIdNumber("");
+      setGender("")
       setDOB("");
       setNationality("");
       setHomeLanguage("");
       setOtherLanguages("");
       setPosition("");
+      setSupervisor("")
       setPassword("");
     } else {
       alert("Please fill in all required fields!"); // Add an alert or error message
@@ -67,10 +76,12 @@ function StaffRegistrationForm() {
   // if (isAuthenticated){
   //   navigate('')
   // }
+  
   return (
     <>
-    <HRheader />
-     
+    {/* <HRheader /> */}
+    <Header />
+    <SidebarNav position={userposition} /> 
         <div className='main-content'>
         <div className="overtime-view-page">
         <form onSubmit={handleSubmit}>
@@ -112,6 +123,18 @@ function StaffRegistrationForm() {
             onChange={e=>setIdNumber(e.target.value)}
             required 
           />
+        </div>
+
+        <div className='form-group'>
+          <label htmlFor="gender">Gender</label>
+          <input 
+          type="text" 
+          id='gender'
+          name='gender'
+          placeholder='Gender'
+          value={gender}
+          onChange={e=>setGender(e.target.value)}
+          required/>
         </div>
 
         <div className="form-group">
@@ -181,6 +204,18 @@ function StaffRegistrationForm() {
             <option value="Human Resource">Human Resource</option>
             <option value="Admin">Admin</option>
           </select>
+        </div>
+        <div className='form-group'>
+          <label htmlFor="supervisor">Supervisor</label>
+          <input 
+          type="text" 
+          id='supervisor'
+          name='supervisor'
+          placeholder='Supervisor'
+          value={supervisor}
+          onChange={e=>setSupervisor(e.target.value)}
+          required
+          />
         </div>
 
         <div className="form-group">

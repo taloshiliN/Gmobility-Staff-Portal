@@ -8,17 +8,29 @@ body {
     margin-top: 360%;
   }
   .Employee-sidebar {
-    width: 5%;
+    /* width: 5%;
     height: 100vh;
     position: fixed;
     background-color: rgb(17, 17, 85);
     transition: width 0.3s ease;
     text-align: center;
-    overflow: hidden; /* Ensure content doesn't overflow when resized */
+    overflow: hidden;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center align items horizontally */
-    justify-content: space-between; /* Space out content evenly */
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between;  */
+    width: 5%;
+    height: calc(100vh - 10%); /* Adjust height to account for header height */
+    position: fixed;
+    top: 8%; /* Push down the sidebar to start below the header */
+    background-color: rgb(17, 17, 85);
+    transition: width 0.3s ease;
+    text-align: center;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between;
   } 
   .Employee-sidebar:hover {
     width: 17%;

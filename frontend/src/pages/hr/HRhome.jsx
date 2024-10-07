@@ -1,25 +1,32 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import './style/index.css';
+import SidebarNav from '../../components/sidebarNav.jsx';
+import Header from '../../components/header.jsx';
+// import './style/index.css';
 import profile2 from './assets/profile2.png';
 import MessagingFloat from './MessageFloat.jsx';
 import HRheader from './HRheader.jsx';
+
 
 function HRhome() {
     // Get user data from Redux state
     const user = useSelector((state) => state.auth.data[0]); // Accessing the first user object
 
     console.log("User Data:", user); // Log user data for debugging
-
     if (!user) {
         return <div>Loading...</div>; // Display loading state if user data is not yet available
     }
 
+    const position = useSelector((state)=> state.auth.position)
+
     return (
         <>
-            <HRheader />
+            {/* <HRheader /> */}
+            <Header />
+            <SidebarNav position={position}/>
+            <div className='main-content'>
             <div className="homecontent">
-                <h4 className='greeting'>Welcome {user.Name}</h4>
+            <h4 className='greeting'>Welcome {user.Name}</h4>
                 <div className='innerhomecontent'>
                     <div className='innercontent1'>
                         <h4>Profile</h4>
@@ -76,6 +83,7 @@ function HRhome() {
                         <MessagingFloat />
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );

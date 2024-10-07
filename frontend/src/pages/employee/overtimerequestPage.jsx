@@ -11,8 +11,8 @@ function OvertimerequestPage() {
   const [date, setDate] = useState("")
   const [duration, setDuration] = useState("")
   const [reason, setReason] = useState("");
-  const [startTime, setStartTime] = useState();
-  const [endTime, setEndTime] = useState();
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const dispatch = useDispatch();
 
   const position = useSelector((state)=> state.auth.position)
@@ -62,9 +62,6 @@ function OvertimerequestPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formattedStartTime = startTime.includes(':') ? `${startTime}:00` : startTime;
-    const formattedEndTime = endTime.includes(':') ? `${endTime}:00` : endTime;
-
     if(
       employeeName &&
       date &&
@@ -76,8 +73,8 @@ function OvertimerequestPage() {
       dispatch(createOvertimeRequest({
         employeeName,
         date,
-        startTime: formattedStartTime,
-        endTime: formattedEndTime,
+        startTime: `${startTime}:00`,
+        endTime: `${endTime}:00`,
         duration,
         reason
       }))
@@ -85,8 +82,8 @@ function OvertimerequestPage() {
 
     setName("");
     setDate("");
-    setStartTime();
-    setEndTime();
+    setStartTime("");
+    setEndTime("");
     setDuration("");
     setReason("");
   }
@@ -165,8 +162,7 @@ function OvertimerequestPage() {
         </div>
         <button 
         type="submit" 
-        className="submit-btn"
-        onClick={handleSubmit}>
+        className="submit-btn">
           Submit Request</button>
       </form>
     </div>

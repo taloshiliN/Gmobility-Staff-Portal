@@ -4,8 +4,13 @@ import defaultimg from './assets/defaulticon.png';
 import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
 import { useEffect, useState } from 'react';
+import SidebarNav from '../../components/sidebarNav.jsx';
+import Header from '../../components/header.jsx';
+import { useSelector } from 'react-redux';
 
 function HRLeaverequests() {
+  const position = useSelector((state)=> state.auth.position)
+
   const [data, setData] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
@@ -70,7 +75,10 @@ function HRLeaverequests() {
 
   return (
     <>
-      <HRheader />
+      {/* <HRheader /> */}
+      <Header />
+      <SidebarNav position={position} />
+      <div className='main-content'>
       <div className='requestcontainer'>
         <div className='hrleaverequests'>
           <div className='tablediv'>
@@ -140,6 +148,7 @@ function HRLeaverequests() {
             )}
           </div>
         </div>
+      </div>
       </div>
     </>
   );
