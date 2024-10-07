@@ -175,111 +175,6 @@ app.get('/users', (req, res) => {
     });
 });
 
-
-// Update user
-app.patch('/users/:id', (req, res) => {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    // const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
-    // const values = [
-    //     updatedData.firstname,
-    //     updatedData.lastname,
-    //     updatedData.dateofbirth,
-    //     updatedData.nationality,
-    //     updatedData.languages, // Assuming these correspond correctly
-    //     updatedData.languages, // Assuming this is your home language
-    //     updatedData.position,
-    //     id
-    // ];
-
-//     db.query(sql, values, (err, result) => {
-//         if (err) {
-//             console.error('Error updating employee:', err);
-//             return res.status(500).json({ message: "Error updating employee", error: err });
-//         }
-//         res.json({ ID_Number: id, ...updatedData }); // Return updated employee info
-//     });
-// });
-
-// Delete user
-// app.delete('/users/:id', (req, res) => {
-//     const { id } = req.params;
-
-//     const sql = "DELETE FROM staff_members WHERE ID_Number = ?";
-//     db.query(sql, [id], (err, result) => {
-//         if (err) {
-//             console.error('Error deleting employee:', err);
-//             return res.status(500).json({ message: "Error deleting employee", error: err });
-//         }
-//         res.sendStatus(204); // No content response
-//     });
-// });
-
-// // Leave request operations
-
-////
-app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests";
-    db.query(sql, (err, data) => {
-        if (err) {
-            console.error('Error fetching leave requests:', err);
-            return res.status(500).json({ message: "Error fetching leave requests", error: err });
-        }
-        return res.json(data);
-    });
-});
-
-
-// // Update leave request
-// app.patch('/leaverequests/:id', (req, res) => {
-//     const { id } = req.params;
-//     const { status, msgstatus } = req.body;
-
-//     const sql = "UPDATE leaverequests SET status = ?, msgstatus = ? WHERE id = ?";
-//     db.query(sql, [status, msgstatus, id], (err, result) => {
-//         if (err) {
-//             console.error('Error updating leave request:', err);
-//             return res.status(500).json({ message: "Error updating leave request", error: err });
-//         }
-//         res.json({ id, status, msgstatus }); // Return updated leave request info
-//     });
-// });
-
-// Overtime request section
-// app.get('/overtimerequest', (req, res) => {
-//     const sql = "SELECT * FROM overtimerequests";
-//     db.query(sql, (err, data) => {
-//         if (err) return res.json(err);
-//         return res.json(data);
-//     });
-// });
-
-// // Update the status of an overtime request
-// app.patch('/overtimerequest/:id', (req, res) => {
-//     const requestId = req.params.id;
-//     const { status, reqstatus } = req.body;
-
-//     console.log(`Updating request ID: ${requestId}, status: ${status}, reqstatus: ${reqstatus}`);
-
-//     const sql = "UPDATE overtimerequests SET status = ?, reqstatus = ? WHERE id = ?";
-//     db.query(sql, [status, reqstatus, requestId], (err, result) => {
-//         if (err) {
-//             console.error('Error updating status:', err);
-//             return res.status(500).json(err);
-//         }
-//         if (result.affectedRows === 0) {
-//             return res.status(404).json({ message: 'Request not found' });
-//         }
-//         return res.json({ message: 'Status updated successfully', result });
-//     });
-// });
-
-// Start server
-app.listen(8080, () => {
-    console.log("Server started on port 8080");
-})
-
 // Get users
 app.get('/users', (req, res) => {
     const sql = "SELECT * FROM staff_members";
@@ -311,32 +206,32 @@ app.patch('/users/:id', (req, res) => {
         id
     ];
 
-//     db.query(sql, values, (err, result) => {
-//         if (err) {
-//             console.error('Error updating employee:', err);
-//             return res.status(500).json({ message: "Error updating employee", error: err });
-//         }
-//         res.json({ ID_Number: id, ...updatedData }); // Return updated employee info
-//     });
-// });
+     db.query(sql, values, (err, result) => {
+         if (err) {
+             console.error('Error updating employee:', err);
+             return res.status(500).json({ message: "Error updating employee", error: err });
+         }
+         res.json({ ID_Number: id, ...updatedData }); // Return updated employee info
+     });
+ });
 
-// // Delete user
-// app.delete('/users/:id', (req, res) => {
-//     const { id } = req.params;
+ // Delete user
+ app.delete('/users/:id', (req, res) => {
+     const { id } = req.params;
 
-//     const sql = "DELETE FROM staff_members WHERE ID_Number = ?";
-//     db.query(sql, [id], (err, result) => {
-//         if (err) {
-//             console.error('Error deleting employee:', err);
-//             return res.status(500).json({ message: "Error deleting employee", error: err });
-//         }
-//         res.sendStatus(204); // No content response
-//     });
-// });
+     const sql = "DELETE FROM staff_members WHERE ID_Number = ?";
+     db.query(sql, [id], (err, result) => {
+         if (err) {
+             console.error('Error deleting employee:', err);
+             return res.status(500).json({ message: "Error deleting employee", error: err });
+         }
+         res.sendStatus(204); // No content response
+     });
+ });
 
-// // Leave request operations
+ // Leave request operations
 
-////
+//
 app.get('/leaverequests', (req, res) => {
     const sql = "SELECT * FROM leaverequests";
     db.query(sql, (err, data) => {
@@ -348,49 +243,49 @@ app.get('/leaverequests', (req, res) => {
     });
 });
 
-// // Update leave request
-// app.patch('/leaverequests/:id', (req, res) => {
-//     const { id } = req.params;
-//     const { status, msgstatus } = req.body;
+// Update leave request
+ app.patch('/leaverequests/:id', (req, res) => {
+     const { id } = req.params;
+     const { status, msgstatus } = req.body;
 
-//     const sql = "UPDATE leaverequests SET status = ?, msgstatus = ? WHERE id = ?";
-//     db.query(sql, [status, msgstatus, id], (err, result) => {
-//         if (err) {
-//             console.error('Error updating leave request:', err);
-//             return res.status(500).json({ message: "Error updating leave request", error: err });
-//         }
-//         res.json({ id, status, msgstatus }); // Return updated leave request info
-//     });
-// });
+     const sql = "UPDATE leaverequests SET status = ?, msgstatus = ? WHERE id = ?";
+     db.query(sql, [status, msgstatus, id], (err, result) => {
+         if (err) {
+             console.error('Error updating leave request:', err);
+             return res.status(500).json({ message: "Error updating leave request", error: err });
+         }
+         res.json({ id, status, msgstatus }); // Return updated leave request info
+     });
+ });
 
 // Overtime request section
-// app.get('/overtimerequest', (req, res) => {
-//     const sql = "SELECT * FROM overtimerequests";
-//     db.query(sql, (err, data) => {
-//         if (err) return res.json(err);
-//         return res.json(data);
-//     });
-// });
+ app.get('/overtimerequest', (req, res) => {
+     const sql = "SELECT * FROM overtimerequests";
+     db.query(sql, (err, data) => {
+         if (err) return res.json(err);
+         return res.json(data);
+     });
+ });
 
-// // Update the status of an overtime request
-// app.patch('/overtimerequest/:id', (req, res) => {
-//     const requestId = req.params.id;
-//     const { status, reqstatus } = req.body;
+ // Update the status of an overtime request
+ app.patch('/overtimerequest/:id', (req, res) => {
+     const requestId = req.params.id;
+     const { status, reqstatus } = req.body;
 
-//     console.log(`Updating request ID: ${requestId}, status: ${status}, reqstatus: ${reqstatus}`);
+     console.log(`Updating request ID: ${requestId}, status: ${status}, reqstatus: ${reqstatus}`);
 
-//     const sql = "UPDATE overtimerequests SET status = ?, reqstatus = ? WHERE id = ?";
-//     db.query(sql, [status, reqstatus, requestId], (err, result) => {
-//         if (err) {
-//             console.error('Error updating status:', err);
-//             return res.status(500).json(err);
-//         }
-//         if (result.affectedRows === 0) {
-//             return res.status(404).json({ message: 'Request not found' });
-//         }
-//         return res.json({ message: 'Status updated successfully', result });
-//     });
-// });
+     const sql = "UPDATE overtimerequests SET status = ?, reqstatus = ? WHERE id = ?";
+     db.query(sql, [status, reqstatus, requestId], (err, result) => {
+         if (err) {
+             console.error('Error updating status:', err);
+             return res.status(500).json(err);
+         }
+         if (result.affectedRows === 0) {
+             return res.status(404).json({ message: 'Request not found' });
+         }
+         return res.json({ message: 'Status updated successfully', result });
+     });
+ });
 
 // Start server
 app.listen(8080, () => {
