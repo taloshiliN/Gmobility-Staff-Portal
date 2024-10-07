@@ -30,11 +30,11 @@ db.connect(err => {
 
 // Insert staff member
 app.post("/api/data", (req, res) => {
-    const { firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password } = req.body;
+    const { firstname, surname, id_Number, gender, DOB, nationality, homeLanguage, otherLanguages, position, supervisor, password } = req.body;
 
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB, Nationality, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, Gender, DOB, Nationality, Home_Language, Other_Languages, Position, Supervisor, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        [firstname, surname, id_Number, gender, DOB, nationality, homeLanguage, otherLanguages, position, supervisor, password],
         (err) => {
             if (err) throw err;
             const newData = {
@@ -43,9 +43,7 @@ app.post("/api/data", (req, res) => {
                 ID_Number: id_Number,
                 Gender: gender,
                 DOB: DOB,
-                Gender: Gender,
                 Nationality: nationality,
-                Supervisor: Supervisor,
                 Home_Language: homeLanguage,
                 Other_Languages: otherLanguages,
                 Position: position,
@@ -218,8 +216,8 @@ app.get('/users', (req, res) => {
 // // Leave request operations
 
 ////
-app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests";
+app.get('/leave_requests', (req, res) => {
+    const sql = "SELECT * FROM leave_requests";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -275,21 +273,21 @@ app.get('/leaverequests', (req, res) => {
 // });
 
 // Start server
-app.listen(8080, () => {
-    console.log("Server started on port 8080");
-})
+// app.listen(8080, () => {
+//     console.log("Server started on port 8080");
+// })
 
 // Get users
-app.get('/users', (req, res) => {
-    const sql = "SELECT * FROM staff_members";
-    db.query(sql, (err, data) => {
-        if (err) {
-            console.error('Error fetching users:', err);
-            return res.status(500).json({ message: "Error fetching users", error: err });
-        }
-        return res.json(data);
-    });
-});
+// app.get('/users', (req, res) => {
+//     const sql = "SELECT * FROM staff_members";
+//     db.query(sql, (err, data) => {
+//         if (err) {
+//             console.error('Error fetching users:', err);
+//             return res.status(500).json({ message: "Error fetching users", error: err });
+//         }
+//         return res.json(data);
+//     });
+// });
 
 
 // // Update user
@@ -335,16 +333,16 @@ app.get('/users', (req, res) => {
 // // Leave request operations
 
 ////
-app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests";
-    db.query(sql, (err, data) => {
-        if (err) {
-            console.error('Error fetching leave requests:', err);
-            return res.status(500).json({ message: "Error fetching leave requests", error: err });
-        }
-        return res.json(data);
-    });
-});
+// app.get('/leaverequests', (req, res) => {
+//     const sql = "SELECT * FROM leaverequests";
+//     db.query(sql, (err, data) => {
+//         if (err) {
+//             console.error('Error fetching leave requests:', err);
+//             return res.status(500).json({ message: "Error fetching leave requests", error: err });
+//         }
+//         return res.json(data);
+//     });
+// });
 
 // // Update leave request
 // app.patch('/leaverequests/:id', (req, res) => {

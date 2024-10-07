@@ -10,6 +10,8 @@ import Header from '../../components/header.jsx';
 import { useSelector } from 'react-redux';
 
 function HRLeaverequests() {
+  const position = useSelector((state)=> state.auth.position)
+
   const [data, setData] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
