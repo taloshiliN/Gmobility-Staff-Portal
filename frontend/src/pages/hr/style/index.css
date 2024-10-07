@@ -378,7 +378,7 @@ body {
     height: 500px;
     display: inline-flex;
     margin-left: 6%;
-    margin-top: 1%;
+    margin-top: 5%;
      /* Enable vertical scrolling */
   }
   
@@ -511,7 +511,7 @@ body {
     width: 11rem;
     height: 4rem;
     margin-left: 0.3rem;
-    margin-top: 1rem;
+    margin-top: 4rem;
     display: inline-flex;
     background-color: #0400f3;
     color: white;

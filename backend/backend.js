@@ -79,7 +79,7 @@ app.post("/api/leave", (req, res) => {
     const {employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone} = req.body;
 
     db.query(
-        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, resuming_work_days,reason, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, resuming_work_days,reason, emergency_name, emergency_address, emergency_phone_number, msgstatus, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?, 'unseen','Pending')",
         [employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone],
         (err) => {
             if (err) throw err;
