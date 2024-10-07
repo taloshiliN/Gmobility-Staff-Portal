@@ -42,7 +42,7 @@ function HREmployees() {
             lastname: employee.Surname,
             Supervisor: employee.Supervisor,
             id_number: employee.ID_Number,
-            DOB: employee.DOB.stringify ? employee.DOB.split('T')[0] : '', // Format to YYYY-MM-DD for input
+            DOB: (employee.DOB && employee.DOB !== '0000-00-00') ? employee.DOB.split('T')[0] : '',
             Gender: employee.Gender,
             nationality: employee.Nationality,
             languages: employee.Other_Languages,
@@ -60,6 +60,8 @@ function HREmployees() {
     };
 
     const handleUpdateEmployee = () => {
+        const dobToSend = editedEmployee.DOB ? new Date(editedEmployee.DOB).toISOString().split('T')[0] : '';
+
         fetch(`http://localhost:8080/users/${editedEmployee.id_number}`, {
             method: 'PATCH',
             headers: {
@@ -67,7 +69,7 @@ function HREmployees() {
             },
             body: JSON.stringify({
                 ...editedEmployee,
-                DOB: editedEmployee.DOB // Ensure DOB is sent as a date
+                dateofbirth: dobToSend, // Send date in proper format
             }),
         })
         .then(res => {
@@ -83,7 +85,10 @@ function HREmployees() {
             setSelectedEmployee(updatedEmployee);
             setEditedEmployee(updatedEmployee);
         })
-        .catch(err => console.error('Update error:', err));
+        .catch(err => {
+            console.error('Update error:', err);
+            alert('Failed to update employee. Please check console for details.');
+        });
     };
 
     const handleDeleteEmployee = () => {
@@ -150,7 +155,7 @@ function HREmployees() {
                         <tbody>
                             {filteredData.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5">No employees found.</td>
+                                    <td colSpan="6">No employees found.</td>
                                 </tr>
                             ) : (
                                 filteredData.map((d, i) => (
@@ -202,7 +207,7 @@ function HREmployees() {
                                         {selectedEmployee ? (
                                             <input 
                                                 type="text" 
-                                                name="Supervisor" // Changed to match state
+                                                name="Supervisor" 
                                                 value={editedEmployee.Supervisor} 
                                                 onChange={handleInputChange} 
                                             />
@@ -229,7 +234,8 @@ function HREmployees() {
                                             <input 
                                                 type="date" 
                                                 name="DOB" 
-                                                value={editedEmployee.DOB} 
+                                                utcOffset={0}
+                                                value={editedEmployee.DOB || ''} 
                                                 onChange={handleInputChange} 
                                             />
                                         ) : '-----'}
@@ -241,7 +247,7 @@ function HREmployees() {
                                         {selectedEmployee ? (
                                             <input 
                                                 type="text" 
-                                                name="Gender" // Changed to match state
+                                                name="Gender" 
                                                 value={editedEmployee.Gender} 
                                                 onChange={handleInputChange} 
                                             />

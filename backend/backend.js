@@ -173,6 +173,7 @@ app.get('/users', (req, res) => {
     });
 });
 
+
 // Update user
 app.patch('/users/:id', (req, res) => {
     const { id } = req.params;
@@ -308,12 +309,12 @@ app.patch('/users/:id', (req, res) => {
     const values = [
         updatedData.firstname,
         updatedData.lastname,
-        updatedData.dateofbirth,
+        updatedData.dateofbirth, // Ensure this matches the key sent from the frontend
         updatedData.Gender,
         updatedData.nationality,
         updatedData.Supervisor,
-        updatedData.languages, // Assuming these correspond correctly
-        updatedData.languages, // Assuming this is your home language
+        updatedData.languages, // Assuming this corresponds to home language
+        updatedData.languages, // Assuming this is your other language
         updatedData.position,
         id
     ];
