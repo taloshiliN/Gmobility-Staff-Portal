@@ -30,21 +30,27 @@ db.connect(err => {
 
 // Insert staff member
 app.post("/api/data", (req, res) => {
-    const { firstname, surname, id_Number, DOB,Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password } = req.body;
+    const { firstname, surname, id_Number, DOB, gender, supervisor, nationality, homeLanguage, otherLanguages, position, password } = req.body;
+
+    // Log the incoming request body for debugging
+    console.log(req.body);
 
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB,Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number, DOB, Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB, Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        [firstname, surname, id_Number, DOB, gender, nationality, supervisor, homeLanguage, otherLanguages, position, password],
         (err) => {
-            if (err) throw err;
+            if (err) {
+                console.error(err); // Log the error for debugging
+                return res.status(500).json({ error: 'Database insertion failed' });
+            }
             const newData = {
                 Name: firstname,
                 Surname: surname,
                 ID_Number: id_Number,
                 DOB: DOB,
-                Gender: Gender,
+                Gender: gender,
                 Nationality: nationality,
-                Supervisor: Supervisor,
+                Supervisor: supervisor,
                 Home_Language: homeLanguage,
                 Other_Languages: otherLanguages,
                 Position: position,

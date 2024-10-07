@@ -112,13 +112,13 @@ function HRLeaverequests() {
                     <td><p className='titl'>From:</p></td>
                     <td><p>{selectedRequest.employee_name}</p></td>
                     <td><p className='titl'>Start Date:</p></td>
-                    <td><p>{selectedRequest.start_date || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.start_date.split('T')[0] || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Position:</p></td>
                     <td><p>{selectedRequest.position || 'N/A'}</p></td>
                     <td><p className='titl'>End Date:</p></td>
-                    <td><p>{selectedRequest.end_date || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.end_date.split('T')[0] || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Total Days:</p></td>

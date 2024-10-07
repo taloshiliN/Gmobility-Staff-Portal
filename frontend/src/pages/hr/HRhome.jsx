@@ -47,7 +47,7 @@ function HRhome() {
                                 </tr>
                                 <tr>
                                     <td className='hrdetails'>Date of Birth: </td>
-                                    <td>{user.DOB}</td>
+                                    <td>{user.DOB.split('T')[0] }</td>
                                 </tr>
                                 <tr>
                                     <td className='hrdetails'>Gender: </td>

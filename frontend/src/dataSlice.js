@@ -9,7 +9,7 @@ const initialState = {
 
 export const createData = createAsyncThunk(
     "data/createData",
-    async ({firstname, surname, id_Number, gender, DOB, nationality, homeLanguage, otherLanguages, position, supervisor, password})=>{
+    async ({ firstname, surname, id_Number, gender, DOB, nationality, homeLanguage, otherLanguages, position, supervisor, password }) => {
         const response = await axios.post("http://localhost:8080/api/data", {
             firstname, 
             surname, 
@@ -30,26 +30,22 @@ export const createData = createAsyncThunk(
 const dataSlice = createSlice({
     name: "data",
     initialState,
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(createData.pending, (state) => {
                 state.status = "loading";
             })
-
             .addCase(createData.fulfilled, (state, action) => {
                 console.log(action.payload);
-                state.status = "succeed";
+                state.status = "succeeded";
                 state.data.push(action.payload);
             })
-
             .addCase(createData.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
-            })
+            });
     }
-})
+});
 
 export default dataSlice.reducer;
