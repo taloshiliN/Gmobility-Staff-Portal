@@ -8,12 +8,13 @@ function HREmployees() {
     const [data, setData] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    
+
     const [editedEmployee, setEditedEmployee] = useState({
         firstname: '',
         lastname: '',
         id_number: '',
         DOB: '',
+        Supervisor: '',
         Gender: '',
         nationality: '',
         languages: '',
@@ -101,6 +102,7 @@ function HREmployees() {
                 firstname: '',
                 lastname: '',
                 id_number: '',
+                Supervisor: '',
                 DOB: '',
                 Gender: '',
                 nationality: '',
@@ -200,7 +202,7 @@ function HREmployees() {
                                         {selectedEmployee ? (
                                             <input 
                                                 type="text" 
-                                                name="lastname" 
+                                                name="Supervisor" // Changed to match state
                                                 value={editedEmployee.Supervisor} 
                                                 onChange={handleInputChange} 
                                             />
@@ -239,7 +241,7 @@ function HREmployees() {
                                         {selectedEmployee ? (
                                             <input 
                                                 type="text" 
-                                                name="gender" 
+                                                name="Gender" // Changed to match state
                                                 value={editedEmployee.Gender} 
                                                 onChange={handleInputChange} 
                                             />

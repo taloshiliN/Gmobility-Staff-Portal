@@ -76,21 +76,23 @@ app.post("/api/login", (req, res) => {
 });
 
 app.post("/api/leave", (req, res) => {
-    const {employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone} = req.body;
+    const {employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone} = req.body;
 
     db.query(
-        "INSERT INTO leave_requests (employee_name, date, supervisor_name, start_date, end_date, total_days, resuming_work_days, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        [employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone],
+        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, resuming_work_days,reason, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        [employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone],
         (err) => {
             if (err) throw err;
             const newLeaveRequest = {
                 EmployeeName:employeeName,
+                position: position,
                 Date:date,
                 SuperVisorName:supervisorName,
                 StartDate:startDate,
                 EndDate:endDate,
                 TotalDays:totalDays,
                 ResumingWorkDay:resumingWorkDay,
+                reason: reason,
                 EmergencyName:emergencyName,
                 EmergencyAddress:emergencyAddress,
                 EmergencyPhone:emergencyPhone
@@ -176,12 +178,14 @@ app.patch('/users/:id', (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
 
-    const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
+    const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, gENDER = ? , Nationality = ?, sUPERVISOR = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
     const values = [
         updatedData.firstname,
         updatedData.lastname,
         updatedData.dateofbirth,
+        updatedData.Gender,
         updatedData.nationality,
+        updatedData.Supervisor,
         updatedData.languages, // Assuming these correspond correctly
         updatedData.languages, // Assuming this is your home language
         updatedData.position,
@@ -300,12 +304,14 @@ app.patch('/users/:id', (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
 
-    const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
+    const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Gender = ?, Nationality = ?, Supervisor = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
     const values = [
         updatedData.firstname,
         updatedData.lastname,
         updatedData.dateofbirth,
+        updatedData.Gender,
         updatedData.nationality,
+        updatedData.Supervisor,
         updatedData.languages, // Assuming these correspond correctly
         updatedData.languages, // Assuming this is your home language
         updatedData.position,
