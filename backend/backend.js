@@ -254,6 +254,21 @@ app.get('/overtimerequest', (req, res) => {
     });
 });
 
+app.get('/employeeovertime/:Name', (req, res) => {
+    const { Name } = req.params;
+    const sql = "SELECT * FROM overtime_requests WHERE employee_name = ? "; 
+
+    db.query(sql, [Name], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No overtime records found for this user" });
+        }
+        return res.json(data); // Return all matching records
+    });
+});
+
 // Update the status of an overtime request
 app.patch('/overtimerequest/:id', (req, res) => {
     const requestId = req.params.id;
