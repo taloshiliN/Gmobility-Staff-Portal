@@ -9,18 +9,19 @@ const initialState = {
 
 export const createOvertimeRequest = createAsyncThunk(
     "overtime/createOvertimeRequest",
-    async ({employeeName, date, start_time, end_time, duration, reason}) => {
-        const response= await axios.post("http://localhost:8080/api/overtime", {
+    async ({ employeeName, date, start_time, end_time, duration, reason, position }) => { // Added position here
+        const response = await axios.post("http://localhost:8080/api/overtime", {
             employeeName,
+            position, // Include position in the payload
             date,
             start_time,
             end_time,
             duration,
-            reason
+            reason,
         });
         return response.data;
     }
-)
+);
 
 const overtimeSlice = createSlice({
     name: "overtime",
@@ -33,13 +34,13 @@ const overtimeSlice = createSlice({
             })
             .addCase(createOvertimeRequest.fulfilled, (state, action) => {
                 state.status = "succeed";
-                state.overtimeData.push(action.payload)
+                state.overtimeData.push(action.payload);
             })
             .addCase(createOvertimeRequest.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
             });
     }
-})
+});
 
 export default overtimeSlice.reducer;

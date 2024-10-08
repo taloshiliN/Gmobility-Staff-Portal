@@ -30,27 +30,21 @@ db.connect(err => {
 
 // Insert staff member
 app.post("/api/data", (req, res) => {
-    const { firstname, surname, id_Number, DOB, gender, supervisor, nationality, homeLanguage, otherLanguages, position, password } = req.body;
-
-    // Log the incoming request body for debugging
-    console.log(req.body);
+    const { firstname, surname, id_Number, DOB,Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password } = req.body;
 
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB, Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number, DOB, gender, nationality, supervisor, homeLanguage, otherLanguages, position, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB,Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        [firstname, surname, id_Number, DOB, Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password],
         (err) => {
-            if (err) {
-                console.error(err); // Log the error for debugging
-                return res.status(500).json({ error: 'Database insertion failed' });
-            }
+            if (err) throw err;
             const newData = {
                 Name: firstname,
                 Surname: surname,
                 ID_Number: id_Number,
                 DOB: DOB,
-                Gender: gender,
+                Gender: Gender,
                 Nationality: nationality,
-                Supervisor: supervisor,
+                Supervisor: Supervisor,
                 Home_Language: homeLanguage,
                 Other_Languages: otherLanguages,
                 Position: position,
@@ -85,7 +79,7 @@ app.post("/api/leave", (req, res) => {
     const {employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone} = req.body;
 
     db.query(
-        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, resuming_work_days,reason, emergency_name, emergency_address, emergency_phone_number, msgstatus, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?, 'unseen','Pending')",
+        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, resuming_work_days,reason, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
         [employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone],
         (err) => {
             if (err) throw err;

@@ -1,11 +1,8 @@
 import HRheader from './HRheader.jsx';
-import SidebarNav from '../../components/sidebarNav.jsx';
-import Header from '../../components/header.jsx';
 import './style/index.css';
 import search from './assets/searchicon.png';
 import propic2 from './assets/defaultpropic.png';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 function HREmployees() {
     const [data, setData] = useState([]);
@@ -45,7 +42,7 @@ function HREmployees() {
             lastname: employee.Surname,
             Supervisor: employee.Supervisor,
             id_number: employee.ID_Number,
-            DOB: (employee.DOB && employee.DOB !== '0000-00-00') ? employee.DOB.split('T')[0] : '',
+            DOB: employee.DOB.stringify ? employee.DOB.split('T')[0] : '', // Format to YYYY-MM-DD for input
             Gender: employee.Gender,
             nationality: employee.Nationality,
             languages: employee.Other_Languages,
@@ -63,8 +60,6 @@ function HREmployees() {
     };
 
     const handleUpdateEmployee = () => {
-        const dobToSend = editedEmployee.DOB ? new Date(editedEmployee.DOB).toISOString().split('T')[0] : '';
-
         fetch(`http://localhost:8080/users/${editedEmployee.id_number}`, {
             method: 'PATCH',
             headers: {
@@ -72,7 +67,7 @@ function HREmployees() {
             },
             body: JSON.stringify({
                 ...editedEmployee,
-                dateofbirth: dobToSend, // Send date in proper format
+                DOB: editedEmployee.DOB // Ensure DOB is sent as a date
             }),
         })
         .then(res => {
@@ -88,10 +83,7 @@ function HREmployees() {
             setSelectedEmployee(updatedEmployee);
             setEditedEmployee(updatedEmployee);
         })
-        .catch(err => {
-            console.error('Update error:', err);
-            alert('Failed to update employee. Please check console for details.');
-        });
+        .catch(err => console.error('Update error:', err));
     };
 
     const handleDeleteEmployee = () => {
@@ -130,14 +122,9 @@ function HREmployees() {
         );
     });
 
-    const position = useSelector((state)=> state.auth.position)
-
     return (
         <>
-            {/* <HRheader /> */}
-            <Header />
-            <SidebarNav position={position}/>
-            <div className='main-content'>
+            <HRheader />
             <div className='viewemployees'>
                 <div className='employeesearch'>
                     <img className='searchicon' src={search} alt="Search" />
@@ -163,7 +150,7 @@ function HREmployees() {
                         <tbody>
                             {filteredData.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6">No employees found.</td>
+                                    <td colSpan="5">No employees found.</td>
                                 </tr>
                             ) : (
                                 filteredData.map((d, i) => (
@@ -215,7 +202,7 @@ function HREmployees() {
                                         {selectedEmployee ? (
                                             <input 
                                                 type="text" 
-                                                name="Supervisor" 
+                                                name="Supervisor" // Changed to match state
                                                 value={editedEmployee.Supervisor} 
                                                 onChange={handleInputChange} 
                                             />
@@ -242,8 +229,7 @@ function HREmployees() {
                                             <input 
                                                 type="date" 
                                                 name="DOB" 
-                                                utcOffset={0}
-                                                value={editedEmployee.DOB || ''} 
+                                                value={editedEmployee.DOB} 
                                                 onChange={handleInputChange} 
                                             />
                                         ) : '-----'}
@@ -255,7 +241,7 @@ function HREmployees() {
                                         {selectedEmployee ? (
                                             <input 
                                                 type="text" 
-                                                name="Gender" 
+                                                name="Gender" // Changed to match state
                                                 value={editedEmployee.Gender} 
                                                 onChange={handleInputChange} 
                                             />
@@ -311,7 +297,6 @@ function HREmployees() {
                         )}
                     </div>
                 </div>
-            </div>
             </div>
         </>
     );
