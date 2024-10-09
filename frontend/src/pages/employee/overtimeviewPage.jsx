@@ -10,7 +10,7 @@ function OvertimeViewPage() {
    const [data, setData] = useState([]);
    const [loading, setLoading] = useState(true); // Loading state
    const [error, setError] = useState(null); // Error state
-
+ 
    console.log("User Data:", user); // Log user data for debugging
 
    useEffect(() => {
@@ -62,8 +62,8 @@ function OvertimeViewPage() {
                                <th>Start Date</th>
                                <th>End Date</th>
                                <th>Duration</th>
-                               <th>Message Status</th>
                                <th>Request Status</th>
+                               <th>Message Status</th>
                            </tr>
                        </thead>
                        <tbody>
