@@ -30,11 +30,11 @@ db.connect(err => {
 
 // Insert staff member
 app.post("/api/data", (req, res) => {
-    const { firstname, surname, id_Number, DOB,Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password } = req.body;
+    const { firstname, surname, id_Number, DOB,Gender, nationality, Supervisor, homeLanguage, otherLanguages, position,profilepicture, password } = req.body;
 
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB,Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number, DOB, Gender, nationality, Supervisor, homeLanguage, otherLanguages, position, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB,Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position,profilepicture, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        [firstname, surname, id_Number, DOB, Gender, nationality, Supervisor, homeLanguage, otherLanguages, position,profilepicture, password],
         (err) => {
             if (err) throw err;
             const newData = {
@@ -48,6 +48,7 @@ app.post("/api/data", (req, res) => {
                 Home_Language: homeLanguage,
                 Other_Languages: otherLanguages,
                 Position: position,
+                profilepicture: profilepicture,
                 Password: password
             };
             res.json(newData);

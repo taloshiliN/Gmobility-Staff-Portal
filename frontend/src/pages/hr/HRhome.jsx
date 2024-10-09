@@ -7,6 +7,7 @@ import './style/index.css';
 import search from './assets/searchicon.png';
 import MessagingFloat from './MessageFloat.jsx';
 import personicon from './assets/personicon.png';
+import defaultimg from './assets/default.png'
 
 function HRhome() {
     const navigate = useNavigate();
@@ -82,7 +83,7 @@ function HRhome() {
                                     className="employeecard" 
                                     onClick={() => navigate('/hrchosenemployee', { state: { employee: d } })} // Pass selected employee data
                                 >
-                                    <img src={d.profilepicture} alt='Profile Image' />
+                                    <img src={d.profilepicture  || defaultimg} alt='Profile Image' />
                                     <div id="employeeinner">
                                         <p id="employeename">{`${d.Name} ${d.Surname}`}</p>
                                         <p id="employeeposition">{d.Position}</p>
