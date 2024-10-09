@@ -1,14 +1,14 @@
-
+import Header from './header';
+import SidebarNav from './sidebarNav';
 import React from 'react'
 import {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {createData} from "../dataSlice";
-import HRheader from '../pages/hr/HRheader'
-import Header from './header'
+
 
 function StaffRegistrationForm() {
-  const userposition = useSelector((state)=> state.auth.position)
+  const uposition = useSelector((state)=> state.auth.position)
 
   const [firstname, setName] = useState("")
   const [surname, setSurname] = useState("")
@@ -21,7 +21,6 @@ function StaffRegistrationForm() {
   const [otherLanguages, setOtherLanguages] = useState("")
   const [position, setPosition] = useState("")
   const [password, setPassword] = useState("")
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   
   // const {loading, error, isAuthenticated} = useSelector((state)=>state.auth)
@@ -77,8 +76,8 @@ function StaffRegistrationForm() {
   // }
   return (
     <>
-    <HRheader />
-     
+     <Header />
+     <SidebarNav position={uposition}/>
         <div className='main-content'>
         <div className="overtime-view-page">
         <form onSubmit={handleSubmit}>

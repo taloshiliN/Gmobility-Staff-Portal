@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import HRheader from "./HRheader";
+import Header from '../../components/header';
+import SidebarNav from '../../components/sidebarNav';
 import './style/index.css';
+import { useSelector } from 'react-redux';
 
 function HRPayroll() {
+    const position = useSelector((state)=> state.auth.position)
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -37,7 +40,8 @@ function HRPayroll() {
 
     return (
         <>
-            <HRheader />
+            <Header />
+            <SidebarNav position={position}/>
             <div id="hrpayrolldiv">
                 <h4>Staff Payroll</h4>
                 <div id="hrpayroll">

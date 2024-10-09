@@ -1,4 +1,5 @@
-import HRheader from './HRheader.jsx'
+import Header from '../../components/header';
+import SidebarNav from '../../components/sidebarNav';
 import './style/HRstyle.css'
 import defaultimg from './assets/defaulticon.png'
 import unseen from './assets/unseen.png';
@@ -6,8 +7,10 @@ import seen from './assets/seenstatus.png';
 import plus from './assets/plus.png'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function HROvertimerequests(){
+  const position = useSelector((state)=> state.auth.position)
   const navigate = useNavigate()
    const [data, setData] = useState([]);
    const [selectedRequest, setSelectedRequest] = useState(null);
@@ -75,7 +78,8 @@ function HROvertimerequests(){
     };
     return(
         <>
-        <HRheader/>
+    <Header />
+    <SidebarNav position={position}/>
         <div id="hrovertimediv">
         <div className='overtimediv'>
            <div className='fromtablecontainer'>
