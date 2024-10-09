@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../../dataloginslice'
 import '../../styles/login.css'
 import glogo from '../../assets/glogo.png'
+import '../../styles/MainPage.css'
+import Loader from '../../components/loader'
 
 function LoginPage() {
   const [firstname, setFirstname] = useState("");
@@ -12,7 +14,7 @@ function LoginPage() {
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, status } = useSelector((state) => state.auth);
   const position = useSelector((state) => state.auth.position);
   const error = useSelector((state)=> state.auth.error);
   // const isAuthenticated = auth?.isAuthenticated;
@@ -31,7 +33,7 @@ function LoginPage() {
     if (isAuthenticated) {
       console.log("User Position:", position);
       if(position === 'Human Resource'){
-        navigate('/home');
+        navigate('/hrhome');
       } else if (position === 'Employee') {
         navigate('/home');
       } else if (position === 'Admin'){
@@ -42,11 +44,15 @@ function LoginPage() {
 
   return (
     <>
+    {status === 'loading' && <Loader />}
+       <div className='logo-container'>
+        <img src={glogo} alt="Gmobility Logo" className="logo" /> {/* Add logo here */}
+        </div>
+        <div className='everything'>
         <div className='loginform'>
             <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
               <div className='heading-for-login-form'>
-                <img src={glogo} alt="glogo" />
-                <h1>Log in to G Mobility's Staff Portal</h1>
+                <h1>Login to Staff Portal</h1>
               </div>
             <input 
                 className="form-input" 
@@ -64,12 +70,13 @@ function LoginPage() {
                 placeholder="Password"
                 required
             />
-            {error && <p className='error'>{error}</p>}
+            {error && <p style={{color: 'red' }} className='error'>{error}</p>}
             <p>Forgot Password?</p>
             <button className="form-button" type="submit">
-              login
+              Login
             </button>
         </form>
+    </div>
     </div>
     </>
   )

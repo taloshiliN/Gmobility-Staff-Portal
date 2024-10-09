@@ -18,7 +18,7 @@ function SidebarNav({position}) {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login')
+    navigate('/loginPage')
   }
 
   if (!position) {
@@ -36,9 +36,6 @@ function SidebarNav({position}) {
           {/*Employee */}
           {position === 'Employee' && (
             <>
-               <li>
-                <NavLink to="/homePage">Home</NavLink>
-              </li>
               <li>
                 <NavLink to="/leaverequest">Leave Requests</NavLink>
               </li>
@@ -56,7 +53,6 @@ function SidebarNav({position}) {
               </li>
             </>
           )}
-
           {/*Human Resource */}
           {position === 'Human Resource' && (
             <>
@@ -70,14 +66,19 @@ function SidebarNav({position}) {
               <NavLink to="/staffregistration">Staff registration</NavLink>
             </li>
             <li>
-              <NavLink to="/hrleaverequest">View Leave Request</NavLink>
+              <NavLink to="/HRViewStaff">View Staff Profiles</NavLink>
+            </li>
+            <li>
+              <NavLink to="/hrleaverequests">View Leave Request</NavLink>
             </li>
             <li>
               <NavLink to="/hrovertimerequests">View Overtime Requests</NavLink>
             </li>
+            <li>
+              <NavLink to="/hrpayroll">View Payrolls</NavLink>
+            </li>
             </>
           )}
-
           {/*Admin */}
           {position === 'Admin' && (
             <>
@@ -85,19 +86,19 @@ function SidebarNav({position}) {
                 <NavLink to="/adminhomepage">Home Page</NavLink>
               </li>
               <li>
-                <NavLink to="/staffProfiles">Staff Profiles</NavLink>
-              </li>
-              <li>
                 <NavLink to="/staffregistrationadmin">Manage employees</NavLink>
               </li>
               <li>
-                <NavLink to="/viewleaveRequest">View Leave Requests</NavLink>
+                <NavLink to="/staffProfiles">Staff Profiles</NavLink>
               </li>
               <li>
-                <NavLink to="/viewOvertimeRequests">View Overtime Requests</NavLink>
+                <NavLink to="/leaverequestview">View Leave Requests</NavLink>
               </li>
               <li>
-                <NavLink to="/viewPrintingRequests">View Clock in and Clock out times</NavLink>
+                <NavLink to="/overtimerequestview">View Overtime Requests</NavLink>
+              </li>
+              <li>
+                <NavLink to="/printingrequestview">View Clock in and Clock out times</NavLink>
               </li>
             </>
           )}

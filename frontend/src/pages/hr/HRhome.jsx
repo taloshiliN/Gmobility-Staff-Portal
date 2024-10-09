@@ -3,6 +3,7 @@ import './style/index.css';
 import profile2 from './assets/profile2.png'; // Placeholder image
 import MessagingFloat from './MessageFloat.jsx';
 import HRheader from './HRheader.jsx';
+import SidebarNav from "../../components/sidebarNav.jsx";
 
 function HRhome() {
   
@@ -63,6 +64,7 @@ function HRhome() {
   return (
     <>
       <HRheader />
+      <SidebarNav />
       <div className="homecontent">
         <h4 className='greeting'>Welcome, {staffDetails.Name}</h4>
         <div className='innerhomecontent'>

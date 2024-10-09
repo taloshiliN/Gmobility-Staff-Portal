@@ -1,471 +1,511 @@
 body {
-background-image: url("../../hr/assets/staffbg2.png");
-background-repeat: no-repeat;
-background-size: cover;
-background-attachment: fixed;
-margin: 0;
-}
-.hrheader {
-  background-color: rgb(28, 28, 141);
-  width: 100%;
-  height: 20%;
-  display: inline-flex;
-  text-align: center;
-  
-}
-.hrheader img{
-  width: 4%;
-  height: 5%;
-}
-.hrheader p{
-  color: white;
-  font-weight: 600;
-  margin-top: 1%;
-  margin-left: 0.5%;
-}
-.arrow{
-  width: 80%;
-  position: absolute;
-  margin-top: 360%;
-}
-.hrsidebar {
-  width: 5%;
-  height: 100%;
-  position: absolute;
-  background-color: rgb(17, 17, 85);
-  transition: ease-in-out 0.2s;
-  text-align: center;
-  overflow: hidden; /* Ensure content doesn't overflow when resized */
-  display: flex;
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center align items horizontally */
-  justify-content: space-between; /* Space out content evenly */
-  margin-top: -0.4%
-}
-.hrsidebar .profileimg {
-  width: 80%;
-  height: auto; /* Maintain aspect ratio */
-  margin: 10% 0; /* Adjust vertical margin */
-}
-.hrsidebar .usersname{
- color: white;
-}
-.hrsidebar:hover {
-  width: 17%;
-  background-color: rgb(17, 17, 85);
-  transition: ease-in-out 0.2s;
-}
-.hrsidebar:hover .arrow{
-  opacity: 0;
-  transition: ease-in-out 0.1s;
-}
-.hrsidebar:hover .profileimg {
-  margin-right: 0;
-}
-.hrsidebar:hover ul {
-  padding-top: 5%; /* Adjust padding to center list items */
-}
-
-.hrsidebar ul {
-  text-align: center;
-  width: 100%;
-  color: white;
-  padding-top: 20%; /* Center the list items when not hovered */
-  list-style-type: none;
+  background-image: url("../assets/back4.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   margin: 0;
-  padding: 0;
-  flex: 1; /* Allow ul to grow and take available space */
-}
-
-.hrsidebar li {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 650;
-  padding: 5% 0;
-  width: 100%;
-  display: flex;
-  align-items: center; /* Center align items */
-  justify-content: center; /* Center align items */
-  opacity: 0; /* Initially hidden */
-  transition: opacity 0.5s ease-in-out;
-}
-
-.hrsidebar:hover .hrlogout{
-  opacity: 1;
-}
-.hrsidebar:hover li {
-  opacity: 1; /* Make visible on hover */
-}
-
-.hrsidebar li:hover {
-  background-color: rgb(52, 52, 241);
-  cursor: pointer;
-}
-
-.icons {
-  width: 20px; /* Set a fixed width for icons */
-  height: 20px; /* Set a fixed height for icons */
-  margin-right: 10px; /* Space between icon and text */
-}
-
-.hrlogout {
-  width: 80%; /* Set a width for the button */
-  margin: 50px 0; /* Add some vertical margin */
-  padding: 10px; /* Add some padding */
-  background-color: rgb(255, 0, 0); /* Set a background color */
-  color: white; /* Set text color */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Add rounded corners */
-  cursor: pointer; /* Show a pointer cursor on hover */
-  font-family: Arial, Helvetica, sans-serif; /* Set font family */
-  font-weight: bold; /* Make text bold */
-  transition: background-color 0.3s; /* Smooth background color transition */
-  opacity: 0;
-  transition: ease-in-out 0.2s;
-}
-.hrlogout:hover{
-  background-color: brown;
+  } 
   
-}
-
-
-.homecontent{
-  width: 100%;
-  height: 100%;
-  margin-top: 1%;
-  text-align: center;
-}
-.homecontent .greeting{
-  color: white;
-  font-weight: bold;
-  text-shadow: 2px 2px #000000;
-}
-.innerhomecontent{
-  display: inline-flex;
-}
-.innercontent1 {
-  width: 40%;
-  height: 440px;
-  margin-left: 8%;
-  margin-top: 1%;
-  box-shadow: 1px 1px 3px 2px #888888;
-  border-radius: 12px;
-  text-align: center;
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Arrange items vertically */
-  align-items: center; /* Center horizontally */
-  justify-content: center; /* Center vertically */
-  background-color: rgb(255, 255, 255);
-
-}
-
-.detailtable {
-  height: auto; /* Allow height to adjust based on content */
-  text-align: center;
-  margin: 0; /* Remove default margin */
-}
-.detailtable tr:nth-child(odd) {
-  background-color: #e6e6e6; /* Grey for odd rows */
-}
-
-.detailtable tr:nth-child(even) {
-  background-color: #ffffff; /* White for even rows */
-}
-
-.innercontent1 h4{
-  padding-top: 30px;
-}
-.innercontent1 img{
-  width: 20%;
-  padding-bottom: 20px;
-}
-
-.hrdetails{
-  width: 25%;
-  font-weight: 640;
-  vertical-align:top;
-  background-color: #ffffff;
-}
-.clockingsection{
-  margin-top: 1%;
-  width: 95%;
-  height: 42%;
-  background-color: #ffffff;
-  margin-left: 15px;
-  box-shadow: 1px 1px 3px 2px #888888;
-  border-radius: 12px;
-
-}
-.clockinbutton{
-  background-color: rgb(47, 202, 0);
-  color: white;
-  font-weight: bold;
-  border: 1px solid rgb(126, 255, 114);
-  border-radius: 11px;
-  width: 20%;
-  margin-right: 20px;
-  height: 40px;
-
-}
-.clockinbutton:hover{
-  background-color: rgb(31, 131, 0);
-}
-.clockoutbutton{
-  background-color: rgb(255, 8, 0);
-  color: white;
-  font-weight: bold;
-  border: 1px solid rgb(255, 117, 117);
-  border-radius: 11px;
-  width: 20%;
-  height: 40px;
-}
-.clockoutbutton:hover{
-  background-color: rgb(175, 20, 0);
-}
-.clockingtimes{
-  display: inline-flex;
-  padding-left: 10%;
-  margin-right: 20%;
-}
-.clockingtimes p{
-  padding: 10px;
-  width: 150px;
-}
-.messagingsection{
-  position: absolute;
-  background-color: white;
-  width: 14%;
-  height: 25%;
-  margin-top: 1%;
-  margin-left: 36%;
-  text-align: center;
-  box-shadow: 1px 1px 3px 2px #363636;
-  border-radius: 17px;
-}
-.messagingsection:hover{
-  cursor: pointer;
-  background-color: rgb(0, 85, 141);
-}
-.messagingsection img{
-  width: 95%;
-  height: 90%;
-}
-/* View employee section*/
-.viewemployees{
-  text-align: center;
-  width: 60%;
-  margin-left: 10%;
-  height: 100%;
-}
-.employeecontents{
-  display: inline-flex;
-  width: 100%;
-  height: 100%;
-}
-.employeestable{
-  background-color: white;
-  border: 0.3px solid black;
-  box-shadow: 1px 1px 3px 2px #888888;
-  margin-top: 2%;
-  width: 80%;
-  height: 90%;
-}
-.employeestable tr:hover{
-  cursor: pointer;
-}
-.employeestable tr:nth-child(odd) {
-  background-color: #e6e6e6; /* Grey for odd rows */
-}
-
-.employeestable tr:nth-child(even) {
-  background-color: #ffffff; /* White for even rows */
-}
-.employeestable th{
-  background-color: #090081;
-  color: white;
-}
-.employeesearch{
-  margin-top: 2%;
-  display: flex;
-  background-color: white;
-  width: 15%;
-  height: 30px;
-  border-radius: 25px;
-  text-align: center;
-}
-.employeesearch input{
-  margin-left: 7px;
-  margin-top: 1%;
-  color: #888888;
-  border: 0px none;
-}
-.searchicon{
-  margin-left: 9%;
-  margin-top: 2.4%;
-  width: 11%;
-  height: 60%;
-}
-.chosenemployee{
-  position: absolute;
-  height: 70%;
-  margin-left: 50%;
-  width: 35%;
-  background-color: #ffffff;
-  border-radius: 17px;
-  box-shadow: 1px 1px 3px 2px #000000;
-  overflow: auto;
-}
-.chosenemployee::-webkit-scrollbar { 
-  display: none;
-}
-
-.chosenimage{
-  width: 32%;
-  height: 29%;
-  margin-top: 1%;
-}
-.chosenemployee table{
-  text-align: center;
-  margin-left: 3%;
-  width: 95%;
-}
-.chosenemployee table tr:nth-child(odd) {
-  background-color: #e6e6e6; /* Grey for odd rows */
-}
-
-.chosenemployee table tr:nth-child(even) {
-  background-color: #ffffff; /* White for even rows */
-}
-
-.chosendetails{
-  width: 25%;
-  font-weight: 640;
-  vertical-align:top;
-  background-color: #ffffff;
-}
-/* Leav requests section*/
-
-.hrleaverequests {
-  background-color: #ffffff;
-  border-radius: 16px;
-  width: 80%;
-  height: 500px;
-  display: inline-flex;
-  margin-left: 6%;
-  margin-top: 1%;
-   /* Enable vertical scrolling */
-}
-
-.hrleaverequests .fromtable {
-  width: 100%; /* Use full width of parent */
-  overflow-y: scroll;
-}
-.hrleaverequests .fromtable tr:hover {
-  cursor: pointer;
-  background-color: rgb(0, 0, 136);
-}
-.fromtable #innerpropic{
-  width: 30%;
-  height: 100%;
-  margin-right: 4%;
-}
-.fromtable #msgstatus{
-  width: 80%;
-}
-.hrleaverequests .fromtable p{
-  width: 30%;
-  margin-top: 10%;
-}
-.tablediv{
-  overflow-y: scroll;
-  width: 25%;
-}
-.tablediv table{
-  width: 100%;
-}
-.tablediv::-webkit-scrollbar { 
-  display: none;  /* Safari and Chrome */
-}
-.tablediv tr {
-  height: 100px; /* Fixed height for rows to make scrolling work */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid #ddd; /* Optional: add border for separation */
-  color: white;
-  background-color: #090081;
-}
-.requeststructure{
-  height: 90%;
-  width: 90%;
-  margin-top: 1%;
-  text-align: center;
-}
-.requeststructure table{
- width: 90%;
- margin-left: 5%;
- box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.3);
- border-top-left-radius: 17px;
- border-top-right-radius: 17px;
- background-color: #ececec;
-}
-.requeststructure td{
-  padding: 2px;
-}
-.titl{
-  font-weight: bold;
-}
-#leavereason {
-  width: 90%;
-  height: 28%;
-  margin-left: 5%;
-  background-color: #ececec;
-  display: flex; /* Use flexbox */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
-  border-bottom-left-radius: 17px;
-  border-bottom-right-radius: 17px;
-}
-
-#leavereasontext {
-  width: 90%;
-  height: 80%;
-  background-color: #9eb4df;
-  margin: 0; /* Remove margin */
-  display: flex; /* Optional: use flexbox for internal content */
-  align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
-  color: black; /* Optional: change text color for better visibility */
-  padding: 10px; /* Optional: add some padding */
-  border-radius: 17px;
-  overflow: auto;
-}
-
-.leavebuttons{
-  width: 20%;
-  height: 10%;
-  border-radius: 15px;
-  padding: 10px;
-  margin-left: 4%;
-  margin-top: 3%;
-}
-#but1{
-  background-color: rgb(19, 231, 0);
-  color: white;
-  border-color: rgb(23, 194, 0);
-  font-weight: bold;
-}
-#but1:hover{
-  background-color: rgb(0, 146, 7);
-  cursor: pointer;
-}
-#but2{
-  background-color: rgb(255, 30, 0);
-  color: white;
-  border-color: rgb(194, 29, 0);
-  font-weight: bold;
-}
-#but2:hover{
-  background-color: rgb(146, 0, 0);
-  cursor: pointer;
-}
+  .hrheader {
+    background-color: rgb(28, 28, 141);
+    width: 100%;
+    height: 20%;
+    display: inline-flex;
+    text-align: center;
+    
+  }
+  .hrheader img{
+    width: 4%;
+    height: 5%;
+  }
+  .hrheader p{
+    color: white;
+    font-weight: 600;
+    margin-top: 1%;
+    margin-left: 0.5%;
+  }
+  .arrow{
+    width: 80%;
+    position: absolute;
+    margin-top: 360%;
+  }
+  .hrsidebar {
+    width: 5%;
+    height: 100%;
+    position: absolute;
+    background-color: rgb(17, 17, 85);
+    transition: ease-in-out 0.2s;
+    text-align: center;
+    overflow: hidden; /* Ensure content doesn't overflow when resized */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center align items horizontally */
+    justify-content: space-between; /* Space out content evenly */
+    margin-top: -0.4%
+  }
+  .hrsidebar .profileimg {
+    width: 80%;
+    height: auto; /* Maintain aspect ratio */
+    margin: 10% 0; /* Adjust vertical margin */
+  }
+  .hrsidebar .usersname{
+   color: white;
+  }
+  .hrsidebar:hover {
+    width: 17%;
+    background-color: rgb(17, 17, 85);
+    transition: ease-in-out 0.2s;
+  }
+  .hrsidebar:hover .arrow{
+    opacity: 0;
+    transition: ease-in-out 0.1s;
+  }
+  .hrsidebar:hover .profileimg {
+    margin-right: 0;
+  }
+  .hrsidebar:hover ul {
+    padding-top: 5%; /* Adjust padding to center list items */
+  }
+  
+  .hrsidebar ul {
+    text-align: center;
+    width: 100%;
+    color: white;
+    padding-top: 20%; /* Center the list items when not hovered */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    flex: 1; /* Allow ul to grow and take available space */
+  }
+  
+  .hrsidebar li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 650;
+    padding: 5% 0;
+    width: 100%;
+    display: flex;
+    align-items: center; /* Center align items */
+    justify-content: center; /* Center align items */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .hrsidebar:hover .hrlogout{
+    opacity: 1;
+  }
+  .hrsidebar:hover li {
+    opacity: 1; /* Make visible on hover */
+  }
+  
+  .hrsidebar li:hover {
+    background-color: rgb(52, 52, 241);
+    cursor: pointer;
+  }
+  
+  
+  .hrsidebar a {
+    color: white;
+  }
+  
+  /*highlght currently active link*/
+  .tab {
+    display: flex;
+    align-items: center; 
+    padding: 10px; 
+    cursor: pointer; 
+  }
+  
+  .tab img {
+    margin-right: 10px; 
+  }
+  
+  /* Style for the active tab */
+  .active .tab1 {
+    background-color: #007bff; 
+    color: white; 
+  }
+  
+  .icons {
+    width: 20px; 
+    height: 20px;
+    margin-right: 10px; 
+  }
+  
+  .hrlogout {
+    width: 80%; 
+    margin: 50px 0; 
+    padding: 10px; 
+    background-color: rgb(255, 0, 0); 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold; 
+    transition: background-color 0.3s; 
+    opacity: 0;
+    transition: ease-in-out 0.2s;
+  }
+  .hrlogout:hover{
+    background-color: brown;
+    
+  }
+  
+  .homecontent{
+    width: 100%;
+    height: 100%;
+    margin-top: 1%;
+    text-align: center;
+  }
+  .homecontent .greeting{
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px #000000;
+    font-size: 30px;
+  }
+  .innerhomecontent{
+    display: inline-flex;
+  }
+  .innercontent1 {
+    width: 40%;
+    height: 550px;
+    margin-left: 8%;
+    margin-top: 1%;
+    box-shadow: 1px 1px 3px 2px #888888;
+    border-radius: 12px;
+    text-align: center;
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    background-color: rgb(255, 255, 255);
+  
+  }
+  
+  .detailtable {
+    height: auto; /* Allow height to adjust based on content */
+    text-align: center;
+    margin: 0; /* Remove default margin */
+  }
+  .detailtable tr:nth-child(odd) {
+    background-color: #e6e6e6; /* Grey for odd rows */
+  }
+  
+  .detailtable tr:nth-child(even) {
+    background-color: #ffffff; /* White for even rows */
+  }
+  
+  /* Styles for the edit button */
+  .editButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 7px;
+  }
+  
+  .editButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .detailtable input {
+    width: 100%;
+    padding: 3px;
+    font-size: 14px;
+  }
+  
+  .innercontent1 h4{
+    padding-top: 4px;
+  }
+  .innercontent1 img{
+    width: 20%;
+    padding-bottom: 10px;
+  }
+  
+  .hrdetails{
+    width: 25%;
+    font-weight: 640;
+    vertical-align:top;
+    background-color: #ffffff;
+  }
+  
+  .clockingsection{
+    margin-top: 2%;
+    width: 95%;
+    height: 42%;
+    background-color: #ffffff;
+    margin-left: 75px;
+    box-shadow: 1px 1px 3px 2px #888888;
+    border-radius: 12px;
+  }
+  .clockinbutton{
+    background-color: rgb(47, 202, 0);
+    color: white;
+    font-weight: bold;
+    border: 1px solid rgb(126, 255, 114);
+    border-radius: 11px;
+    width: 20%;
+    margin-right: 20px;
+    height: 40px;
+  
+  }
+  .clockinbutton:hover{
+    background-color: rgb(31, 131, 0);
+  }
+  .clockoutbutton{
+    background-color: rgb(255, 8, 0);
+    color: white;
+    font-weight: bold;
+    border: 1px solid rgb(255, 117, 117);
+    border-radius: 11px;
+    width: 20%;
+    height: 40px;
+  }
+  .clockoutbutton:hover{
+    background-color: rgb(175, 20, 0);
+  }
+  .clockingtimes{
+    display: inline-flex;
+    padding-left: 10%;
+    margin-right: 20%;
+  }
+  .clockingtimes p{
+    padding: 10px;
+    width: 150px;
+  }
+  .messagingsection{
+    position: absolute;
+    background-color: white;
+    width: 4%;
+    height: 5%;
+    margin-top: 20%;
+    margin-left: 42%;
+    text-align: right;
+    box-shadow: 1px 1px 3px 2px #363636;
+    border-radius: 17px;
+  }
+  .messagingsection:hover{
+    cursor: pointer;
+    background-color: rgb(0, 85, 141);
+  }
+  .messagingsection img{
+    width: 95%;
+    height: 90%;
+  }
+  /* View employee section*/
+  .viewemployees{
+    text-align: center;
+    width: 60%;
+    margin-left: 10%;
+    height: 100%;
+  }
+  .employeecontents{
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+  }
+  .employeestable{
+    background-color: white;
+    border: 0.3px solid black;
+    box-shadow: 1px 1px 3px 2px #888888;
+    margin-top: 2%;
+    width: 80%;
+    height: 100%;
+  }
+  .employeestable tr:nth-child(odd) {
+    background-color: #e6e6e6; /* Grey for odd rows */
+  }
+  
+  .employeestable tr:nth-child(even) {
+    background-color: #ffffff; /* White for even rows */
+  }
+  .employeestable th{
+    background-color: #090081;
+    color: white;
+  }
+  .employeesearch{
+    margin-top: 2%;
+    display: flex;
+    background-color: white;
+    width: 15%;
+    height: 30px;
+    border-radius: 25px;
+    text-align: center;
+  }
+  .employeesearch input{
+    margin-left: 7px;
+    margin-top: 1%;
+    color: #888888;
+    border: 0px none;
+  }
+  .searchicon{
+    margin-left: 9%;
+    margin-top: 2.4%;
+    width: 11%;
+    height: 60%;
+  }
+  .chosenemployee{
+    position: absolute;
+    height: 70%;
+    margin-left: 50%;
+    width: 35%;
+    background-color: #ffffff;
+    border-radius: 17px;
+    box-shadow: 1px 1px 3px 2px #000000;
+    overflow: auto;
+  }
+  .chosenemployee::-webkit-scrollbar { 
+    display: none;
+  }
+  
+  .chosenimage{
+    width: 32%;
+    height: 29%;
+    margin-top: 1%;
+  }
+  .chosenemployee table{
+    text-align: center;
+    margin-left: 3%;
+    width: 95%;
+  }
+  .chosenemployee table tr:nth-child(odd) {
+    background-color: #e6e6e6; /* Grey for odd rows */
+  }
+  
+  .chosenemployee table tr:nth-child(even) {
+    background-color: #ffffff; /* White for even rows */
+  }
+  
+  .chosendetails{
+    width: 25%;
+    font-weight: 640;
+    vertical-align:top;
+    background-color: #ffffff;
+  }
+  /* Leav requests section*/
+  
+  .hrleaverequests {
+    background-color: #ffffff;
+    border-radius: 16px;
+    width: 80%;
+    height: 500px;
+    display: inline-flex;
+    margin-left: 6%;
+    margin-top: 1%;
+     /* Enable vertical scrolling */
+  }
+  
+  .hrleaverequests .fromtable {
+    width: 100%; /* Use full width of parent */
+    border-collapse: collapse; /* Optional: to remove gaps between cells */
+    border-right: 1px solid black;
+    overflow-y: scroll;
+  }
+  .hrleaverequests .fromtable img{
+    width: 30%;
+    margin-right: 4%;
+  }
+  .hrleaverequests .fromtable p{
+    width: 30%;
+    margin-top: 10%;
+  }
+  .tablediv{
+    overflow-y: scroll;
+    width: 25%;
+  }
+  .tablediv table{
+    width: 100%;
+  }
+  .tablediv::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
+  .tablediv tr {
+    height: 100px; /* Fixed height for rows to make scrolling work */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ddd; /* Optional: add border for separation */
+    color: white;
+    background-color: #090081;
+  }
+  .requeststructure{
+    height: 90%;
+    width: 90%;
+    margin-top: 1%;
+    text-align: center;
+  }
+  .requeststructure table{
+   width: 90%;
+   margin-left: 5%;
+   box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.3);
+   border-top-left-radius: 17px;
+   border-top-right-radius: 17px;
+   background-color: #ececec;
+  }
+  .requeststructure td{
+    padding: 2px;
+  }
+  .titl{
+    font-weight: bold;
+  }
+  #leavereason {
+    width: 90%;
+    height: 28%;
+    margin-left: 5%;
+    background-color: #ececec;
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
+    border-bottom-left-radius: 17px;
+    border-bottom-right-radius: 17px;
+  }
+  
+  #leavereasontext {
+    width: 90%;
+    height: 80%;
+    background-color: #9eb4df;
+    margin: 0; /* Remove margin */
+    display: flex; /* Optional: use flexbox for internal content */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    color: black; /* Optional: change text color for better visibility */
+    padding: 10px; /* Optional: add some padding */
+    border-radius: 17px;
+    overflow: auto;
+  }
+  
+  .leavebuttons{
+    width: 20%;
+    height: 10%;
+    border-radius: 15px;
+    padding: 10px;
+    margin-left: 4%;
+    margin-top: 3%;
+  }
+  #but1{
+    background-color: rgb(19, 231, 0);
+    color: white;
+    border-color: rgb(23, 194, 0);
+    font-weight: bold;
+  }
+  #but1:hover{
+    background-color: rgb(0, 146, 7);
+    cursor: pointer;
+  }
+  #but2{
+    background-color: rgb(255, 30, 0);
+    color: white;
+    border-color: rgb(194, 29, 0);
+    font-weight: bold;
+  }
+  #but2:hover{
+    background-color: rgb(146, 0, 0);
+    cursor: pointer;
+  }
+  
+  
+  
+  

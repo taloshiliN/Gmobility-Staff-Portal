@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import { useNavigate } from 'react-router-dom';
 import {Provider} from 'react-redux'
 import { store } from "./store"
 import LoginPage from "./pages/employee/loginPage"
@@ -13,9 +12,7 @@ import PrintingrequestPage from "./pages/employee/printingrequestPage"
 import ClockinclockoutPage from "./pages/employee/clockinclockoutPage"
 import StaffRegistrationForm from "./components/StaffRegister"
 import HRLeaverequests from "./pages/hr/HRLeaverequests"
-import HRheader from "./pages/hr/HRheader"
 import HROvertimerequests from "./pages/hr/HROvertimerequests"
-import HRProfile from "./pages/hr/HRProfile"
 import ProtectedRoute from "./components/ProtectedRoute"
 import AdminHomePage from "./pages/admin/adminHomePage"
 import StaffRegistrationAdmin from "./pages/admin/staffRegistrationAdmin"
@@ -24,13 +21,20 @@ import ViewOvertimeRequests from "./pages/admin/viewovertimeRequests"
 import ViewPrintingrequest from "./pages/admin/viewPrintingRequests"
 import HRhome from "./pages/hr/HRhome"
 import HREmployees from "./pages/hr/HREmployees"
+import HRPayroll from "./pages/hr/HRPayroll"
+import HRrequestleave from "./pages/hr/HRrequestleave"
+import HRrequestovertime from "./pages/hr/HRrequestovertime"
+import HRViewStaffProfiles from "./pages/hr/HRViewStaff"
+import EditStaffInfo from "./pages/hr/editStaffInfo"
+import MAINPAGE from "./components/MainPage"
 import StaffProfiles from "./pages/admin/staffProfiles"
 import ChangeStaffInfo from "./pages/admin/changeStaffInfo"
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
 function Logout(){
   localStorage.clear()
-  return <Navigate to="/login" />
+  return <Navigate to="/MainPage" />
 }
 
 function App() {
@@ -41,9 +45,9 @@ function App() {
     <BrowserRouter>
       <Routes>
       {/* Login */}
-      <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="/login" element={<LoginPage />}/>
-      
+      <Route path="/" element={<MAINPAGE />} />
+      <Route path="/loginPage" element={<LoginPage />}/>
+
       {/* Protected Routes - Home Page */}
         <Route 
         path="/home"
@@ -140,8 +144,28 @@ function App() {
         }
         />
 
+        
         <Route 
-        path="/hrleaverequest" 
+        path="/HRViewStaff" 
+        element={
+        <ProtectedRoute>
+          <HRViewStaffProfiles />
+        </ProtectedRoute>
+        }
+        />
+
+       <Route 
+        path="/editStaffInfo" 
+        element={
+        <ProtectedRoute>
+          <EditStaffInfo />
+        </ProtectedRoute>
+        }
+        />
+
+
+        <Route 
+        path="/hrleaverequests" 
         element={
         <ProtectedRoute>
           <HRLeaverequests />
@@ -149,17 +173,26 @@ function App() {
         } 
         />
 
-        <Route 
-        path="/hrhome" 
+    <Route 
+        path="/hrpayroll" 
         element={
         <ProtectedRoute>
-          <HRheader />
+          <HRPayroll />
         </ProtectedRoute>
-        }
+        } 
+        />
+
+          <Route 
+        path="/hrrequestleave" 
+        element={
+        <ProtectedRoute>
+          <HRrequestleave />
+        </ProtectedRoute>
+        } 
         />
 
         <Route 
-        path="/hrovertimerequests" 
+        path="/HROvertimerequests" 
         element={
         <ProtectedRoute>
           <HROvertimerequests />
@@ -168,18 +201,19 @@ function App() {
         />
 
         <Route 
-        path="/hrprofile" 
+        path="/hrrequestovertime" 
         element={
         <ProtectedRoute>
-          <HRProfile />
+          <HRrequestovertime />
         </ProtectedRoute>
-        }
+        } 
         />
+
 
         {/* Admin Portal*/}
         {/* Protected Routes - Employee */}
         <Route 
-        path="/adminHomePage" 
+        path="/adminhomepage" 
         element={
         <ProtectedRoute>
           <AdminHomePage />
@@ -196,15 +230,16 @@ function App() {
         }
         />
 
-        <Route 
+<Route 
         path="/staffProfiles" 
         element={
         <ProtectedRoute>
-        <StaffProfiles />
+          <StaffProfiles />
         </ProtectedRoute>
-        }  />
+        }
+        />
 
-        <Route 
+<Route 
         path="/changeStaffInfo" 
         element={
         <ProtectedRoute>
@@ -214,7 +249,7 @@ function App() {
         />
 
         <Route 
-        path="/viewleaveRequest" 
+        path="/leaverequestview" 
         element={
         <ProtectedRoute>
           <ViewLeaveRequest />
@@ -223,7 +258,7 @@ function App() {
         />
 
         <Route 
-        path="/viewovertimeRequests" 
+        path="/overtimerequestview" 
         element={
         <ProtectedRoute>
           <ViewOvertimeRequests />
@@ -232,7 +267,7 @@ function App() {
         />
 
         <Route 
-        path="/viewPrintingRequests" 
+        path="/printingrequestview" 
         element={
         <ProtectedRoute>
           <ViewPrintingrequest />
