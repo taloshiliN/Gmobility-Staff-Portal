@@ -196,10 +196,10 @@ body {
   .messagingsection{
     position: absolute;
     background-color: white;
-    width: 14%;
-    height: 25%;
-    margin-top: 1%;
-    margin-left: 36%;
+    width: 8%;
+    height: 13%;
+    margin-top: 5%;
+    margin-left: 90%;
     text-align: center;
     box-shadow: 1px 1px 3px 2px #363636;
     border-radius: 17px;
@@ -268,29 +268,37 @@ body {
     width: 11%;
     height: 60%;
   }
+  /* Chosen employee page */
+
   .chosenemployee{
-    position: absolute;
-    height: 70%;
-    margin-left: 50%;
-    width: 35%;
-    background-color: #ffffff;
-    border-radius: 17px;
-    box-shadow: 1px 1px 3px 2px #000000;
-    overflow: auto;
-    padding-bottom: 1rem;
+  background-color: white;
+  width: 40%;
+  height: auto;
+  margin-left: 7%;
+  margin-top: 3rem;
+  text-align: center;
+  }
+  #innerchosenemployee{
+    width: 100%;
+  }
+
+  #empimage{
+    text-align: center;
+    height: 7rem;
+  }
+  #imginner{
+    text-align: center;
   }
   .chosenemployee::-webkit-scrollbar { 
     display: none;
   }
   
   .chosenimage{
-    width: 32%;
-    height: 29%;
+    width: 70%;
     margin-top: 1%;
   }
   .chosenemployee table{
     text-align: center;
-    margin-left: 3%;
     width: 95%;
   }
   .chosenemployee table tr:nth-child(odd) {

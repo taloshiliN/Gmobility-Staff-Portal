@@ -6,7 +6,7 @@ import Header from '../../components/header.jsx';
 import './style/index.css';
 import search from './assets/searchicon.png';
 import MessagingFloat from './MessageFloat.jsx';
-import personicon from './assets/personicon.png'
+import personicon from './assets/personicon.png';
 
 function HRhome() {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ function HRhome() {
     if (!user) {
         return <div>Loading...</div>; // Display loading state if user data is not yet available
     }
-    
+
     const position = useSelector((state) => state.auth.position);
 
     useEffect(() => {
@@ -53,12 +53,13 @@ function HRhome() {
         <>
             <Header />
             <SidebarNav position={position} />
+            <MessagingFloat />
             <div className='main-content'>
                 <div className="homecontent">
                     <h4 className='greeting'>Welcome {user.Name}</h4>
 
                     <div id="totalemployees">
-                        <p><img src={personicon}></img> {data.length}</p>
+                        <p><img src={personicon} alt="Person Icon" /> {data.length}</p>
                     </div>
                     
                     <div className='employeesearch'>
@@ -79,7 +80,7 @@ function HRhome() {
                                 <div 
                                     key={i} 
                                     className="employeecard" 
-                                    onClick={() => navigate('/hrchosenemployee')}
+                                    onClick={() => navigate('/hrchosenemployee', { state: { employee: d } })} // Pass selected employee data
                                 >
                                     <img src={d.profilepicture} alt='Profile Image' />
                                     <div id="employeeinner">
@@ -91,7 +92,7 @@ function HRhome() {
                         )}
                     </div>
 
-                    <MessagingFloat />
+                   
                 </div>
             </div>
         </>
