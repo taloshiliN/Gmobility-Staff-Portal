@@ -11,9 +11,7 @@ import PasswordrequestPage from "./pages/employee/passwordrequestPage"
 import PrintingrequestPage from "./pages/employee/printingrequestPage"
 import ClockinclockoutPage from "./pages/employee/clockinclockoutPage"
 import StaffRegistrationForm from "./components/StaffRegister"
-import HRLeaverequests from "./pages/hr/HRLeaverequests"
 import HRrequestovertime from './pages/hr/HRrequestovertime'
-import HROvertimerequests from "./pages/hr/HROvertimerequests"
 import ProtectedRoute from "./components/ProtectedRoute"
 import AdminHomePage from "./pages/admin/adminHomePage"
 import StaffRegistration from "./pages/admin/staffRegistration"
@@ -21,10 +19,10 @@ import ViewLeaveRequest from "./pages/admin/viewleaveRequest"
 import ViewOvertimeRequests from "./pages/admin/viewovertimeRequests"
 import ViewPrintingrequest from "./pages/admin/viewPrintingRequests"
 import HRhome from "./pages/hr/HRhome"
-import HREmployees from "./pages/hr/HREmployees"
 import HRPayroll from "./pages/hr/HRPayroll"
 import HRrequestleave from "./pages/hr/HRrequestleave"
 import HRChosenemployee from "./pages/hr/HRChosenemployee"
+import HRRequests from "./pages/hr/HRRequests"
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
@@ -122,15 +120,7 @@ function App() {
         }
         />
 
-        <Route 
-        path="/hremployees" 
-        element={
-        <ProtectedRoute>
-          <HREmployees />
-        </ProtectedRoute>
-        }
-        />
-
+    
         <Route 
         path="/staffregistration" 
         element={
@@ -140,16 +130,18 @@ function App() {
         }
         />
 
+     
+
         <Route 
-        path="/hrleaverequests" 
+        path="/hrrequests" 
         element={
         <ProtectedRoute>
-          <HRLeaverequests />
+          <HRRequests />
         </ProtectedRoute>
         } 
         />
 
-    <Route 
+        <Route 
         path="/hrpayroll" 
         element={
         <ProtectedRoute>
@@ -167,14 +159,6 @@ function App() {
         } 
         />
 
-        <Route 
-        path="/hrovertimerequests" 
-        element={
-        <ProtectedRoute>
-          <HROvertimerequests />
-        </ProtectedRoute>
-        }
-        />
 
         <Route 
         path="/hrrequestovertime" 

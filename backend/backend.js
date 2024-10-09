@@ -235,7 +235,7 @@ app.patch('/leaverequests/:id', (req, res) => {
     const { id } = req.params;
     const { status, msgstatus } = req.body;
 
-    const sql = "UPDATE leave_requests SET status = ?, msgstatus = ? WHERE id = ?";
+    const sql = "UPDATE leave_requests SET status = ?, reqstatus = ? WHERE id = ?";
     db.query(sql, [status, msgstatus, id], (err, result) => {
         if (err) {
             console.error('Error updating leave request:', err);

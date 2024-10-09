@@ -59,21 +59,17 @@ function SidebarNav({position}) {
             <li>
               <NavLink to="/hrhome">Home</NavLink>
             </li>
-            <li>
-              <NavLink to="/hremployees">Employees</NavLink>
-            </li>
+        
             <li>
               <NavLink to="/staffregistration">Staff registration</NavLink>
             </li>
-            <li>
-              <NavLink to="/hrleaverequests">View Leave Request</NavLink>
-            </li>
-            <li>
-              <NavLink to="/hrovertimerequests">View Overtime Requests</NavLink>
-            </li>
+
             <li>
               <NavLink to="/hrpayroll">View Payrolls</NavLink>
             </li>
+            <li>
+                <NavLink to='/hrrequests'>View requests</NavLink>
+              </li>
             </>
           )}
           {/*Admin */}

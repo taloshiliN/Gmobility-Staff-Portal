@@ -87,6 +87,7 @@ function HRChosenemployee() {
         <>
             <Header />
             <SidebarNav position={position} />
+            <div id="chosencontent">
             <div className="chosenemployee">
                 <div id="innerchosenemployee">
                     <table>
@@ -207,6 +208,17 @@ function HRChosenemployee() {
                     <button id="deletebutton" onClick={handleDeleteEmployee}>Delete</button>
                 </div>
             </div>
+            <div id="chosendocuments">
+                <div id="doctitle">
+                    <h4>Documents</h4>
+               </div>
+               <div id="doccontent">
+                    <ul>
+                        <li><p>Hello how are you.pdf </p></li>
+                    </ul>
+               </div>
+            </div>
+        </div>
         </>
     );
 }

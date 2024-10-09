@@ -3,10 +3,12 @@ import '../../styles/leaverequest.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createLeaveRequest } from '../../leaveSlice';
-import HRheader from './HRheader';
+import SidebarNav from '../../components/sidebarNav.jsx';
+import Header from '../../components/header.jsx';
 
 function HRrequestleave() {
   const staffposition = useSelector((state) => state.auth.position);
+  const position = useSelector((state) => state.auth.position);
 
   const [employeeName, setEmployeeName] = useState("");
   const [date, setDate] = useState("");
@@ -111,8 +113,10 @@ function HRrequestleave() {
   };
 
   return (
+    
     <div className='contain'>
-      <HRheader />
+        <Header />
+        <SidebarNav position={position} />
       <div className='main-content'>
         <div className='head'>
           <form className='leave_request_form' onSubmit={handleSubmit}>
