@@ -24,6 +24,8 @@ import HRhome from "./pages/hr/HRhome"
 import HREmployees from "./pages/hr/HREmployees"
 import HRPayroll from "./pages/hr/HRPayroll"
 import HRrequestleave from "./pages/hr/HRrequestleave"
+import HRChosenemployee from "./pages/hr/HRChosenemployee"
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
 function Logout(){
@@ -183,6 +185,15 @@ function App() {
         } 
         />
 
+ <Route 
+        path="/hrchosenemployee" 
+        element={
+        <ProtectedRoute>
+          <HRChosenemployee />
+        </ProtectedRoute>
+        } 
+        />
+
 
         {/* Admin Portal*/}
         {/* Protected Routes - Employee */}
@@ -221,6 +232,7 @@ function App() {
         </ProtectedRoute>
         }
         />
+
 
         <Route 
         path="/printingrequestview" 
