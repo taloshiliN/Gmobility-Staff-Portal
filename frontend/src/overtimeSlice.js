@@ -9,6 +9,9 @@ const initialState = {
 
 export const createOvertimeRequest = createAsyncThunk(
     "overtime/createOvertimeRequest",
+//     async ({employeeName, date, start_time, end_time, duration, reason}) => {
+//         const response= await axios.post("http://localhost:8080/api/overtime", {
+//             employeeName,
     async ({ employeeName, date, start_time, end_time, duration, reason, position }) => { // Added position here
         const response = await axios.post("http://localhost:8080/api/overtime", {
             employeeName,
@@ -41,6 +44,9 @@ const overtimeSlice = createSlice({
                 state.error = action.error.message;
             });
     }
-});
+})
+
+// export default overtimeSlice.reducer;
+// });
 
 export default overtimeSlice.reducer;

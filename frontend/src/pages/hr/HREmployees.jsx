@@ -26,6 +26,7 @@ function HREmployees() {
     });
 
     useEffect(() => {
+//         fetch('http://localhost:5173/users')
         fetch('http://localhost:8080/users')
             .then(res => {
                 if (!res.ok) {

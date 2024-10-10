@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import HRheader from "./HRheader";
+import './style/index.css';
 import Header from '../../components/header';
 import SidebarNav from '../../components/sidebarNav';
-import './style/index.css';
 import { useSelector } from 'react-redux';
 
 function HRPayroll() {
@@ -40,6 +41,7 @@ function HRPayroll() {
 
     return (
         <>
+            <HRheader />
             <Header />
             <SidebarNav position={position}/>
             <div id="hrpayrolldiv">
