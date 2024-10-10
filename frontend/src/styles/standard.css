@@ -7,10 +7,16 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     padding: 60px 100px;
-}
+    margin-left: 5%; /* Default margin when the sidebar is collapsed */
+  }
+  
+  .Employee-sidebar.expanded ~ .main-content {
+    margin-left: 20%; /* Margin when the sidebar is expanded */
+  }
+
 .Employee-sidebar ~ .header {
     position: fixed;
 }
-.Employee-sidebar:hover ~ .main-content {
-    margin-left: 12%; /* Adjust to match the expanded sidebar */
-  }
+/* .Employee-sidebar:hover ~ .main-content {
+    margin-left: 12%; 
+  } */

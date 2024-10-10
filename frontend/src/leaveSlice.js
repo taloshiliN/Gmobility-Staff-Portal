@@ -9,17 +9,15 @@ const initialState = {
 
 export const createLeaveRequest = createAsyncThunk(
     "leave/createLeaveRequest",
-    async ({employeeName,position,date,supervisorName,startDate,endDate,totalDays,resumingWorkDay,reason,emergencyName,emergencyAddress,emergencyPhone}) => {
+    async ({employeeName,date,supervisorName,startDate,endDate,totalDays,resumingWorkDay,emergencyName,emergencyAddress,emergencyPhone}) => {
         const response = await axios.post("http://localhost:8080/api/leave", {
             employeeName,
-            position,
             date,
             supervisorName,
             startDate,
             endDate,
             totalDays,
             resumingWorkDay,
-            reason,
             emergencyName,
             emergencyAddress,
             emergencyPhone
