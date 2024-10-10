@@ -26,14 +26,14 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
     'auth/registerStaff',
-    async({Name, Surname, ID_Number, DOB, Nationality, Home_Language, Other_Languages, Position, Password}, thunkAPI) => {
+    async({Name, Surname, ID_Number, Gender, DOB, Nationality, Home_Language, Other_Languages, Position, Supervisor, Password}, thunkAPI) => {
         try {
             const response = await fetch('/api/registerStaff',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({Name, Surname, ID_Number, DOB, Nationality, Home_Language, Other_Languages, Position, Password}),
+                body: JSON.stringify({Name, Surname, ID_Number, Gender, DOB, Nationality, Home_Language, Other_Languages, Position, Supervisor, Password}),
             });
             const data = await response.json()
 

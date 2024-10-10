@@ -3,7 +3,8 @@ import SidebarNav from '../../components/sidebarNav'
 import Header from '../../components/header'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
+import { logClockAction } from '../../clockinclockout'
+import '../../styles/clockinclockout.css'
 function ClockinclockoutPage() {
   const position = useSelector((state)=> state.auth.position)
 
@@ -44,6 +45,8 @@ function ClockinclockoutPage() {
       date: currentDate.toLocaleDateString(),
     };
 
+    dispatch(logClockAction(newEntry));
+
     setLog((prevLog) => {
       const updatedLog = [newEntry, ...prevLog];
       localStorage.setItem('clockLog', JSON.stringify(updatedLog));
@@ -72,6 +75,7 @@ function ClockinclockoutPage() {
       <Header />
       <SidebarNav position={position}/>
       <div className="main-content">
+        <div className='clockin-clockout-content'>
         <h2>Clock In/Out</h2>
         <div className="clock">
           <div className="hand hour" id="hour-hand"></div>
@@ -122,6 +126,7 @@ function ClockinclockoutPage() {
               ))}
             </ul>
           </div>
+        </div>
       </div>
     </>
   )
