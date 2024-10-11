@@ -1,28 +1,27 @@
-
+import Header from './header';
+import SidebarNav from './sidebarNav';
 import React from 'react'
 import {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {createData} from "../dataSlice";
-import HRheader from '../pages/hr/HRheader'
-import SidebarNav from './sidebarNav';
-import Header from './header';
+
 
 function StaffRegistrationForm() {
-  const userposition = useSelector((state)=> state.auth.position)
+  const uposition = useSelector((state)=> state.auth.position)
 
   const [firstname, setName] = useState("")
   const [surname, setSurname] = useState("")
   const [id_Number, setIdNumber] = useState("")
-  const [gender, setGender] = useState("")
+  const [Gender, setGender] = useState("")
   const [DOB, setDOB] = useState("")
+  const [Supervisor, setSupervisor] = useState("")
   const [nationality, setNationality] = useState("")
   const [homeLanguage, setHomeLanguage] = useState("")
   const [otherLanguages, setOtherLanguages] = useState("")
   const [position, setPosition] = useState("")
-  const [supervisor, setSupervisor] = useState("")
+  const [profilepicture, setProfilePicture] = useState("")
   const [password, setPassword] = useState("")
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   
   // const {loading, error, isAuthenticated} = useSelector((state)=>state.auth)
@@ -34,33 +33,33 @@ function StaffRegistrationForm() {
       firstname && 
       surname && 
       id_Number.trim() !== "" && 
-      gender &&
       DOB && 
+      Supervisor &&
+      Gender &&
       nationality && 
       homeLanguage && 
       otherLanguages && 
       position && 
-      supervisor &&
       password
     ) {
       dispatch(createData({
         firstname, 
         surname, 
         id_Number, 
-        gender,
         DOB, 
+        Supervisor,
+        Gender,
         nationality, 
         homeLanguage, 
         otherLanguages, 
         position, 
-        supervisor,
+        profilepicture,
         password
       }));
 
       setName("");
       setSurname("");
       setIdNumber("");
-      setGender("")
       setDOB("");
       setSupervisor("");
       setGender("");
@@ -68,7 +67,7 @@ function StaffRegistrationForm() {
       setHomeLanguage("");
       setOtherLanguages("");
       setPosition("");
-      setSupervisor("")
+      setProfilePicture("");
       setPassword("");
     } else {
       alert("Please fill in all required fields!"); // Add an alert or error message
@@ -78,12 +77,10 @@ function StaffRegistrationForm() {
   // if (isAuthenticated){
   //   navigate('')
   // }
-  
   return (
     <>
-    {/* <HRheader /> */}
-    <Header />
-    <SidebarNav position={userposition} /> 
+     <Header />
+     <SidebarNav position={uposition}/>
         <div className='main-content'>
         <div className="overtime-view-page">
         <form onSubmit={handleSubmit}>
@@ -127,16 +124,17 @@ function StaffRegistrationForm() {
           />
         </div>
 
-        <div className='form-group'>
-          <label htmlFor="gender">Gender</label>
+        <div className="form-group">
+          <label htmlFor="Gender">Gender</label>
           <input 
-          type="text" 
-          id='gender'
-          name='gender'
-          placeholder='Gender'
-          value={gender}
-          onChange={e=>setGender(e.target.value)}
-          required/>
+            type="text" 
+            id="Gender" 
+            name="Gender"
+            placeholder='Gender'
+            value={Gender}
+            onChange={e=>setGender(e.target.value)}
+            required 
+          />
         </div>
 
         <div className="form-group">
@@ -161,6 +159,19 @@ function StaffRegistrationForm() {
             placeholder='Nationality'
             value={nationality}
             onChange={e=>setNationality(e.target.value)}
+            required 
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="Supervisor">Supervisor</label>
+          <input 
+            type="text" 
+            id="Supervisor" 
+            name="Supervisor" 
+            placeholder='Supervisor'
+            value={Supervisor}
+            onChange={e=>setSupervisor(e.target.value)}
             required 
           />
         </div>
@@ -202,21 +213,23 @@ function StaffRegistrationForm() {
             onChange={e=>setPosition(e.target.value)}
             required 
           > 
+            <option value=" ">Select an option</option>
             <option value="Employee">Employee</option>
             <option value="Human Resource">Human Resource</option>
             <option value="Admin">Admin</option>
           </select>
         </div>
-        <div className='form-group'>
-          <label htmlFor="supervisor">Supervisor</label>
+
+        <div className="form-group">
+          <label htmlFor="profilepicture">Profile Picture </label>
           <input 
-          type="text" 
-          id='supervisor'
-          name='supervisor'
-          placeholder='Supervisor'
-          value={supervisor}
-          onChange={e=>setSupervisor(e.target.value)}
-          required
+            type="file" 
+            id="profilepicture" 
+            name="otherLprofilepictureanguages"
+            placeholder='Image.png'
+            value={profilepicture}
+            onChange={e=>setProfilePicture(e.target.value)}
+            required 
           />
         </div>
 

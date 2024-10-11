@@ -3,6 +3,8 @@ import '../../styles/OvertimerequestPage.css'; // Assuming you use a CSS file fo
 import { useDispatch, useSelector } from 'react-redux';
 import { createOvertimeRequest } from '../../overtimeSlice';
 import HRheader from './HRheader';
+import SidebarNav from '../../components/sidebarNav.jsx';
+import Header from '../../components/header.jsx';
 
 function HROvertimerequestPage() {
 
@@ -93,6 +95,8 @@ function HROvertimerequestPage() {
   return (
     <>
     <HRheader />
+     <Header />
+     <SidebarNav position={position} />
       <div className='main-content'>
       <div className="overtime-request-page">
       <h2>Overtime Request Form</h2>

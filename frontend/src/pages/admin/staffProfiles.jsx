@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import AdminSidebar from '../../components/adminSidebar';
-import '../../styles/StaffProfiles.css'; // Importing CSS for styling
+import '../../styles/StaffProfiles.css';
+import { useNavigate } from 'react-router-dom';
 
 const StaffProfiles = () => {
-  const [staffList, setStaffList] = useState([]); // State for storing staff list
+  const [staffList, setStaffList] = useState([]); 
   const [selectedStaff, setSelectedStaff] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing] = useState(false);
 
   // Fetch staff data from the database
   const fetchStaffData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/users'); // Adjust the URL as needed
+      const response = await fetch('http://localhost:8080/users'); 
       const data = await response.json();
       setStaffList(data);
     } catch (error) {
@@ -22,9 +23,11 @@ const StaffProfiles = () => {
     fetchStaffData(); 
   }, []);
 
-  // Handler for saving changes
-  const handleSave = () => {
-    setIsEditing(false); 
+  
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate('/changeStaffInfo', {state: {selectedStaff} });
   };
 
   return (
@@ -51,10 +54,10 @@ const StaffProfiles = () => {
           </div>
 
           <div className="profile-card">
-            {selectedStaff.Id && (
+            {selectedStaff.Id ? (
               <>
                 <div className="profile-picture">
-                  {/*<img src={`http://localhost:8080/${selectedStaff.profileImg}`} alt="Profile" />*/}
+                  {<img src={`http://localhost:8080/staff/${selectedStaff.Id}/profile-image`} alt="Profile" onError={(e) => { e.target.src = '/default-image.jpg'; }} />}
                 </div>
 
                 <div className="profile-details">
@@ -84,12 +87,11 @@ const StaffProfiles = () => {
                 </div>
 
                 <button 
-                  className="edit-btn" 
-                  onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-                >
-                  {isEditing ? 'Save' : 'Edit'}
+                className="edit-btn" onClick={handleEditClick}>Edit
                 </button>
               </>
+            ) : (
+              <p>No profile selected</p>
             )}
           </div>
         </div>

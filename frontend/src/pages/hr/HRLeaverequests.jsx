@@ -1,19 +1,19 @@
 import './style/index.css';
-import HRheader from './HRheader.jsx';
+import Header from '../../components/header.jsx';
+import SidebarNav from '../../components/sidebarNav.jsx';
 import defaultimg from './assets/defaulticon.png';
 import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
 import plus from './assets/plus.png'
 import { useEffect, useState } from 'react';
-import SidebarNav from '../../components/sidebarNav.jsx';
-import Header from '../../components/header.jsx';
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
 function HRLeaverequests() {
-  const position = useSelector((state)=> state.auth.position)
-
+  const navigate = useNavigate()
   const [data, setData] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const userposition = useSelector((state)=> state.auth.position)
 
   useEffect(() => {
     fetch('http://localhost:8080/leaverequests') // Updated port to 8080
@@ -76,11 +76,8 @@ function HRLeaverequests() {
 
   return (
     <>
-      {/* <HRheader /> */}
-      <Header />
-      <SidebarNav position={position} />
-      <div className='main-content'>
-      <div className='requestcontainer'>
+         <Header />
+         <SidebarNav position={userposition}/>      <div className='requestcontainer'>
         <div className='hrleaverequests'>
           <div className='tablediv'>
             <table className='fromtable'>
@@ -115,13 +112,13 @@ function HRLeaverequests() {
                     <td><p className='titl'>From:</p></td>
                     <td><p>{selectedRequest.employee_name}</p></td>
                     <td><p className='titl'>Start Date:</p></td>
-                    <td><p>{selectedRequest.start_date || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.start_date.split('T')[0] || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Position:</p></td>
                     <td><p>{selectedRequest.position || 'N/A'}</p></td>
                     <td><p className='titl'>End Date:</p></td>
-                    <td><p>{selectedRequest.end_date || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.end_date.split('T')[0] || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Total Days:</p></td>
@@ -149,7 +146,12 @@ function HRLeaverequests() {
             )}
           </div>
         </div>
-      </div>
+
+        <div id="newleaverequest" onClick={event =>  navigate('/hrrequestleave')}>
+             <img src={plus}></img>
+             <p>Create Leave request</p>
+        </div>
+
       </div>
     </>
   );

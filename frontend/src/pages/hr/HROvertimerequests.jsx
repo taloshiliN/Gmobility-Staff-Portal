@@ -1,4 +1,5 @@
-import HRheader from './HRheader.jsx'
+import Header from '../../components/header';
+import SidebarNav from '../../components/sidebarNav';
 import './style/HRstyle.css'
 import defaultimg from './assets/defaulticon.png'
 import unseen from './assets/unseen.png';
@@ -6,14 +7,13 @@ import seen from './assets/seenstatus.png';
 import plus from './assets/plus.png'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import Header from '../../components/header.jsx';
-import SidebarNav from '../../components/sidebarNav.jsx';
 import { useSelector } from 'react-redux';
+
 function HROvertimerequests(){
+  const position = useSelector((state)=> state.auth.position)
   const navigate = useNavigate()
    const [data, setData] = useState([]);
    const [selectedRequest, setSelectedRequest] = useState(null);
-   const userposition = useSelector((state)=> state.auth.position)
 
    useEffect(() => {
       fetch('http://localhost:8080/overtimerequest')
@@ -78,9 +78,9 @@ function HROvertimerequests(){
     };
     return(
         <>
-                <Header />
-        <SidebarNav position={userposition}/>
-        <div className='main-content'>
+    <Header />
+    <SidebarNav position={position}/>
+        <div id="hrovertimediv">
         <div className='overtimediv'>
            <div className='fromtablecontainer'>
            <table className='fromtable'>
@@ -143,7 +143,11 @@ function HROvertimerequests(){
             )}
           </div>
         </div>
-        </div>
+        <div id="newovertimereq"  onClick={event =>  navigate('/hrrequestovertime')}>
+              <img src={plus}></img>
+              <p>Create Overtime Request</p>
+          </div>
+          </div>
     </>
   );
 }

@@ -38,7 +38,7 @@ function AdminHomePage() {
           </div>
           <div className="profile-row">
             <span className="label">Position:</span>
-            <span className="value">HR</span>
+            <span className="value">Admin</span>
           </div>
           <div className="profile-row">
             <span className="label">Languages:</span>

@@ -1,4 +1,6 @@
+import React from 'react';
 import './style/index.css'
+import { useNavigate, NavLink } from 'react-router-dom'; 
 import profile from './assets/defaulticon.png'
 import image1 from './assets/person3.png'
 import image2 from './assets/time.png'
@@ -12,10 +14,13 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
 function HRheader() {
-  const navigate = useNavigate()
- // Get user data from Redux state
- const user = useSelector((state) => state.auth.data[0]); // Accessing the first user object
+  const navigate = useNavigate();
 
+  //Function to handle logout
+  const handleLogout = () => {
+    navigate('/loginPage');
+  };
+ const user = useSelector((state) => state.auth.data[0]); // Accessing the first user object
  console.log("User Data:", user); // Log user data for debugging
 
   return (
@@ -24,6 +29,8 @@ function HRheader() {
         <img src={glogo}></img><p> Staff Portal</p>
       </div>
       <div className='hrsidebar'>
+        {/*<img className='profileimg' src={profile} alt="Profile" />
+        <p className='usersname'>Hafeni Neliwa</p>*/}
         <img className='profileimg' src={profile} alt="Profile" />
         <p className='usersname'>{user.Name +" "+ user.Surname}</p>
         <img className='arrow' src={arrow}></img>
@@ -56,6 +63,7 @@ function HRheader() {
           <button className='hrlogout' onClick={(event) =>window.location.reload()}>Logout</button>
           </li>
         </ul>
+//         <button className='hrlogout' onClick={handleLogout}>Logout</button>
       </div>
     </>
   );

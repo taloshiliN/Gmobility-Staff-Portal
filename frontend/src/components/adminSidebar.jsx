@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import '../styles/adminSidebarStyling.css'
 import profile from '../assets/defaulticon.png'
 import image1 from '../assets/person3.png'
@@ -30,7 +31,7 @@ const handleTabClick = (tab) => {
     href="/adminHomePage" className={activeTab === 'adminHomePage' ? 'active' : ''} onClick={() => handleTabClick('adminHomePage')}>Home
   </a>
   <a
-    href="/staffRegistration" className={activeTab === 'staffRegistration' ? 'active' : ''} onClick={() => handleTabClick('staffRegistration')}>Register a staff member
+    href="/staffRegistrationAdmin" className={activeTab === 'staffRegistrationAdmin' ? 'active' : ''} onClick={() => handleTabClick('staffRegistration')}>Register a staff member
   </a>
   <a
     href="/staffProfiles" className={activeTab === 'staffProfiles' ? 'active' : ''} onClick={() => handleTabClick('staffProfiles')}>Staff profiles

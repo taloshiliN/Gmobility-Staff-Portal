@@ -1,6 +1,5 @@
-import HRheader from './HRheader.jsx';
-import SidebarNav from '../../components/sidebarNav.jsx';
-import Header from '../../components/header.jsx';
+import Header from '../../components/header';
+import SidebarNav from '../../components/sidebarNav';
 import './style/index.css';
 import search from './assets/searchicon.png';
 import propic2 from './assets/defaultpropic.png';
@@ -8,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 function HREmployees() {
+    const position = useSelector((state)=> state.auth.position)
+
     const [data, setData] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -25,6 +26,7 @@ function HREmployees() {
     });
 
     useEffect(() => {
+//         fetch('http://localhost:5173/users')
         fetch('http://localhost:8080/users')
             .then(res => {
                 if (!res.ok) {
@@ -125,14 +127,10 @@ function HREmployees() {
         );
     });
 
-    const position = useSelector((state)=> state.auth.position)
-
     return (
         <>
-            {/* <HRheader /> */}
-            <Header />
-            <SidebarNav position={position}/>
-            <div className='main-content'>
+               <Header />
+               <SidebarNav position={position}/>
             <div className='viewemployees'>
                 <div className='employeesearch'>
                     <img className='searchicon' src={search} alt="Search" />
@@ -305,7 +303,6 @@ function HREmployees() {
                         )}
                     </div>
                 </div>
-            </div>
             </div>
         </>
     );
