@@ -47,23 +47,21 @@ function App() {
   return (
     <>
     <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-      {/* Login */}
-      <Route path="/" element={<MAINPAGE />} />
-      <Route path="/loginPage" element={<LoginPage />}/>
+      <BrowserRouter>
+        <Routes>
+        {/* Login */}
+          <Route path="/" element={<MAINPAGE />} />
+          <Route path="/loginPage" element={<LoginPage />}/>
 
-      {/* Protected Routes - Home Page */}
+        {/* Protected Routes - Home Page */}
         <Route 
-        path="/home"
-        element={
-          <ProtectedRoute>
-            <HomePage />
-          </ProtectedRoute>
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
         }
         />
-
-
 
         {/* Employee Portal*/}
         <Route path="/home" element={<HomePage />}/>
@@ -197,7 +195,8 @@ function App() {
         <ProtectedRoute>
           <HRrequestleave />
         </ProtectedRoute>
-        } 
+        }
+        /> 
 
 
         <Route 
@@ -213,10 +212,14 @@ function App() {
         <Route 
         path="/hrrequestovertime" 
         element={
-        <ProtectedRoute>
-          <HRrequestovertime />
+          <ProtectedRoute>
+            <HRrequestovertime />
+          </ProtectedRoute>
+        }
+        />
 
- <Route 
+
+        <Route 
         path="/hrchosenemployee" 
         element={
         <ProtectedRoute>
@@ -246,7 +249,7 @@ function App() {
         }
         />
 
-<Route 
+        <Route 
         path="/staffProfiles" 
         element={
         <ProtectedRoute>
@@ -294,8 +297,8 @@ function App() {
 
         {/* Super Admin Portal*/}
         
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
     </Provider>
     </>
   )
