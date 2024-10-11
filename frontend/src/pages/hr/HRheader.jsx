@@ -10,7 +10,6 @@ import glogo from './assets/glogo.png'
 import arrow from './assets/arrow.png'
 import cash from './assets/mlogo.png'
 import register from './assets/regicon.png'
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
 function HRheader() {

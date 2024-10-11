@@ -54,7 +54,7 @@ function LoginPage() {
                 <h1>Login to Staff Portal</h1>
               </div>
             <input 
-                className="form-inpu
+                className="form-input"
                 type="firstname" 
                 value={firstname}
                 onChange={(e)=>setFirstname(e.target.value)}
@@ -77,7 +77,7 @@ function LoginPage() {
         </form>
     </div>
     </div>
-//       <div className='loginform'>
+{/* //       <div className='loginform'>
 //         <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
 //           <div className='heading-for-login-form'>
 //             <img src={glogo} alt="glogo" />
@@ -105,7 +105,7 @@ function LoginPage() {
 //             Login
 //           </button>
 //         </form>
-//       </div>
+//       </div> */}
     </>
   );
 }
