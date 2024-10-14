@@ -317,10 +317,9 @@ body {
     width: 100%;
   }
   
-  #employeesearch{
-
-  }
+ 
   .employeecard {
+    height: 20rem;
     width: calc(25% - 1rem); /* 4 cards per row, accounting for margins */
     background-color: white;
     margin-bottom: 2rem; /* Space between rows */
@@ -332,6 +331,7 @@ body {
   }
   .employeecard img {
     width: 100%;
+    height: 70%;
   }
   
   #employeename{
@@ -444,6 +444,7 @@ body {
     position: absolute;
     height: 70%;
     margin-left: 50%;
+    margin-top: 6rem;
     width: 35%;
     background-color: #ffffff;
     border-radius: 17px;
@@ -451,7 +452,6 @@ body {
     overflow: auto;
 }
   /* Chosen employee page */
-
   #chosencontent{
     width: 100%;
     height: 100%;
@@ -462,11 +462,12 @@ body {
   width: 50%;
   height: auto;
   margin-left: 7%;
-  margin-top: 3rem;
+  margin-top: 4rem;
   text-align: center;
   }
   #innerchosenemployee{
     width: 100%;
+    padding-top: 1rem;
   }
 
   #empimage{
@@ -530,11 +531,18 @@ body {
     cursor: pointer;
   }
 
+  #chosenbelongingssection{
+    display: block;
+    margin-left: 58%;
+    width: 41%;
+    text-align: center;
+  }
+
   #chosendocuments{
     background-color: #ffffff;
-    width: 41%;
-    margin-left: 1%;
-    margin-top: 3rem;
+    width: 100%;
+    height: 14rem;
+    margin-top: 4rem;
   }
   #doctitle{
     text-align: center;
@@ -554,6 +562,74 @@ body {
 }
 #doccontent ul{
   list-style-type: none;
+}
+
+#chosenmissedsection{
+  background-color: #ffffff;
+  width: 100%;
+  height: 18rem;
+  margin-top: 0.5rem;
+  overflow-y: auto;
+}
+#chosenmissedsection::-webkit-scrollbar {
+  display: none;
+}
+#chosenmissedsection h4{
+  background-color: #e6e6e6;
+  padding: 0.4rem;
+}
+#missedtable{
+  width: 100%;
+}
+#missedtable th{
+  background-color: #090057;
+  color: white;
+}
+#missedtable td{
+  text-align: center;
+}
+#missedtable button{
+  width: 100%;
+  height: 100%;
+  background-color: #007bff;
+  border-radius: 10px;
+  color: white;
+  border: 0;
+}
+
+#missedtable button:hover{
+  background-color: #0056b3;
+}
+
+#misseddaysection{
+  width: 40%;
+  height: 32rem;
+  margin-top: 5rem;
+  margin-left: 30%;
+  text-align: center;
+  background-color: white;
+}
+
+.missbuttons{
+  text-align: center;
+  width: 30%;
+  height: 10%;
+  margin: 2rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+#miss1{
+  background-color: rgb(0, 194, 32);
+}
+#miss1:hover{
+  background-color: rgb(0, 94, 0);
+}
+#miss2{
+  background-color: red;
+}
+#miss2:hover{
+  background-color: #810000;
 }
   /* All requests section */
   .requestcontent{
@@ -618,9 +694,14 @@ body {
   }
   #requestlist{
     width: 20%;
+    overflow-y: auto;
+  }
+  #requestlist::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
   }
   #requesttable1{
     width: 100%;
+    overflow-y: auto;
   }
   #requesttable1 td{
     display: flex;
@@ -647,6 +728,7 @@ body {
     height: 95%;
     background-color: #e2e2e2;
     text-align: center;
+    overflow-y: auto;
   }
   .requestapprove{
     background-color: rgb(0, 194, 0);
@@ -864,6 +946,7 @@ body {
     width: 85%;
     height: 31rem;
     margin-left: 10%;
+    margin-top: 0.5rem;
     text-align: center;
   }
   #hrpayrolldiv h4{
@@ -897,9 +980,8 @@ body {
   #payrollemployees td{
     background-color: white;
     text-align: center;
-    padding-top: 2rem;
     height: 3rem;
-    width: 95%;
+    width: 100%;
   }
   #payrollemployees td:hover{
     background-color: #b3b3b3;

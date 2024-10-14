@@ -32,6 +32,9 @@ import ChangeStaffInfo from "./pages/admin/changeStaffInfo"
 // import HRPayroll from "./pages/hr/HRPayroll"
 import HRChosenemployee from "./pages/hr/HRChosenemployee"
 import HRRequests from "./pages/hr/HRRequests"
+import HRHomePage from "./pages/hr/HRHomePage"
+import Viewrequests from "./pages/admin/viewrequests"
+import Misseddays from './pages/hr/HRMisseddays'
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
@@ -119,7 +122,7 @@ function App() {
         {/* Protected Routes - human resource */}
 
         <Route 
-        path="/hrhome" 
+        path="/hremployees" 
         element={
         <ProtectedRoute>
           <HRhome />
@@ -127,6 +130,14 @@ function App() {
         }
         />
 
+  <Route 
+        path="/hrhomepage" 
+        element={
+        <ProtectedRoute>
+          <HRHomePage />
+        </ProtectedRoute>
+        }
+        />
     
         <Route 
         path="/staffregistration" 
@@ -225,7 +236,16 @@ function App() {
         </ProtectedRoute>
         } 
         />
+        
 
+        <Route 
+        path="/hrmisseddays" 
+        element={
+        <ProtectedRoute>
+          <Misseddays />
+        </ProtectedRoute>
+        } 
+        />
 
         {/* Admin Portal*/}
         {/* Protected Routes - Employee */}
@@ -266,10 +286,10 @@ function App() {
         />
 
         <Route 
-        path="/leaverequestview" 
+        path="/viewrequests" 
         element={
         <ProtectedRoute>
-          <ViewLeaveRequest />
+          <Viewrequests />
         </ProtectedRoute>
         }
         />

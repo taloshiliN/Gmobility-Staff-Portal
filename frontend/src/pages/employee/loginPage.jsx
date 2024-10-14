@@ -32,7 +32,7 @@ function LoginPage() {
     if (isAuthenticated) {
       console.log("User Position:", position);
       if(position === 'Human Resource'){
-        navigate('/hrhome');
+        navigate('/hrhomepage');
       } else if (position === 'Employee') {
         navigate('/home');
       } else if (position === 'Admin'){
