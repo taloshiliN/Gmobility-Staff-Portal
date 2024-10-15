@@ -8,7 +8,7 @@ function HRMisseddays() {
     const position = useSelector((state) => state.auth.position);
     const location = useLocation();
     const navigate = useNavigate();
-    const { missedDay } = location.state || {};
+    const { missedDay, employeeId, employeeName } = location.state || {};
 
     const [formData, setFormData] = useState({
         date: new Date(missedDay.date).toISOString().split('T')[0],
@@ -17,8 +17,8 @@ function HRMisseddays() {
         reason: missedDay.reason || ''
     });
 
-    if (!missedDay) {
-        return <div>Error: Missed day data not found.</div>;
+    if (!missedDay || !employeeId) {
+        return <div>Error: Missed day or employee data not found.</div>;
     }
 
     const handleCancel = () => {
@@ -34,7 +34,7 @@ function HRMisseddays() {
         e.preventDefault();
 
         // First API: Update missed day
-        const updateResponse = await fetch(`/updatemissedday/${missedDay.id}`, {
+        const updateResponse = await fetch(`http://localhost:8080/updatemissedday/${missedDay.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,15 +51,15 @@ function HRMisseddays() {
             return;
         }
 
-        // Second API: Insert missed day
-        const insertResponse = await fetch('/misseddayinsert', {
+        // Second API: Insert missed day using employeeId from HRChosenemployee
+        const insertResponse = await fetch('http://localhost:8080/misseddayinsert', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                employee_id: missedDay.employeeId,
-                employee_name: missedDay.employeeName,
+                employee_id: employeeId, // Use the employee ID here
+                employee_name: employeeName,
                 date: formData.date,
                 clockinTime: formData.clockinTime,
                 clockoutTime: formData.clockoutTime,
@@ -74,7 +74,7 @@ function HRMisseddays() {
         }
 
         // Optionally navigate or show a success message
-        navigate('/success'); // Replace with your desired navigation path
+        navigate(-1); // Replace with your desired navigation path
     };
 
     return (
@@ -85,7 +85,7 @@ function HRMisseddays() {
                 <div id="misseddaysection">
                     <h4>Missed Day</h4>
                     <form onSubmit={handleSubmit}>
-                        <p>Make changes to "{missedDay.employeeName || 'Employee'}"'s missed day.</p>
+                        <p>Make changes to {employeeName || 'Employee'}'s missed day.</p>
                         <table>
                             <tbody>
                                 <tr>

@@ -546,9 +546,10 @@ app.patch('/overtimerequest/:id', (req, res) => {
     });
 });
 
+//retrieves missed days for specific user
 app.get('/employeemisseddays/:id', (req, res) => {
     const { id } = req.params;
-    const sql = "SELECT * FROM clockin WHERE employee_id = ? "; 
+    const sql = "SELECT * FROM clockin WHERE employee_id = ? AND (clockinTime IS NULL OR clockinTime = '' OR clockoutTime IS NULL OR clockoutTime = '')";
 
     db.query(sql, [id], (err, data) => {
         if (err) {
@@ -561,31 +562,38 @@ app.get('/employeemisseddays/:id', (req, res) => {
     });
 });
 
-// Update the status of an missed day
+// Update the status of a missed day
 app.patch('/updatemissedday/:id', (req, res) => {
     const requestId = req.params.id;
-  
+    const { clockinTime, clockoutTime } = req.body; // Get these values from the body
+
+    console.log('Updating missed day with ID:', requestId); // Log the ID for debugging
+
     const sql = "UPDATE clockin SET clockinTime = ?, clockoutTime = ? WHERE id = ?";
-    db.query(sql, [ reqstatus, requestId], (err, result) => {
+    db.query(sql, [clockinTime, clockoutTime, requestId], (err, result) => {
         if (err) {
             console.error('Error updating missed day:', err);
             return res.status(500).json(err);
         }
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Request not found' });
+            return res.status(404).json({ message: 'No missed day found with the provided ID.' });
         }
         return res.json({ message: 'Missed day updated successfully', result });
     });
 });
 
+// Insert missed day into the database
 app.post("/misseddayinsert", (req, res) => {
-    const {employee_id, employee_name, date, clockinTime, clockoutTime, reason} = req.body;
+    const { employee_id, employee_name, date, clockinTime, clockoutTime, reason } = req.body;
 
     db.query(
-        "INSERT INTO missed_days (`employee_id`, `employee_name`, `date`, `clockinTime`, 'clockoutTime', 'reason') VALUES (?,?,?,?,?,?)",
+        "INSERT INTO missed_days (`employee_id`, `employee_name`, `date`, `clockinTime`, `clockoutTime`, `reason`) VALUES (?,?,?,?,?,?)",
         [employee_id, employee_name, date, clockinTime, clockoutTime, reason],
         (err) => {
-            if (err) throw err;
+            if (err) {
+                console.error('Error inserting missed day:', err);
+                return res.status(500).json(err);
+            }
             const misseddaydata = {
                 employee_id,
                 employee_name,
@@ -593,10 +601,10 @@ app.post("/misseddayinsert", (req, res) => {
                 clockinTime,
                 clockoutTime,
                 reason
-            }
+            };
             res.json(misseddaydata);
         }
-    )
+    );
 });
 
 

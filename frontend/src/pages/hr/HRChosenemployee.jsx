@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import SidebarNav from '../../components/sidebarNav.jsx';
 import Header from '../../components/header.jsx';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './style/index.css';
 import defaulticon from './assets/defaulticon.png';
-import { useNavigate } from 'react-router-dom'
 
 function HRChosenemployee() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const position = useSelector((state) => state.auth.position);
     const location = useLocation();
     const { employee } = location.state || {};
@@ -281,17 +280,19 @@ function HRChosenemployee() {
                             </thead>
                             <tbody>
                                 {missedDays.length > 0 ? (
-                                       missedDays.map((day) => (
-                                            <tr key={day.id}>
+                                    missedDays.map((day) => (
+                                        <tr key={day.id}>
                                             <td>{new Date(day.date).toLocaleDateString()}</td>
                                             <td>{day.clockinTime || '----'}</td>
                                             <td>{day.clockoutTime || '----'}</td>
-                                            <td>  <button onClick={() => navigate('/hrmisseddays', { state: { missedDay: day } })}>Edit</button></td>
-                                            </tr>
-                                          ))
-                                 ) : (
+                                            <td>
+                                            <button onClick={() => navigate('/hrmisseddays', { state: { missedDay: day, employeeId: editedEmployee.id, employeeName: editedEmployee.firstname + ' ' + editedEmployee.lastname } })}>Edit</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
                                     <tr>
-                                        <td colSpan="4" style={{ textAlign: 'center' }}>No missed days</td>
+                                        <td colSpan="4">No missed days found.</td>
                                     </tr>
                                 )}
                             </tbody>
