@@ -44,6 +44,7 @@ function HRPayroll() {
             <HRheader />
             <Header />
             <SidebarNav position={position}/>
+            <div className='main-content'>
             <div id="hrpayrolldiv">
                 <h4>Staff Payroll</h4>
                 <div id="hrpayroll">
@@ -103,6 +104,7 @@ function HRPayroll() {
                         </table>
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );

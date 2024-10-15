@@ -14,7 +14,7 @@ function Header() {
   }, []);
 
   return (
-    <div className="header w-100 p-3">
+    <div className="headerheader w-100 p-3">
       <img src={glogo} alt="Logo" />
       <p>Staff Portal</p>
       <p id='currenttime'>{currentTime}</p>

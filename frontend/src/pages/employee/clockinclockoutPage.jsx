@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { logClockAction } from '../../clockinclockout'
 import '../../styles/clockinclockout.css'
 function ClockinclockoutPage() {
-  const position = useSelector((state)=> state.auth.position)
+  const position = useSelector((state)=> state.auth.position);
+  const userId = useSelector((state)=>state.data.userId);
 
   const [clockedIn, setClockedIn] = useState(false);
   const [message, setMessage] = useState('')
@@ -15,8 +16,6 @@ function ClockinclockoutPage() {
     return savedLog ? JSON.parse(savedLog) : [];
   });
   const [videoPlaying, setVideoPlaying] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -31,18 +30,20 @@ function ClockinclockoutPage() {
       document.getElementById('second-hand').style.setProperty('--rotation', secondsRatio * 360);
     };
 
-    updateClock(); // Initial call
-    const intervalId = setInterval(updateClock, 1000); // Update clock every second
+    updateClock();
+    const intervalId = setInterval(updateClock, 1000);
 
     return () => clearInterval(intervalId);
-  }, [])
+  }, []);
 
   const handleClockAction = (action) => {
     const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
     const newEntry = {
       action,
       time: currentDate.toLocaleTimeString(),
-      date: currentDate.toLocaleDateString(),
+      date: formattedDate,
+      userId: userId,
     };
 
     dispatch(logClockAction(newEntry));
@@ -110,11 +111,7 @@ function ClockinclockoutPage() {
           )}
 
           <div className="message-container">
-            {typing ? (
-              <p className="typing-text">{message}</p>
-            ) : (
-              message && <p className={`typing-text ${clockedIn ? 'green-text' : 'red-text'}`}>{message}</p>
-            )}
+            <p className={`typing-text ${clockedIn ? 'green-text' : 'red-text'}`}>{message}</p>
           </div>
           <div className="log-container">
             <h2>Clock Log</h2>

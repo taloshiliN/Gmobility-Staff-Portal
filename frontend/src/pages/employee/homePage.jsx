@@ -1,71 +1,47 @@
-import '../../pages/hr/style/index.css'
-import profile2 from '../hr/assets/profile2.png'
-import MessagingFloat from '../hr/MessageFloat.jsx'
-import HRheader from '../hr/HRheader.jsx';
+import '../../pages/hr/style/index.css';
+import SidebarNav from '../../components/sidebarNav.jsx';
+import Header from '../../components/header.jsx';
+import DigitalClock from '../../components/clock.jsx';
+import { useSelector } from 'react-redux';
 
-function HomePage(){
-    return(
-        <>
-        <HRheader/>
-        <div className="homecontent">
-           <h4 className='greeting'>Welcome Timothy Haimbodi</h4>
-           <div className='innerhomecontent'>
-           <div className='innercontent1'>
-               <h4>Profile</h4>
-               <img src={profile2} alt='Profile Image'></img>
-               <table className='detailtable'>
-                <tr>
-                    <td className='hrdetails'>Name: </td>
-                    <td>Antony Lingus</td>
-                </tr>
-                <tr>
-                    <td className='hrdetails'>Surname: </td>
-                    <td> Codriano</td>
-                </tr>
-                <tr>
-                    <td className='hrdetails'>ID Number: </td>
-                    <td>123456789</td>
-                </tr>
-                <tr>
-                    <td className='hrdetails'>Date of Birth: </td>
-                    <td>Yesterday</td>
-                </tr>
-                <tr>
-                    <td className='hrdetails'>Gender: </td>
-                    <td> Male</td>
-                </tr>
-                <tr>
-                    <td className='hrdetails'>Nationality: </td>
-                    <td> Namibian</td>
-                </tr>
-                <tr>
-                    <td className='hrdetails'>Language: </td>
-                    <td> Damara</td>
-                </tr>
-                <tr>
-                    <td className='hrdetails'>Position: </td>
-                    <td> Human Resources</td>
-                </tr>
-               
-               </table>
-           </div>
-           <div>
-           <div className='clockingsection'>
-            <hr></hr>
-            <div className='clockingtimes'>
-            <p>Current time: <h5>10:31</h5></p>
-            <p>Time clocked-In: <h5>07:45</h5></p>
-            <p>Time-clocked-out:  <h5>None</h5></p>
-            </div>
-                <button className='clockinbutton'>Clock-In</button>
-                <button className='clockoutbutton'>Clock-Out</button>
-                <hr></hr>
-           </div>
-           <MessagingFloat/>
-           </div>
+function HomePage() {
+  const auth = useSelector((state) => state.auth);
+  const userData = auth.data && auth.data[0];
+  const position = userData?.Position || auth.position || 'Employee';
+  const firstname = userData?.Name || 'User';
+
+  const mainContentStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 'calc(100vh - 60px)', // Adjust 60px to match your header height
+    marginLeft: '250px', // Adjust this to match your sidebar width
+  };
+
+  const welcomeStyle = {
+    fontSize: '28px',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+    color: '#333',
+    textAlign: 'center',
+    textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+    animation: 'welcomeAnimation 2s ease-in-out infinite alternate',
+  };
+
+  return (
+    <>
+      <div>
+        <Header />
+        <SidebarNav position={position} />
+        <div className='main-content'>
+          <div style={mainContentStyle}>
+            <DigitalClock />
           </div>
         </div>
-        </>
-    );
+      </div>
+    </>
+  );
 }
-export default HomePage
+
+export default HomePage;

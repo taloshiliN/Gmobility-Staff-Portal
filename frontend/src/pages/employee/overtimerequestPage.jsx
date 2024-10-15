@@ -1,30 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import '../../styles/OvertimerequestPage.css'; // Assuming you use a CSS file for styles
+import '../../styles/OvertimerequestPage.css';
 import Header from '../../components/header';
 import SidebarNav from '../../components/sidebarNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOvertimeRequest } from '../../overtimeSlice';
 
 function OvertimerequestPage() {
-  const [employeeName, setName] = useState("");
+  const auth = useSelector((state) => state.auth);
+  const userData = auth.data && auth.data[0];
+  const username = userData?.Name || 'User';
+  const position = auth.position || 'Employee';
+
+  const [employeeName, setEmployeeName] = useState(username);
   const [date, setDate] = useState("");
   const [duration, setDuration] = useState("");
   const [reason, setReason] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime] = useState("17:00");  // Fixed to 17:00
+  const [endTime, setEndTime] = useState("18:00");  // Default to 18:00
   const dispatch = useDispatch();
-  
-  const position = useSelector((state) => state.auth.position);
+
+  useEffect(() => {
+    setEmployeeName(username);
+  }, [username]);
 
   const calculateDuration = (start, end) => {
     const [startHour, startMinute] = start.split(':').map(Number);
     const [endHour, endMinute] = end.split(':').map(Number);
 
-    const startDate = new Date();
-    startDate.setHours(startHour, startMinute);
+    let startDate = new Date(0, 0, 0, startHour, startMinute);
+    let endDate = new Date(0, 0, 0, endHour, endMinute);
 
-    const endDate = new Date();
-    endDate.setHours(endHour, endMinute);
+    // If end time is 00:00, set it to next day
+    if (endHour === 0 && endMinute === 0) {
+      endDate.setDate(endDate.getDate() + 1);
+    }
 
     const diffInMs = endDate - startDate;
     const diffInHours = diffInMs / (1000 * 60 * 60);
@@ -54,21 +63,34 @@ function OvertimerequestPage() {
         employeeName,
         position, // Include the position here
         date,
-        startTime: `${startTime}:00`,
-        endTime: `${endTime}:00`,
+        startTime,
+        endTime,
         duration,
-        reason,
+        reason
       }));
     }
 
     // Reset form fields
-    setName("");
     setDate("");
-    setStartTime("");
-    setEndTime("");
+    setEndTime("18:00");
     setDuration("");
     setReason("");
   };
+
+  
+
+  const generateTimeOptions = () => {
+    const options = [];
+    for (let hour = 18; hour <= 23; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        options.push(<option key={time} value={time}>{time}</option>);
+      }
+    }
+    // Add 00:00 (midnight) option
+    options.push(<option key="00:00" value="00:00">00:00</option>);
+    return options;
+  }
 
   return (
     <>
@@ -85,10 +107,11 @@ function OvertimerequestPage() {
                 id="employeeName"
                 name="employeeName"
                 value={employeeName}
-                onChange={e => setName(e.target.value)}
+                readOnly
                 required
               />
             </div>
+            
             <div className="form-group">
               <label htmlFor="date">Date</label>
               <input
@@ -103,31 +126,32 @@ function OvertimerequestPage() {
             <div className="form-group">
               <label htmlFor="startTime">Overtime Start Time</label>
               <input
-                type="time"
+                type="text"
                 id="startTime"
                 name="startTime"
                 value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
+                readOnly
                 required
               />
             </div>
             <div className="form-group">
               <label htmlFor="endTime">Overtime End Time</label>
-              <input
-                type="time"
+              <select
                 id="endTime"
                 name="endTime"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 required
-              />
+              >
+                {generateTimeOptions()}
+              </select>
             </div>
             <div className="form-group">
-              <label htmlFor="hoursWorked">Duration</label>
+              <label htmlFor="duration">Duration (hours)</label>
               <input
                 type="number"
-                id="hoursWorked"
-                name="hoursWorked"
+                id="duration"
+                name="duration"
                 value={duration}
                 readOnly
               />
@@ -142,7 +166,9 @@ function OvertimerequestPage() {
                 required
               />
             </div>
-            <button type="submit" className="submit-btn">
+            <button 
+              type="submit" 
+              className="submit-btn">
               Submit Request
             </button>
           </form>
@@ -150,6 +176,6 @@ function OvertimerequestPage() {
       </div>
     </>
   );
-}
 
+}
 export default OvertimerequestPage;

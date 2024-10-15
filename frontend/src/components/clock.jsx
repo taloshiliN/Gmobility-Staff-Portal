@@ -26,23 +26,24 @@ function DigitalClock() {
     </div>
   );
 }
+
 const styles = {
-    container: {
-      position: 'fixed',
-      bottom: '200px', 
-      right: '340px',  
-      fontFamily: 'Arial, sans-serif',
-    },
-    clock: {
-      fontSize: '4rem',
-      fontWeight: 'bold',
-      color: '#333',
-      backgroundColor: '#fff',
-      padding: '20px',
-      borderRadius: '10px',
-      boxShadow: '0 0 10px rgba(0,0,0,0.8)',
-    },
-  };
-  
+  container: {
+    position: 'fixed',
+    bottom: '200px', 
+    right: '340px',  
+    fontFamily: 'Arial, sans-serif',
+    zIndex: 1000,  // Ensures the clock is on top of other elements
+  },
+  clock: {
+    fontSize: '4rem',
+    fontWeight: 'bold',
+    color: '#333',
+    backgroundColor: '#fff',
+    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0 0 10px rgba(0,0,0,0.8)',
+  },
+};
 
 export default DigitalClock;

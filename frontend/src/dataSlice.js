@@ -31,7 +31,11 @@ export const createData = createAsyncThunk(
 const dataSlice = createSlice({
     name: "data",
     initialState,
-    reducers: {},
+    reducers: {
+        setUser(state,action){
+            state.userId=action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(createData.pending, (state) => {
@@ -41,12 +45,15 @@ const dataSlice = createSlice({
                 console.log(action.payload);
                 state.status = "succeeded";
                 state.data.push(action.payload);
+                if(action.payload.id){
+                    state.userId = action.payload.id;
+                }
             })
             .addCase(createData.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
             });
-    }
+    },
 });
 
 export default dataSlice.reducer;

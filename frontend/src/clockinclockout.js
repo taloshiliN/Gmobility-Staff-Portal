@@ -9,11 +9,12 @@ const initialState = {
 
 export const logClockAction = createAsyncThunk(
     'clock/logClockAction',
-    async ({ action, time, date }) => {
+    async ({ action, time, date, userId }) => {
         const response = await axios.post('http://localhost:8080/api/clock', {
             action,
             time,
             date,
+            userId,
         });
         return response.data;
     }
