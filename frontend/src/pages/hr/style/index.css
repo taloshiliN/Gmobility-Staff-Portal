@@ -692,6 +692,29 @@ body {
 #uploaddeletebutton button:hover{
   background-color: #810000;
 }
+
+#doclink {
+  width: 38rem; /* Set the fixed width */
+  white-space: nowrap; /* Prevent the text from wrapping */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  text-overflow: ellipsis; /* Add ellipsis when the content overflows */
+  display: block; /* Ensure the td content behaves like a block-level element */
+}
+
+#doclink::-webkit-scrollbar {
+  display: none;
+}
+
+#doclink::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar */
+  border-radius: 10px; /* Rounded scrollbar */
+}
+
+#doclink::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Scrollbar color on hover */
+}
+
+
   /* ////////////////////////////////////////////////All requests section */
   .requestcontent{
    width: 90%;

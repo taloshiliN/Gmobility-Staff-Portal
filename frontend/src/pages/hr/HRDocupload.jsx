@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SidebarNav from '../../components/sidebarNav.jsx';
 import Header from '../../components/header.jsx';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,27 @@ function HRDocupload() {
     const position = useSelector((state) => state.auth.position);
     const HRdetails = useSelector((state) => state.auth.data[0]);
     const [file, setFile] = useState(null);
+    const [documents, setDocuments] = useState([]);
+
+    // Fetch documents when component mounts
+    useEffect(() => {
+        const fetchDocuments = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/getdocuments/${HRdetails.id}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Fetched documents:", data);
+                    setDocuments(data); // Set fetched documents
+                } else {
+                    console.error("Failed to fetch documents:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error fetching documents:", error);
+            }
+        };
+
+        fetchDocuments();
+    }, [HRdetails.id]);
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -21,11 +42,11 @@ function HRDocupload() {
         }
 
         const formData = new FormData();
-        formData.append("employee_id", HRdetails.id); // Assuming HRdetails.id contains the employee ID
-        formData.append("doc", file);
+        formData.append("employee_id", HRdetails.id); // Adding employee ID
+        formData.append("doc", file); // Adding selected file
 
         try {
-            const response = await fetch("/uploaddocument", {
+            const response = await fetch("http://localhost:8080/uploaddocument", {
                 method: "POST",
                 body: formData,
             });
@@ -33,7 +54,8 @@ function HRDocupload() {
             if (response.ok) {
                 const data = await response.json();
                 console.log("File uploaded successfully:", data);
-                // You can add logic here to update the UI or notify the user
+                // Refresh document list after upload
+                setDocuments((prevDocs) => [...prevDocs, data]); // Add new document to the list
             } else {
                 console.error("Upload failed:", response.statusText);
                 alert("File upload failed. Please try again.");
@@ -44,6 +66,26 @@ function HRDocupload() {
         }
     };
 
+    const handleDelete = async (docId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/deletedocument/${docId}`, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                console.log("Document deleted successfully");
+                // Refresh document list after deletion
+                setDocuments((prevDocs) => prevDocs.filter((doc) => doc.id !== docId));
+            } else {
+                console.error("Failed to delete document:", response.statusText);
+                alert("Failed to delete document. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error deleting document:", error);
+            alert("An error occurred while deleting the document.");
+        }
+    };
+
     return (
         <>
             <Header />
@@ -51,14 +93,27 @@ function HRDocupload() {
             <div id="hruploadsection">
                 <div id="uploadedsection">
                     <h4>Your documents</h4>
-                    <p>Hello {HRdetails.Name} with id {HRdetails.id}</p>
                     <div id="uploadedcontent">
                         <table>
                             <tbody>
-                                <tr>
-                                    <td>MyCV.pdf</td>
-                                    <td id="uploaddeletebutton"><button>Delete</button></td>
-                                </tr>
+                                {documents.length > 0 ? (
+                                    documents.map((doc) => (
+                                        <tr key={doc.id}>
+                                            <td id="doclink">
+                                                <a href={`http://localhost:8080/download/${doc.id}`} target="_blank" rel="noopener noreferrer">
+                                                    Download Document {doc.id} {/* You can replace this with any string or document title */}
+                                                </a>
+                                            </td>
+                                            <td id="uploaddeletebutton">
+                                                <button onClick={() => handleDelete(doc.id)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td>No documents found</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -66,8 +121,8 @@ function HRDocupload() {
                 <div id="newuploadsection">
                     <p>Upload file</p>
                     <form onSubmit={handleSubmit}>
-                        <input type='file' onChange={handleFileChange} />
-                        <input type='submit' value='Upload' />
+                        <input type="file" onChange={handleFileChange} />
+                        <input type="submit" value="Upload" />
                     </form>
                 </div>
             </div>

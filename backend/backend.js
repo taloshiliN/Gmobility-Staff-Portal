@@ -663,42 +663,115 @@ app.get('/getdocuments/:id', (req, res) => {
     });
 });
 
-//Deleting specific document
+app.get('/getdocumentblob/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT doc FROM documents WHERE id = ?"; 
 
+    db.query(sql, [id], (err, data) => {
+        if (err) {
+            console.error('Error fetching document blob:', err);
+            return res.status(500).json({ message: "Error fetching document", error: err });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "Document not found" });
+        }
+        const document = data[0].doc;
+        res.setHeader('Content-Type', 'application/pdf'); // or other appropriate mime type
+        res.send(document); // Send the BLOB as the response
+    });
+});
+
+// Deleting specific document
 app.delete('/deletedocument/:id', (req, res) => {
     const { id } = req.params;
-const sql = "DELETE FROM documents WHERE id = ?";
-db.query(sql, [id], (err, result) => {
-    if (err) {
-        console.error('Error deleting document:', err);
-        return res.status(500).json({ message: "Error deleting document", error: err });
-    }
-    console.log(`Deleted document with ID: ${id}, affected rows: ${result.affectedRows}`);
-    res.sendStatus(204);
-});
+
+    // Get the document path first
+    const sqlSelect = "SELECT doc FROM documents WHERE id = ?";
+    db.query(sqlSelect, [id], (err, result) => {
+        if (err) {
+            console.error("Error retrieving document:", err);
+            return res.status(500).json({ error: "Error retrieving document" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ error: "Document not found" });
+        }
+
+        const documentPath = result[0].doc;
+
+        // Delete the document from the database
+        const sqlDelete = "DELETE FROM documents WHERE id = ?";
+        db.query(sqlDelete, [id], (err, deleteResult) => {
+            if (err) {
+                console.error('Error deleting document:', err);
+                return res.status(500).json({ message: "Error deleting document", error: err });
+            }
+
+            if (deleteResult.affectedRows === 0) {
+                return res.status(404).json({ message: "Document not found" });
+            }
+
+            // Delete the file from the file system
+            fs.unlink(documentPath, (unlinkErr) => {
+                if (unlinkErr) {
+                    console.error("Error deleting file:", unlinkErr);
+                    return res.status(500).json({ error: "Error deleting file from file system" });
+                }
+
+                console.log(`Deleted document with ID: ${id} and file: ${documentPath}`);
+                res.sendStatus(204); // No content to send back
+            });
+        });
+    });
 });
 
-// Inserting document
+// Inserting document with path storage
 app.post("/uploaddocument", upload.single("doc"), (req, res) => {
     const employee_id = req.body.employee_id;
-    const doc = req.file.buffer; // Get the file buffer
+    const filePath = req.file.path; // Path to the uploaded file
+
+    if (!filePath) {
+        return res.status(400).json({ error: "Document path is missing" });
+    }
 
     db.query(
         "INSERT INTO documents (employee_id, doc) VALUES (?, ?)",
-        [employee_id, doc],
+        [employee_id, filePath],
         (err) => {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ error: "Database insert error" });
             }
             const doclog = {
+                id: this.insertId, // ID of the inserted document
                 employee_id,
-                doc: req.file.originalname, // or another relevant field
+                doc: req.file.filename, // File name for display purposes
             };
             res.json(doclog);
         }
     );
 });
+
+// Endpoint to download a document by ID
+app.get('/download/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT doc FROM documents WHERE id = ?";
+    
+    db.query(sql, [id], (err, result) => {
+        if (err || result.length === 0) {
+            return res.status(404).send('Document not found');
+        }
+
+        const document = result[0].doc; // Blob data
+
+        // Set a valid filename
+        const filename = `document-${id}.blob`; // Change this to your preferred naming convention
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`); // Set appropriate filename
+        res.setHeader('Content-Type', 'application/octet-stream'); // You can set the MIME type according to the document type
+        res.end(document); // Send the blob as response
+    });
+});
+
 
 // Start server
 app.listen(8080, () => {
