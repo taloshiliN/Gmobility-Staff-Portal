@@ -67,6 +67,7 @@ const StaffProfiles = () => {
                       <p><strong>Surname:</strong> <input value={selectedStaff.Surname} onChange={(e) => setSelectedStaff({ ...selectedStaff, Surname: e.target.value })} /></p>
                       <p><strong>ID Number:</strong> <input value={selectedStaff.ID_Number} onChange={(e) => setSelectedStaff({ ...selectedStaff, ID_Number: e.target.value })} /></p>
                       <p><strong>Date of Birth:</strong> <input value={selectedStaff.DOB} onChange={(e) => setSelectedStaff({ ...selectedStaff, DOB: e.target.value })} /></p>
+                      <p><strong>Gender:</strong> <input value={selectedStaff.Gender} onChange={(e) => setSelectedStaff({ ...selectedStaff, Gender: e.target.value })} /></p>
                       <p><strong>Nationality:</strong> <input value={selectedStaff.Nationality} onChange={(e) => setSelectedStaff({ ...selectedStaff, Nationality: e.target.value })} /></p>
                       <p><strong>Home Language:</strong> <input value={selectedStaff.Home_Language} onChange={(e) => setSelectedStaff({ ...selectedStaff, Home_Language: e.target.value })} /></p>
                       <p><strong>Other Languages:</strong> <input value={selectedStaff.Other_Languages} onChange={(e) => setSelectedStaff({ ...selectedStaff, Other_Languages: e.target.value })} /></p>
@@ -78,6 +79,7 @@ const StaffProfiles = () => {
                       <p><strong>Surname:</strong> <span>{selectedStaff.Surname}</span></p>
                       <p><strong>ID Number:</strong> <span>{selectedStaff.ID_Number}</span></p>
                       <p><strong>Date of Birth:</strong> <span>{selectedStaff.DOB}</span></p>
+                      <p><strong>Gender:</strong> <input value={selectedStaff.Gender} onChange={(e) => setSelectedStaff({ ...selectedStaff, Gender: e.target.value })} /></p>
                       <p><strong>Nationality:</strong> <span>{selectedStaff.Nationality}</span></p>
                       <p><strong>Home Language:</strong> <span>{selectedStaff.Home_Language}</span></p>
                       <p><strong>Other Languages:</strong> <span>{selectedStaff.Other_Languages}</span></p>

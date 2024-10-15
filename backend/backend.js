@@ -315,7 +315,23 @@ app.get('/users', (req, res) => {
         return res.json(usersWithBase64Images);
     });
 });
+// app.get('/getStaffDetails/:id', (req, res) => {
+//     const staffId = req.params.id; 
+  
+//     //Query database to get staff details for this ID
+//     db.query('SELECT * FROM staff_members WHERE Id = ?', [staffId], (error, results) => {
+//       if (error) {
+//         return res.status(500).json({ error: 'Error retrieving staff details' });
+//       }
+//       if (results.length > 0) {
+//         res.json(results[0]);
+//       } else {
+//         res.status(404).json({ error: 'Staff member not found' });
+//       }
+//     });
+//   });
 
+  //Retrieving profile image
 // API to get all users images on HR side
 app.get('/staff/:id/profile-image', (req, res) => {
     const staffId = req.params.id;
@@ -337,9 +353,18 @@ app.get('/staff/:id/profile-image', (req, res) => {
       }
     });
   });
-
-
-
+ 
+//Change Staff Info
+app.get('/api/staff', (req, res) => {
+    const query = 'SELECT Name, Surname, Position FROM staff_members'; 
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error retrieving staff data' });
+        }
+        console.log(results); 
+        res.json(results);  
+    });
+});
 
 // Update user
 app.patch('/updateuser/:id', (req, res) => {
@@ -353,6 +378,10 @@ app.patch('/updateuser/:id', (req, res) => {
         updatedData.ID_Number,
         updatedData.DOB,
         updatedData.Gender,
+//         updatedData.nationality,
+//         updatedData.languages, 
+//         updatedData.languages, 
+//         updatedData.position
         updatedData.Nationality,
         updatedData.Supervisor,
         updatedData.Home_Language,

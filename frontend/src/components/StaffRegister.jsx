@@ -125,6 +125,19 @@ function StaffRegistrationForm() {
               />
             </div>
 
+        <div className="form-group">
+          <label htmlFor="dateOfBirth">Date of Birth</label>
+          <input 
+            type="date" 
+            id="dateOfBirth" 
+            name="dateOfBirth"
+            placeholder='DOB'
+            value={DOB}
+            onChange={e=>setDOB(e.target.value)}
+            required 
+          />
+        </div>
+
             <div className="form-group">
               <label htmlFor="ID_Number">ID Number</label>
               <input
@@ -163,6 +176,18 @@ function StaffRegistrationForm() {
               />
             </div>
 
+        <div className="form-group">
+          <label htmlFor="homeLanguage">Home Language</label>
+          <input 
+            type="text" 
+            id="homeLanguage" 
+            name="homeLanguage"  
+            placeholder='Home Language'
+            value={homeLanguage}
+            onChange={e=>setHomeLanguage(e.target.value)}
+            required 
+          />
+        <
             <div className="form-group">
               <label htmlFor="Nationality">Nationality</label>
               <input
@@ -202,6 +227,23 @@ function StaffRegistrationForm() {
               />
             </div>
 
+        <div className="form-group">
+          <label htmlFor="position">Position</label>
+          <select
+            type="text" 
+            id="position" 
+            name="position"
+            placeholder='Position'
+            value={position} 
+            onChange={e=>setPosition(e.target.value)}
+            required 
+          >
+            <option value="Employee">Employee</option>
+            <option value="Human Resource">Human Resource</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+
             <div className="form-group">
               <label htmlFor="Other_Languages">Other Languages</label>
               <input
@@ -230,7 +272,6 @@ function StaffRegistrationForm() {
                 <option value="Admin">Admin</option>
               </select>
             </div>
-
             <div className="form-group">
               <label htmlFor="profileImg">Profile Picture</label>
               <input

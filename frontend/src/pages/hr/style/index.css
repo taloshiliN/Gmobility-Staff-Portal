@@ -1,11 +1,12 @@
 body {
-  background-image: url("../assets/back4.png");
+  background-image: url("../../hr/assets/back4.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   margin: 0;
-} 
-.hrheader {
+  }
+  
+  .hrheader {
     background-color: rgb(28, 28, 141);
     width: 100%;
     height: 20%;
@@ -29,6 +30,7 @@ body {
   }
   .hrsidebar {
     width: 5%;
+    height: 150%;
     height: 100%;
 /*     height: 150%; */
     position: absolute;
@@ -37,16 +39,17 @@ body {
     text-align: center;
     overflow: hidden; /* Ensure content doesn't overflow when resized */
 /*     overflow-y: auto;  */
+    overflow-y: auto; /* Ensure content doesn't overflow when resized */
     display: flex;
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center align items horizontally */
     justify-content: space-between; /* Space out content evenly */
     margin-top: -0.4%
   }
-.hrsidebar::-webkit-scrollbar { 
+  .hrsidebar::-webkit-scrollbar { 
     display: none;
-}
-.hrsidebar .profileimg {
+  }
+  .hrsidebar .profileimg {
     width: 80%;
     height: auto; /* Maintain aspect ratio */
     margin: 10% 0; /* Adjust vertical margin */
@@ -74,7 +77,6 @@ body {
     text-align: center;
     width: 100%;
     color: white;
-    padding-top: 20%; /* Center the list items when not hovered */
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -130,41 +132,21 @@ body {
   }
   
   .icons {
-    width: 20px; 
-    height: 20px;
-    margin-right: 10px; 
-  }
-  
-  .hrlogout {
-    width: 80%; 
-    margin: 50px 0; 
-    padding: 10px; 
-    background-color: rgb(255, 0, 0); 
-    color: white; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold; 
-    transition: background-color 0.3s; 
-}
-
-.icons {
     width: 20px; /* Set a fixed width for icons */
     height: 20px; /* Set a fixed height for icons */
     margin-right: 10px; /* Space between icon and text */
   }
   
-/*   .hrlogout {
-    width: 80%; 
-    background-color: rgb(255, 0, 0); 
-    color: white; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    font-family: Arial, Helvetica, sans-serif; 
-    font-weight: bold;
-    transition: background-color 0.3s; 
+  .hrlogout {
+    width: 80%; /* Set a width for the button */
+    background-color: rgb(255, 0, 0); /* Set a background color */
+    color: white; /* Set text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Show a pointer cursor on hover */
+    font-family: Arial, Helvetica, sans-serif; /* Set font family */
+    font-weight: bold; /* Make text bold */
+    transition: background-color 0.3s; /* Smooth background color transition */
     opacity: 0;
     transition: ease-in-out 0.2s;
   } */
@@ -173,10 +155,8 @@ body {
     
   }
   
-
-
   /* Home page for hr*/
-.homecontent{
+  .homecontent{
     width: 100%;
     height: 100%;
     margin-top: 1%;
@@ -186,128 +166,6 @@ body {
     color: white;
     font-weight: bold;
     text-shadow: 2px 2px #000000;
-    font-size: 30px;
-  }
-  .innerhomecontent{
-    display: inline-flex;
-  }
-  .innercontent1 {
-    width: 40%;
-    height: 550px;
-    margin-left: 8%;
-    margin-top: 1%;
-    box-shadow: 1px 1px 3px 2px #888888;
-    border-radius: 12px;
-    text-align: center;
-    display: flex; /* Use flexbox */
-    flex-direction: column; /* Arrange items vertically */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    background-color: rgb(255, 255, 255);
-  
-  }
-  
-  .detailtable {
-    height: auto; /* Allow height to adjust based on content */
-    text-align: center;
-    margin: 0; /* Remove default margin */
-  }
-  .detailtable tr:nth-child(odd) {
-    background-color: #e6e6e6; /* Grey for odd rows */
-  }
-  
-  .detailtable tr:nth-child(even) {
-    background-color: #ffffff; /* White for even rows */
-  }
-  
-  /* Styles for the edit button */
-  .editButton {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 7px;
-  }
-  
-  .editButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .detailtable input {
-    width: 100%;
-    padding: 3px;
-    font-size: 14px;
-  }
-  
-  .innercontent1 h4{
-    padding-top: 4px;
-  }
-  .innercontent1 img{
-    width: 20%;
-    padding-bottom: 10px;
-  }
-  
-  .hrdetails{
-    width: 25%;
-    font-weight: 640;
-    vertical-align:top;
-    background-color: #ffffff;
-  }
-  
-  .clockingsection{
-    margin-top: 2%;
-    width: 95%;
-    height: 42%;
-    background-color: #ffffff;
-    margin-left: 75px;
-    box-shadow: 1px 1px 3px 2px #888888;
-    border-radius: 12px;
-  }
-  .clockinbutton{
-    background-color: rgb(47, 202, 0);
-    color: white;
-    font-weight: bold;
-    border: 1px solid rgb(126, 255, 114);
-    border-radius: 11px;
-    width: 20%;
-    margin-right: 20px;
-    height: 40px;
-  
-  }
-  .clockinbutton:hover{
-    background-color: rgb(31, 131, 0);
-  }
-  .clockoutbutton{
-    background-color: rgb(255, 8, 0);
-    color: white;
-    font-weight: bold;
-    border: 1px solid rgb(255, 117, 117);
-    border-radius: 11px;
-    width: 20%;
-    height: 40px;
-  }
-  .clockoutbutton:hover{
-    background-color: rgb(175, 20, 0);
-  }
-  .clockingtimes{
-    display: inline-flex;
-    padding-left: 10%;
-    margin-right: 20%;
-  }
-  .clockingtimes p{
-    padding: 10px;
-    width: 150px;
-  }
-  .messagingsection{
-    position: absolute;
-    background-color: white;
-    width: 4%;
-    height: 5%;
-    margin-top: 20%;
-    margin-left: 42%;
-    text-align: right;
   }
   .innerhomecontent {
     padding-top: 1rem;
@@ -317,7 +175,6 @@ body {
     width: 100%;
   }
   
- 
   .employeecard {
     height: 20rem;
     width: calc(25% - 1rem); /* 4 cards per row, accounting for margins */
@@ -360,15 +217,12 @@ body {
   font-size: 21px;
 }
 
- 
-  
-  
   .messagingsection{
     position: absolute;
     background-color: white;
-    width: 8%;
-    height: 13%;
-    margin-top: 5%;
+    width: 6%;
+    height: 9%;
+    margin-top: 35%;
     margin-left: 90%;
     text-align: center;
     box-shadow: 1px 1px 3px 2px #363636;
@@ -405,6 +259,9 @@ body {
   .employeestable tr:hover{
     cursor: pointer;
   }
+  .employeestable tr:hover{
+    cursor: pointer;
+  }
   .employeestable tr:nth-child(odd) {
     background-color: #e6e6e6; /* Grey for odd rows */
   }
@@ -417,9 +274,7 @@ body {
     color: white;
   }
   .employeesearch{
-    margin-top: 2%;
-
-/*     margin-top: 0%; */
+    margin-top: 0%;
     margin-left: 85%;
     display: flex;
     background-color: white;
@@ -440,6 +295,7 @@ body {
     width: 11%;
     height: 60%;
   }
+
   .chosenemployee{
     position: absolute;
     height: 70%;
@@ -482,14 +338,11 @@ body {
   }
   
   .chosenimage{
-    width: 32%;
-    height: 29%;
-/*     width: 70%; */
+    width: 70%;
     margin-top: 1%;
   }
   .chosenemployee table{
     text-align: center;
-    margin-left: 3%;
     width: 95%;
   }
   .chosenemployee table tr:nth-child(odd) {
@@ -506,7 +359,6 @@ body {
     vertical-align:top;
     background-color: #ffffff;
   }
-  /* Leav requests section*/
   #editbutton{
     background-color: #0400f3;
     width: 30%;
@@ -857,50 +709,24 @@ body {
     display: inline-flex;
     
   }
-.hrleaverequests {
+  .hrleaverequests {
     background-color: #ffffff;
     border-radius: 16px;
     width: 80%;
     height: 500px;
     display: inline-flex;
     margin-left: 6%;
-    margin-top: 1%;
-/*     margin-top: 5%; */
+    margin-top: 5%;
      /* Enable vertical scrolling */
   }
   
   .hrleaverequests .fromtable {
     width: 100%; /* Use full width of parent */
-    border-collapse: collapse; /* Optional: to remove gaps between cells */
-    border-right: 1px solid black;
     overflow-y: scroll;
   }
   .hrleaverequests .fromtable img{
     width: 30%;
     margin-right: 4%;
-    overflow-y: scroll;
-  }
-  .hrleaverequests .fromtable tr:hover {
-    cursor: pointer;
-    background-color: rgb(0, 0, 136);
-  }
-  .fromtable tr{
-    width: 100%;
-    display: inline-block;
-  }
-  #leavesender{
-    width: 40%;
-  }
-  #picdiv{
-    width: 100%;
-  }
-  .fromtable #innerpropic{
-    width: 100%;
-    height: 4rem;
-    text-align: center;
-  }
-  .fromtable #msgstatus{
-    width: 1rem;
   }
   .hrleaverequests .fromtable p{
     width: 30%;
@@ -1000,9 +826,8 @@ body {
     background-color: rgb(146, 0, 0);
     cursor: pointer;
   }
-  /* Payroll section */
   
-  #hrpayrolldiv{
+/*   #hrpayrolldiv{
     background-color: white;
     width: 85%;
     height: 31rem;
@@ -1058,4 +883,4 @@ body {
 }
 #hrpayrollinfo tbody td{
   background-color: white;
-}
+} */

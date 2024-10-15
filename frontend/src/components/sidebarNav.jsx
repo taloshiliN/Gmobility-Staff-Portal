@@ -28,6 +28,89 @@ function SidebarNav({position}) {
   return (
     <>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous"></link>
+//       <div className='Employee-sidebar'>
+//         <img className='arrow' src={arrow}></img>
+//         <ul>
+//           {/*Employee */}
+//           {position === 'Employee' && (
+//             <>
+//              <li>
+//                 <NavLink to="/home">Home</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to="/leaverequest">Leave Requests</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to="/overtimerequest">Overtime Request</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to="/overtimeview">View Overtime</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to="/clockinclockout">View Clock in and Clock out times</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to='/printingrequest'>Printing request</NavLink>
+//               </li>
+//             </>
+//           )}
+//           {/*Human Resource */}
+//           {position === 'Human Resource' && (
+//             <>
+//             <li>
+//               <NavLink to="/HRhomePage">Home Page</NavLink>
+//             </li>
+            
+//             <li>
+//               <NavLink to="/hrhome">Home</NavLink>
+//             </li>
+        
+//             <li>
+//               <NavLink to="/staffregistration">Staff registration</NavLink>
+//             </li>
+
+//             <li>
+//               <NavLink to="/hrpayroll">View Payrolls</NavLink>
+//             </li>
+//             <li>
+//                 <NavLink to='/hrrequests'>View requests</NavLink>
+//               </li>
+//             </>
+//           )}
+//           {/*Admin */}
+//           {position === 'Admin' && (
+//             <>
+//               <li>
+//                 <NavLink to="/adminhomepage">Home Page</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to="/staffregistrationadmin">Manage employees</NavLink>
+//               </li>
+
+//               <li>
+//                 <NavLink to="/staffProfiles">View Staff Profiles</NavLink>
+//               </li>
+
+//               {/*<li>
+//                 <NavLink to="/leaverequestview">View Leave Requests</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to="/overtimerequestview">View Overtime Requests</NavLink>
+//               </li>
+//               <li>
+//                 <NavLink to="/printingrequestview">View Clock in and Clock out times</NavLink>
+//               </li>*/}
+
+//               <li>
+//                 <NavLink to="/adminRequests">View Requests</NavLink>
+//               </li>
+//             </>
+//           )}
+//         </ul>
+//         <button className='hrlogout' onClick={handleLogout}>
+//           Logout
+//         </button>
+//       </div>
       <div className={`Employee-sidebar ${isExpanded ? 'expanded' : ''}`} onClick={toggleSidebar}>
   <img className='arrow' src={arrow} alt="Toggle Sidebar" />
   <ul className={`${isExpanded ? '' : 'disabled-links'}`}>
