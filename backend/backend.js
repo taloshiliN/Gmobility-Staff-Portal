@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mysql = require("mysql2");
 const json = require("body-parser/lib/types/json");
-const app = express();
 const router = express.Router();
+const mysql = require("mysql");
+const app = express();
 
 const corsOptions = {
     origin: ["http://localhost:5173"],
@@ -17,7 +17,8 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Shagina03!!",
+//     password: "Shagina03!!",
+    password: "",
     database: "sp_db"
 });
 
@@ -32,11 +33,12 @@ db.connect(err => {
 
 // Insert staff member
 app.post("/api/data", (req, res) => {
-    const { firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password } = req.body;
+//     const { firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password } = req.body;
+    const { firstname, surname, id_Number, DOB,Gender, nationality, Supervisor, homeLanguage, otherLanguages, position,profilepicture, password } = req.body;
 
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB, Nationality, Home_Language, Other_Languages, Position, Password) VALUES (?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB,Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position,profilepicture, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        [firstname, surname, id_Number, DOB, Gender, nationality, Supervisor, homeLanguage, otherLanguages, position,profilepicture, password],
         (err) => {
             if (err) {
                 console.error('Error inserting data:', err);
@@ -47,10 +49,13 @@ app.post("/api/data", (req, res) => {
                 Surname: surname,
                 ID_Number: id_Number,
                 DOB: DOB,
+                Gender: Gender,
                 Nationality: nationality,
                 Home_Language: homeLanguage,
                 Other_Languages: otherLanguages,
                 Position: position,
+                Supervisor: Supervisor,
+                profilepicture: profilepicture,
                 Password: password
             };
             res.json(newData);
@@ -76,6 +81,181 @@ app.post("/api/login", (req, res) => {
             }
         }
     );
+});
+
+// Get users
+// app.get('/users', (req, res) => {
+//     const sql = "SELECT * FROM staff_members";
+//     db.query(sql, (err, data) => {
+//         if (err) {
+//             console.error('Error fetching users:', err);
+//             return res.status(500).json({ message: "Error fetching users", error: err });
+//         }
+//         return res.json(data);
+//     });
+// });
+
+// app.get('/getStaffDetails/:id', (req, res) => {
+//     const staffId = req.params.id; 
+  
+//     //Query database to get staff details for this ID
+//     db.query('SELECT * FROM staff_members WHERE Id = ?', [staffId], (error, results) => {
+//       if (error) {
+//         return res.status(500).json({ error: 'Error retrieving staff details' });
+//       }
+//       if (results.length > 0) {
+//         res.json(results[0]);
+//       } else {
+//         res.status(404).json({ error: 'Staff member not found' });
+//       }
+//     });
+//   });
+
+//   //Retrieving profile image
+//   app.get('/staff/:id/profile-image', (req, res) => {
+//     const staffId = req.params.id;
+    
+//     db.query('SELECT profileImg FROM staff_members WHERE Id = ?', [staffId], (err, result) => {
+//       if (err) {
+//         return res.status(500).send('Error fetching image');
+//       }
+      
+//       if (result.length > 0) {
+//         const image = result[0].profileImg; 
+        
+    
+//         res.set('Content-Type', 'image/jpg'); 
+        
+//         // Send the image data as the response
+//         res.send(image);
+//       } else {
+//         res.status(404).send('Image not found');
+//       }
+//     });
+//   });
+
+ 
+// //Change Staff Info
+// app.get('/api/staff', (req, res) => {
+//     const query = 'SELECT Name, Surname, Position FROM staff_members'; 
+//     db.query(query, (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Error retrieving staff data' });
+//         }
+//         console.log(results); 
+//         res.json(results);  
+//     });
+// });
+
+// // Update user
+// app.patch('/users/:id', (req, res) => {
+//     const { id } = req.params;
+//     const updatedData = req.body;
+
+//     const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
+//     const values = [
+//         updatedData.firstname,
+//         updatedData.lastname,
+//         updatedData.dateofbirth,
+//         updatedData.nationality,
+//         updatedData.languages, 
+//         updatedData.languages, 
+//         updatedData.position,
+//         id
+//     ];
+
+//     db.query(sql, values, (err, result) => {
+//         if (err) {
+//             console.error('Error updating employee:', err);
+//             return res.status(500).json({ message: "Error updating employee", error: err });
+
+// });
+
+app.post("/api/leave", (req, res) => {
+    const {employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone} = req.body;
+
+    db.query(
+        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, resuming_work_days,reason, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        [employeeName,position, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay,reason, emergencyName, emergencyAddress, emergencyPhone],
+        (err) => {
+            if (err) throw err;
+            const newLeaveRequest = {
+                EmployeeName:employeeName,
+                position: position,
+                Date:date,
+                SuperVisorName:supervisorName,
+                StartDate:startDate,
+                EndDate:endDate,
+                TotalDays:totalDays,
+                ResumingWorkDay:resumingWorkDay,
+                reason: reason,
+                EmergencyName:emergencyName,
+                EmergencyAddress:emergencyAddress,
+                EmergencyPhone:emergencyPhone
+            };
+            res.json(newLeaveRequest);
+        }
+        res.json({ ID_Number: id, ...updatedData }); // Return updated employee info
+    });
+});
+
+app.post("/api/overtime", (req, res) => {
+    const {employeeName, date, startTime, endTime, duration, reason} = req.body;
+
+    db.query(
+        "INSERT INTO overtime_requests (employee_name, date, start_date, end_date, duration, reason, status, reqstatus) VALUES (?,?,?,?,?,?,'Pending', 'unseen')",
+        [employeeName, date, startTime, endTime, duration, reason],
+        (err) => {
+            if (err) throw err;
+            const newOvertimeRequest = {
+                EmployeeName:employeeName,
+                Date:date,
+                StartTime:startTime,
+                EndTime:endTime,
+                Duration:duration,
+                Reason:reason
+            };
+            res.json(newOvertimeRequest);
+        }
+    )
+})
+
+
+app.post("/api/clock", (req, res) => {
+    const { action, time, date } = req.body;
+
+    db.query(
+        "INSERT INTO clock_log (action, time, date) VALUES (?,?,?)",
+        [action, time, date],
+        (err) => {
+            if (err) throw err;
+            const newClockLog = {
+                action,
+                time,
+                date,
+            };
+            res.json(newClockLog);
+        }
+    );
+});
+
+app.post("/api/printing", (req, res) => {
+    const {from, to, subject, message} = req.body;
+
+    db.query(
+        "INSERT INTO printing_requests (`from`, `to`, `subject`, `message`) VALUES (?,?,?,?)",
+        [from, to, subject, message],
+        (err) => {
+            if (err) throw err;
+            const newPrintingRequest = {
+                from,
+                to,
+                subject,
+                message,
+            }
+            res.json(newPrintingRequest);
+        }
+    )
 });
 
 // Get users
@@ -146,11 +326,12 @@ app.patch('/users/:id', (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
 
-    const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Nationality = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
+    const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, gENDER = ? , Nationality = ?, sUPERVISOR = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
     const values = [
         updatedData.firstname,
         updatedData.lastname,
         updatedData.dateofbirth,
+        updatedData.Gender,
         updatedData.nationality,
         updatedData.languages, 
         updatedData.languages, 
@@ -181,8 +362,149 @@ app.delete('/users/:id', (req, res) => {
 });
 
 // Leave request operations
+
+////
 app.get('/leaverequests', (req, res) => {
-    const sql = "SELECT * FROM leaverequests";
+    const sql = "SELECT * FROM leave_requests ORDER BY id DESC"; // Replace 'created_at' with your actual date column name
+    db.query(sql, (err, data) => {
+        if (err) {
+            console.error('Error fetching leave requests:', err);
+            return res.status(500).json({ message: "Error fetching leave requests", error: err });
+        }
+        return res.json(data);
+    });
+});
+
+
+// Update leave request
+app.patch('/leaverequests/:id', (req, res) => {
+    const { id } = req.params;
+    const { status, msgstatus } = req.body;
+
+    const sql = "UPDATE leave_requests SET status = ?, reqstatus = ? WHERE id = ?";
+    db.query(sql, [status, msgstatus, id], (err, result) => {
+        if (err) {
+            console.error('Error updating leave request:', err);
+            return res.status(500).json({ message: "Error updating leave request", error: err });
+        }
+        res.json({ id, status, msgstatus }); // Return updated leave request info
+    });
+});
+
+// Overtime request section
+app.get('/overtimerequest', (req, res) => {
+    const sql = "SELECT * FROM overtime_requests ORDER BY id DESC";
+    db.query(sql, (err, data) => {
+        if (err) return res.json(err);
+        return res.json(data);
+    });
+});
+
+app.get('/employeeovertime/:Name', (req, res) => {
+    const { Name } = req.params;
+    const sql = "SELECT * FROM overtime_requests WHERE employee_name = ? "; 
+
+    db.query(sql, [Name], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No overtime records found for this user" });
+        }
+        return res.json(data); // Return all matching records
+    });
+});
+
+// Update the status of an overtime request
+app.patch('/overtimerequest/:id', (req, res) => {
+    const requestId = req.params.id;
+    const { status, reqstatus } = req.body;
+
+    console.log(`Updating request ID: ${requestId}, status: ${status}, reqstatus: ${reqstatus}`);
+
+    const sql = "UPDATE overtime_requests SET status = ?, reqstatus = ? WHERE id = ?";
+    db.query(sql, [status, reqstatus, requestId], (err, result) => {
+        if (err) {
+            console.error('Error updating status:', err);
+            return res.status(500).json(err);
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Request not found' });
+        }
+        return res.json({ message: 'Status updated successfully', result });
+    });
+});
+
+///payroll section
+app.get('/hrpayroll', (req, res) => {
+    const sql = "SELECT * FROM pay_roll ORDER BY id DESC";
+    db.query(sql, (err, data) => {
+        if (err) {
+            console.error('Error fetching leave requests:', err);
+            return res.status(500).json({ message: "Error fetching leave requests", error: err });
+        }
+        return res.json(data);
+    });
+});
+
+// Get users
+app.get('/users', (req, res) => {
+    const sql = "SELECT * FROM staff_members ";
+    db.query(sql, (err, data) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            return res.status(500).json({ message: "Error fetching users", error: err });
+        }
+        return res.json(data);
+    });
+});
+
+
+// Update user
+app.patch('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    const sql = "UPDATE staff_members SET Name = ?, Surname = ?, DOB = ?, Gender = ?, Nationality = ?, Supervisor = ?, Home_Language = ?, Other_Languages = ?, Position = ? WHERE ID_Number = ?";
+    const values = [
+        updatedData.firstname,
+        updatedData.lastname,
+        updatedData.dateofbirth,
+        updatedData.Gender,
+        updatedData.nationality,
+        updatedData.Supervisor,
+        updatedData.languages, // Assuming these correspond correctly
+        updatedData.languages, // Assuming this is your home language
+        updatedData.position,
+        id
+    ];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Error updating employee:', err);
+            return res.status(500).json({ message: "Error updating employee", error: err });
+        }
+        res.json({ ID_Number: id, ...updatedData }); // Return updated employee info
+    });
+});
+
+// Delete user
+app.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "DELETE FROM staff_members WHERE ID_Number = ?";
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Error deleting employee:', err);
+            return res.status(500).json({ message: "Error deleting employee", error: err });
+        }
+        res.sendStatus(204); // No content response
+    });
+});
+
+// Leave request operations
+////
+app.get('/leaverequests', (req, res) => {
+    const sql = "SELECT * FROM leave_requests ";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
@@ -206,7 +528,34 @@ app.patch('/leaverequests/:id', (req, res) => {
         res.json({ id, status, msgstatus }); // Return updated leave request info
     });
 });
+// Overtime request section
+app.get('/overtimerequest', (req, res) => {
+    const sql = "SELECT * FROM overtime_requests ORDER BY id DESC";
+    db.query(sql, (err, data) => {
+        if (err) return res.json(err);
+        return res.json(data);
+    });
+});
 
+// Update the status of an overtime request
+app.patch('/overtimerequest/:id', (req, res) => {
+    const requestId = req.params.id;
+    const { status, reqstatus } = req.body;
+
+    console.log(`Updating request ID: ${requestId}, status: ${status}, reqstatus: ${reqstatus}`);
+
+    const sql = "UPDATE overtime_requests SET status = ?, reqstatus = ? WHERE id = ?";
+    db.query(sql, [status, reqstatus, requestId], (err, result) => {
+        if (err) {
+            console.error('Error updating status:', err);
+            return res.status(500).json(err);
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Request not found' });
+        }
+        return res.json({ message: 'Status updated successfully', result });
+    });
+});
 
 // Start server
 app.listen(8080, () => {

@@ -11,20 +11,19 @@ body {
     width: 100%;
     height: 20%;
     display: inline-flex;
-    text-align: center;
-    
-  }
-  .hrheader img{
+    text-align: center;  
+}
+.hrheader img{
     width: 4%;
     height: 5%;
-  }
-  .hrheader p{
+}
+.hrheader p{
     color: white;
     font-weight: 600;
     margin-top: 1%;
     margin-left: 0.5%;
   }
-  .arrow{
+.arrow{
     width: 80%;
     position: absolute;
     margin-top: 360%;
@@ -32,10 +31,14 @@ body {
   .hrsidebar {
     width: 5%;
     height: 150%;
+    height: 100%;
+/*     height: 150%; */
     position: absolute;
     background-color: rgb(17, 17, 85);
     transition: ease-in-out 0.2s;
     text-align: center;
+    overflow: hidden; /* Ensure content doesn't overflow when resized */
+/*     overflow-y: auto;  */
     overflow-y: auto; /* Ensure content doesn't overflow when resized */
     display: flex;
     flex-direction: column; /* Stack children vertically */
@@ -51,10 +54,10 @@ body {
     height: auto; /* Maintain aspect ratio */
     margin: 10% 0; /* Adjust vertical margin */
   }
-  .hrsidebar .usersname{
+.hrsidebar .usersname{
    color: white;
   }
-  .hrsidebar:hover {
+.hrsidebar:hover {
     width: 17%;
     background-color: rgb(17, 17, 85);
     transition: ease-in-out 0.2s;
@@ -104,6 +107,30 @@ body {
     cursor: pointer;
   }
   
+
+  
+  .hrsidebar a {
+    color: white;
+  }
+  
+  /*highlght currently active link*/
+  .tab {
+    display: flex;
+    align-items: center; 
+    padding: 10px; 
+    cursor: pointer; 
+  }
+  
+  .tab img {
+    margin-right: 10px; 
+  }
+  
+  /* Style for the active tab */
+  .active .tab1 {
+    background-color: #007bff; 
+    color: white; 
+  }
+  
   .icons {
     width: 20px; /* Set a fixed width for icons */
     height: 20px; /* Set a fixed height for icons */
@@ -122,7 +149,7 @@ body {
     transition: background-color 0.3s; /* Smooth background color transition */
     opacity: 0;
     transition: ease-in-out 0.2s;
-  }
+  } */
   .hrlogout:hover{
     background-color: brown;
     
@@ -226,6 +253,9 @@ body {
     margin-top: 2%;
     width: 80%;
     height: 100%;
+  }
+  .employeestable tr:hover{
+    cursor: pointer;
   }
   .employeestable tr:hover{
     cursor: pointer;
@@ -538,27 +568,9 @@ body {
     width: 100%; /* Use full width of parent */
     overflow-y: scroll;
   }
-  .hrleaverequests .fromtable tr:hover {
-    cursor: pointer;
-    background-color: rgb(0, 0, 136);
-  }
-  .fromtable tr{
-    width: 100%;
-    display: inline-block;
-  }
-  #leavesender{
-    width: 40%;
-  }
-  #picdiv{
-    width: 100%;
-  }
-  .fromtable #innerpropic{
-    width: 100%;
-    height: 4rem;
-    text-align: center;
-  }
-  .fromtable #msgstatus{
-    width: 1rem;
+  .hrleaverequests .fromtable img{
+    width: 30%;
+    margin-right: 4%;
   }
   .hrleaverequests .fromtable p{
     width: 30%;
@@ -658,64 +670,7 @@ body {
     background-color: rgb(146, 0, 0);
     cursor: pointer;
   }
-
-
-  /* Payroll section */
   
-  #hrpayrolldiv{
-    background-color: white;
-    width: 85%;
-    height: 31rem;
-    margin-left: 10%;
-    text-align: center;
-  }
-  #hrpayrolldiv h4{
-    color: white;
-    background-color: #090081;
-  }
-  #hrpayroll{
-    background-color: #ffffff;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    display: flex;
-  }
-  #payrollemployees{
-    width: 20%;
-    height: 100%;
-    background-color: #e7e7e7;
-    overflow-y: scroll;
-  }
-  #payrollemployees tr{
-    background-color: #d3d3d3;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  #payrollemployees tr:hover{
-    background-color: #363636;
-    cursor: pointer;
-  }
-  #payrollemployees td{
-    background-color: white;
-    text-align: center;
-    padding-top: 2rem;
-    height: 3rem;
-    width: 95%;
-  }
-  #payrollemployees td:hover{
-    background-color: #b3b3b3;
-  }
-#hrpayinfo{
-  width: 80%;
-  height: 100%;
-  background-color: #ebebeb;
-}
-#hrpayrollinfo{
-  width: 100%;
-  height: 20%;
-}
-#hrpayrollinfo tbody td{
-  background-color: white;
-}
+  
+  
+  

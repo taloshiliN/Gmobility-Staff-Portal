@@ -1,16 +1,22 @@
-import HRheader from './HRheader.jsx'
+import Header from '../../components/header';
+import SidebarNav from '../../components/sidebarNav';
 import './style/HRstyle.css'
 import defaultimg from './assets/defaulticon.png'
 import unseen from './assets/unseen.png';
 import seen from './assets/seenstatus.png';
+import plus from './assets/plus.png'
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function HROvertimerequests(){
+  const position = useSelector((state)=> state.auth.position)
+  const navigate = useNavigate()
    const [data, setData] = useState([]);
    const [selectedRequest, setSelectedRequest] = useState(null);
 
    useEffect(() => {
-      fetch('http://localhost:3000/overtimerequest')
+      fetch('http://localhost:8080/overtimerequest')
         .then(res => {
           if (!res.ok) {
             throw new Error('Network response was not ok');
@@ -25,7 +31,7 @@ function HROvertimerequests(){
     }, []);
    
     const updateRequestStatus = (requestId, status, reqstatus) => {
-      fetch(`http://localhost:3000/overtimerequest/${requestId}`, {
+      fetch(`http://localhost:8080/overtimerequest/${requestId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +78,9 @@ function HROvertimerequests(){
     };
     return(
         <>
-        <HRheader/>
+    <Header />
+    <SidebarNav position={position}/>
+        <div id="hrovertimediv">
         <div className='overtimediv'>
            <div className='fromtablecontainer'>
            <table className='fromtable'>
@@ -83,12 +91,12 @@ function HROvertimerequests(){
                   </tr>
                 ) : (
                   data.map((d, i) => (
-                    <tr key={i} onClick={() => handleClick(d)}>
+                    <tr id="innerrow" key={i} onClick={() => handleClick(d)}>
                       <td>
-                        <img id="innerpropic" src={d.profile || defaultimg} alt="profile" />
+                        <img id="innerpropic" src={d.profilepicture || defaultimg} alt="profile" />
                       </td>
-                      <td>{d.sender}</td>
-                      <td>
+                      <td>{d.employee_name}</td>
+                      <td id="reqstatus">
                         {d.reqstatus === 'unseen' && <img id="reqstatus" src={unseen} alt="unseen" />}
                         {d.reqstatus === 'seen' && <img id="reqstatus" src={seen} alt="seen" />}
                       </td>
@@ -105,18 +113,18 @@ function HROvertimerequests(){
                 <tbody>
                   <tr>
                     <td><p className='titl'>From:</p></td>
-                    <td><p>{selectedRequest.sender}</p></td>
+                    <td><p>{selectedRequest.employee_name}</p></td>
                     <td><p className='titl'>Position:</p></td>
                     <td><p>{selectedRequest.position || 'N/A'}</p></td>
                   </tr>
                   <tr>
                     <td><p className='titl'>Start Date:</p></td>
-                    <td><p>{selectedRequest.startDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.start_date || 'N/A'}</p></td>
                     <td><p className='titl'>End Date:</p></td>
-                    <td><p>{selectedRequest.endDate || 'N/A'}</p></td>
+                    <td><p>{selectedRequest.end_date || 'N/A'}</p></td>
                   </tr>
                   <tr>
-                    <td><p className='titl'>Time Frame:</p></td>
+                    <td><p className='titl'>Total Days:</p></td>
                     <td><p>{selectedRequest.duration || 'N/A'}</p></td>
                     <td><p className='titl'>Status:</p></td>
                     <td><p>{selectedRequest.status || 'Pending'}</p></td>
@@ -135,6 +143,11 @@ function HROvertimerequests(){
             )}
           </div>
         </div>
+        <div id="newovertimereq"  onClick={event =>  navigate('/hrrequestovertime')}>
+              <img src={plus}></img>
+              <p>Create Overtime Request</p>
+          </div>
+          </div>
     </>
   );
 }

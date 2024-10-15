@@ -11,6 +11,9 @@ import PasswordrequestPage from "./pages/employee/passwordrequestPage"
 import PrintingrequestPage from "./pages/employee/printingrequestPage"
 import ClockinclockoutPage from "./pages/employee/clockinclockoutPage"
 import StaffRegistrationForm from "./components/StaffRegister"
+import HRLeaverequests from "./pages/hr/HRLeaverequests"
+import HROvertimerequests from "./pages/hr/HROvertimerequests"
+import HRrequestovertime from './pages/hr/HRrequestovertime'
 import ProtectedRoute from "./components/ProtectedRoute"
 import AdminHomePage from "./pages/admin/adminHomePage"
 import StaffRegistrationAdmin from "./pages/admin/staffRegistrationAdmin"
@@ -27,8 +30,13 @@ import HRChosenemployee from "./pages/hr/HRChosenemployee"
 import HRRequests from "./pages/hr/HRRequests"
 import AdminRequests from "./pages/admin/adminRequests"
 import HRHomePage from "./pages/hr/HRhomePage"
+// import HRPayroll from "./pages/hr/HRPayroll"
+import HRrequestleave from "./pages/hr/HRrequestleave"
+import HRChosenemployee from "./pages/hr/HRChosenemployee"
+import HRRequests from "./pages/hr/HRRequests"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
+
 function Logout(){
   localStorage.clear()
   return <Navigate to="/MainPage" />
@@ -211,7 +219,6 @@ function App() {
 
         <Route 
         path="/HROvertimerequests" 
-//         path="/hrrequestovertime" 
         element={
         <ProtectedRoute>
           <HRrequestovertime />
@@ -230,6 +237,12 @@ function App() {
 
 
         <Route 
+        path="/hrchosenemployee" 
+        element={
+        <ProtectedRoute>
+          <HRrequestovertime />
+
+ <Route 
         path="/hrchosenemployee" 
         element={
         <ProtectedRoute>
@@ -286,13 +299,31 @@ function App() {
         }
         />
 
-     
+        <Route 
+        path="/overtimerequestview" 
+        element={
+        <ProtectedRoute>
+          <ViewOvertimeRequests />
+        </ProtectedRoute>
+        }
+        />
+
+
+        <Route 
+        path="/printingrequestview" 
+        element={
+        <ProtectedRoute>
+          <ViewPrintingrequest />
+        </ProtectedRoute>
+        }
+        />
 
         {/* Super Admin Portal*/}
-        
+       
         </Routes>
       </BrowserRouter>
     </Provider>
+  
     </>
   )
 }

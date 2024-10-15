@@ -9,18 +9,17 @@ body {
   }
   .Employee-sidebar {
     width: 5%;
-    height: calc(100vh - 8%); 
+    height: 100vh;
     position: fixed;
     top: 11%; 
     background-color: rgb(17, 17, 85);
     transition: width 0.3s ease;
     text-align: center;
-    overflow: hidden; 
+    overflow: hidden; /* Ensure content doesn't overflow when resized */
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: space-between;
-    z-index: 1000;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center align items horizontally */
+    justify-content: space-between; /* Space out content evenly */
   } 
   .Employee-sidebar:hover {
     width: 17%;
