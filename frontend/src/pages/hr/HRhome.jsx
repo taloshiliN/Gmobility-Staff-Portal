@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SidebarNav from '../../components/sidebarNav.jsx';
 import Header from '../../components/header.jsx';
 import profile2 from './assets/profile2.png';
 import MessagingFloat from './MessageFloat.jsx';
-
+import personicon from './assets/personicon.png';
 
 function HRhome() {
-
+    const navigate = useNavigate();
+    const [data, setData] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const user = useSelector((state) => state.auth.data[0]); 
 
     console.log("User Data:", user); 
     if (!user) {
-        return <div>Loading...</div>; 
+        return <div>Loading...</div>;
     }
 
     const position = useSelector((state)=> state.auth.position)
@@ -67,18 +69,40 @@ function HRhome() {
                         </table>
                     </div>
                     <div>
-                        <div className='clockingsection'>
-                            <hr />
-                            <div className='clockingtimes'>
-                                <p>Current time: <h5>10:31</h5></p>
-                                <p>Time clocked-In: <h5>07:45</h5></p>
-                                <p>Time-clocked-out: <h5>None</h5></p>
-                            </div>
-                            <button className='clockinbutton'>Clock-In</button>
-                            <button className='clockoutbutton'>Clock-Out</button>
-                            <hr />
-                        </div>
+//                         <div className='clockingsection'>
+//                             <hr />
+//                             <div className='clockingtimes'>
+//                                 <p>Current time: <h5>10:31</h5></p>
+//                                 <p>Time clocked-In: <h5>07:45</h5></p>
+//                                 <p>Time-clocked-out: <h5>None</h5></p>
+//                             </div>
+//                             <button className='clockinbutton'>Clock-In</button>
+//                             <button className='clockoutbutton'>Clock-Out</button>
+//                             <hr />
+//                         </div>
                         <MessagingFloat />
+                    <div className='innerhomecontent'>
+                        {filteredData.length === 0 ? (
+                            <p>No employees found</p>
+                        ) : (
+                            filteredData.map((d, i) => (
+                                <div 
+                                    key={i} 
+                                    className="employeecard" 
+                                    onClick={() => navigate('/hrchosenemployee', { state: { employee: d } })} 
+                                >
+                                    <img  
+                                        src={`http://localhost:8080/staff/${d.id}/profile-image`} 
+                                        alt='Profile Image' 
+                                    />
+
+                                    <div id="employeeinner">
+                                        <p id="employeename">{d.Name} {d.Surname}</p>
+                                        <p id="employeeposition">{d.Position}</p>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             </div>

@@ -7,12 +7,10 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 function HREmployees() {
-    const position = useSelector((state)=> state.auth.position)
-
+    const position = useSelector((state) => state.auth.position);
     const [data, setData] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-
     const [editedEmployee, setEditedEmployee] = useState({
         firstname: '',
         lastname: '',
@@ -26,18 +24,20 @@ function HREmployees() {
     });
 
     useEffect(() => {
-//         fetch('http://localhost:5173/users')
-        fetch('http://localhost:8080/users')
-            .then(res => {
-                if (!res.ok) {
+        const fetchEmployees = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/users');
+                if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return res.json();
-            })
-            .then(data => {
+                const data = await response.json();
                 setData(data);
-            })
-            .catch(err => console.error('Fetch error:', err));
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        };
+
+        fetchEmployees();
     }, []);
 
     const handleRowClick = (employee) => {
@@ -46,8 +46,8 @@ function HREmployees() {
             firstname: employee.Name,
             lastname: employee.Surname,
             Supervisor: employee.Supervisor,
-            id_number: employee.ID_Number,
-            DOB: employee.DOB.stringify ? employee.DOB.split('T')[0] : '', // Format to YYYY-MM-DD for input
+            ID_Number: employee.ID_Number, // Ensure correct mapping
+            DOB: employee.DOB ? employee.DOB.split('T')[0] : '', // Format to YYYY-MM-DD
             Gender: employee.Gender,
             nationality: employee.Nationality,
             languages: employee.Other_Languages,
@@ -61,52 +61,52 @@ function HREmployees() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setEditedEmployee(prev => ({ ...prev, [name]: value }));
+        setEditedEmployee((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleUpdateEmployee = () => {
-        fetch(`http://localhost:8080/users/${editedEmployee.id_number}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                ...editedEmployee,
-                DOB: editedEmployee.DOB // Ensure DOB is sent as a date
-            }),
-        })
-        .then(res => {
-            if (!res.ok) {
+    const handleUpdateEmployee = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/users/${selectedEmployee.id}`, { // Use selectedEmployee.id
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editedEmployee),
+            });
+
+            if (!response.ok) {
                 throw new Error('Failed to update employee');
             }
-            return res.json();
-        })
-        .then(updatedEmployee => {
-            setData(prevData => 
-                prevData.map(emp => emp.ID_Number === updatedEmployee.ID_Number ? updatedEmployee : emp)
+
+            const updatedEmployee = await response.json();
+            setData((prevData) =>
+                prevData.map((emp) => (emp.id === updatedEmployee.id ? updatedEmployee : emp))
             );
             setSelectedEmployee(updatedEmployee);
             setEditedEmployee(updatedEmployee);
-        })
-        .catch(err => console.error('Update error:', err));
+        } catch (error) {
+            console.error('Update error:', error);
+        }
     };
 
-    const handleDeleteEmployee = () => {
+    const handleDeleteEmployee = async () => {
         if (!selectedEmployee) return;
 
-        fetch(`http://localhost:8080/users/${selectedEmployee.ID_Number}`, {
-            method: 'DELETE',
-        })
-        .then(res => {
-            if (!res.ok) {
+        try {
+            const response = await fetch(`http://localhost:8080/users/${selectedEmployee.id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
                 throw new Error('Failed to delete employee');
             }
-            setData(prevData => prevData.filter(emp => emp.ID_Number !== selectedEmployee.ID_Number));
+
+            setData((prevData) => prevData.filter((emp) => emp.id !== selectedEmployee.id));
             setSelectedEmployee(null);
             setEditedEmployee({
                 firstname: '',
                 lastname: '',
-                id_number: '',
+                ID_Number: '',
                 Supervisor: '',
                 DOB: '',
                 Gender: '',
@@ -114,31 +114,29 @@ function HREmployees() {
                 languages: '',
                 position: '',
             });
-        })
-        .catch(err => console.error('Delete error:', err));
+        } catch (error) {
+            console.error('Delete error:', error);
+        }
     };
 
-    const filteredData = data.filter(employee => {
-        return (
-            employee.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.Surname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.Supervisor.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.Position.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-    });
+    const filteredData = data.filter((employee) =>
+        [employee.Name, employee.Surname, employee.Supervisor, employee.Position].some((field) =>
+            field.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+    );
 
     return (
         <>
-               <Header />
-               <SidebarNav position={position}/>
+            <Header />
+            <SidebarNav position={position} />
             <div className='viewemployees'>
                 <div className='employeesearch'>
                     <img className='searchicon' src={search} alt="Search" />
-                    <input 
-                        type="text" 
-                        placeholder='Search' 
-                        value={searchQuery} 
-                        onChange={handleSearchChange} 
+                    <input
+                        type="text"
+                        placeholder='Search'
+                        value={searchQuery}
+                        onChange={handleSearchChange}
                     />
                 </div>
                 <div className='employeecontents'>
@@ -156,7 +154,7 @@ function HREmployees() {
                         <tbody>
                             {filteredData.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5">No employees found.</td>
+                                    <td colSpan="6">No employees found.</td>
                                 </tr>
                             ) : (
                                 filteredData.map((d, i) => (
@@ -180,11 +178,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Name:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="firstname" 
-                                                value={editedEmployee.firstname} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="firstname"
+                                                value={editedEmployee.firstname}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -193,11 +191,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Surname:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="lastname" 
-                                                value={editedEmployee.lastname} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="lastname"
+                                                value={editedEmployee.lastname}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -206,11 +204,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Supervisor:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="Supervisor" // Changed to match state
-                                                value={editedEmployee.Supervisor} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="Supervisor"
+                                                value={editedEmployee.Supervisor}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -219,11 +217,11 @@ function HREmployees() {
                                     <td className='chosendetails'>ID Number:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="id_number" 
-                                                value={editedEmployee.id_number} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="ID_Number"
+                                                value={editedEmployee.ID_Number}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -232,11 +230,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Date of Birth:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="date" 
-                                                name="DOB" 
-                                                value={editedEmployee.DOB} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="date"
+                                                name="DOB"
+                                                value={editedEmployee.DOB}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -245,11 +243,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Gender:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="Gender" // Changed to match state
-                                                value={editedEmployee.Gender} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="Gender"
+                                                value={editedEmployee.Gender}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -258,11 +256,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Nationality:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="nationality" 
-                                                value={editedEmployee.nationality} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="nationality"
+                                                value={editedEmployee.nationality}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -271,11 +269,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Language:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="languages" 
-                                                value={editedEmployee.languages} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="languages"
+                                                value={editedEmployee.languages}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
@@ -284,11 +282,11 @@ function HREmployees() {
                                     <td className='chosendetails'>Position:</td>
                                     <td>
                                         {selectedEmployee ? (
-                                            <input 
-                                                type="text" 
-                                                name="position" 
-                                                value={editedEmployee.position} 
-                                                onChange={handleInputChange} 
+                                            <input
+                                                type="text"
+                                                name="position"
+                                                value={editedEmployee.position}
+                                                onChange={handleInputChange}
                                             />
                                         ) : '-----'}
                                     </td>
