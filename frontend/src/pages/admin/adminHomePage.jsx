@@ -1,58 +1,117 @@
-import '../../styles/AdminHomePage.css'; // Ensure this CSS file exists
+import '../../styles/AdminHomePage.css';
 import Header from '../../components/header';
 import SidebarNav from '../../components/sidebarNav';
 import { useSelector } from 'react-redux';
+import { useState } from 'react'; 
+import register from '../../assets/register.png'
+import staffProfile from '../../assets/staffProfile.png'
+import approve from '../../assets/approve.png'
+import reject from '../../assets/reject.png'
+import clock from '../../assets/clock.png'
+import MessageFloat from '../hr/MessageFloat';
+
 
 function AdminHomePage() {
-  const position = useSelector((state)=> state.auth.position)
+  const position = useSelector((state) => state.auth.position);
+  const adminName = useSelector((state) => state.auth.data[0]);
 
-  const adminName = "Samantha"; // Replace with the dynamic name if needed
+  const [showPopup, setShowPopup] = useState(false);
+
+  console.log("User Data:", adminName);
+  if (!adminName) {
+    return <div>Loading...</div>;
+  }
+
+  // Array of department titles
+  const departments = [
+    'Super Admin',
+    'Admin',
+    'HR',
+    'DevOps',
+    'Technical',
+    'Accounting',
+    'Printing',
+  ];
+
+  const handleAdminClick = () => {
+    setShowPopup(true); // Show the admin action card pop-up
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false); // Hide the admin action card pop-up
+  };
 
   return (
     <>
-    <Header />
-    <SidebarNav position={position}/>
-      <div className="profile-card">
-        <h2>Welcome {adminName}</h2> {/* Welcome message */}
-        <img className="profile-image" src="https://via.placeholder.com/150" alt="Profile" />
-        <div className="profile-info">
-          <div className="profile-row">
-            <span className="label">Name:</span>
-            <span className="value">Samantha</span>
+      <Header />
+      <SidebarNav position={position} />
+      <MessageFloat />
+      <div className={`profile-card ${showPopup ? 'blur-background' : ''}`}>
+        <h2>Welcome Admin {adminName.Name}</h2> {/* Welcome message */}
+      </div>
+
+      {/* Department Containers */}
+      <div className={`department-containers ${showPopup ? 'blur-background' : ''}`}>
+        {departments.map((department, index) => (
+          <div 
+          key={index} 
+          className='department-container'
+          onClick={department === 'Admin' ? handleAdminClick : undefined}>
+            <h3>{department}</h3>
           </div>
-          <div className="profile-row">
-            <span className="label">Surname:</span>
-            <span className="value">Smith</span>
-          </div>
-          <div className="profile-row">
-            <span className="label">ID Number:</span>
-            <span className="value">4567899876</span>
-          </div>
-          <div className="profile-row">
-            <span className="label">Date of Birth:</span>
-            <span className="value">06/11/1982</span>
-          </div>
-          <div className="profile-row">
-            <span className="label">Nationality:</span>
-            <span className="value">Namibian</span>
-          </div>
-          <div className="profile-row">
-            <span className="label">Position:</span>
-            <span className="value">Admin</span>
-          </div>
-          <div className="profile-row">
-            <span className="label">Languages:</span>
-            <span className="value">Oshiwambo, English, French</span>
+        ))}
+      </div>
+
+      {/* Admin Action Pop-up */}
+      {showPopup && (
+        <div className="popup-container">
+          <div className="popup-content">
+            <h2>As an Admin you can:</h2>
+            <ul>
+              <li>
+                <img
+                  src={register}
+                  alt="Register staff"
+                />
+                Register staff
+              </li>
+              <li>
+                <img
+                  src={staffProfile}
+                  alt="View staff profiles"
+                />
+                View staff profiles
+              </li>
+              <li>
+                <img
+                  src={approve}
+                  alt="Approve requests"
+                />
+                Approve leave/overtime/printing requests
+              </li>
+              <li>
+                <img
+                  src={reject}
+                  alt="Reject requests"
+                />
+                Reject leave/overtime/printing requests
+              </li>
+              <li>
+                <img
+                  src={clock}
+                  alt="Clock in/out times"
+                />
+                View clock in/clock out times
+              </li>
+            </ul>
+            <button className="return-button" onClick={handleClosePopup}>
+              Return
+            </button>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
 
 export default AdminHomePage;
-
-
-
-
-

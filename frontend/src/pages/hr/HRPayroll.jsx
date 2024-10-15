@@ -57,7 +57,7 @@ function HRPayroll() {
                             ) : (
                                 employees.map((employee, index) => (
                                     <tr key={index} onClick={() => handleRowClick(employee)}>
-                                        <td>{employee.firstname} {employee.lastname}</td>
+                                        <td>{employee.Name} {employee.Surname}</td>
                                     </tr>
                                 ))
                             )}
@@ -91,8 +91,8 @@ function HRPayroll() {
                                 ) : (
                                     filteredPayrollInfo.map((d, i) => (
                                         <tr key={i}>
-                                            <td>{d.firstname}</td>
-                                            <td>{d.lastname}</td>
+                                            <td>{d.Name}</td>
+                                            <td>{d.Surname}</td>
                                             <td>{d.Position}</td>
                                             <td>{d.regular_rate || 'N/A'}</td>
                                             <td>{d.overtime_rate || 'N/A'}</td>

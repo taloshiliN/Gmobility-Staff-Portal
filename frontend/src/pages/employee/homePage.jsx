@@ -1,47 +1,133 @@
-import '../../pages/hr/style/index.css';
-import SidebarNav from '../../components/sidebarNav.jsx';
-import Header from '../../components/header.jsx';
-import DigitalClock from '../../components/clock.jsx';
+import '../../styles/HomePage.css';
+import Header from '../../components/header';
+import SidebarNav from '../../components/sidebarNav';
 import { useSelector } from 'react-redux';
+import { useState } from 'react'; 
+import staffProfile from '../../assets/staffProfile.png';
+import leaveRequest from '../../assets/leaveRequest.png';
+import requestOvertime from '../../assets/requestOvertime.png' 
+import requestPrint from '../../assets/requestPrint.png'
+import viewRequests from '../../assets/viewRequests.png'
+import payroll from '../../assets/payroll.png'
+import clockinout from '../../assets/clockinout.png'
+import MessageFloat from '../hr/MessageFloat';
+import DigitalClock from '../../components/clock.jsx';
 
-function HomePage() {
-  const auth = useSelector((state) => state.auth);
-  const userData = auth.data && auth.data[0];
-  const position = userData?.Position || auth.position || 'Employee';
-  const firstname = userData?.Name || 'User';
 
-  const mainContentStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 'calc(100vh - 60px)', // Adjust 60px to match your header height
-    marginLeft: '250px', // Adjust this to match your sidebar width
+function HomePage(){
+  const position = useSelector((state) => state.auth.position);
+  const employeeName = useSelector((state) => state.auth.data[0]);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  console.log("User Data:", employeeName);
+  if (!employeeName) {
+    return <div>Loading...</div>;
+  }
+
+  // Array of department titles (if necessary, or replace with other employee-relevant data)
+  const departments = [
+    'Super Admin',
+    'Admin',
+    'HR',
+    'DevOps',
+    'Technical',
+    'Accounting',
+    'Printing',
+  ];
+
+  const handleEmployeeClick = () => {
+    setShowPopup(true); 
   };
 
-  const welcomeStyle = {
-    fontSize: '28px',
-    fontWeight: 'bold',
-    marginBottom: '20px',
-    color: '#333',
-    textAlign: 'center',
-    textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-    animation: 'welcomeAnimation 2s ease-in-out infinite alternate',
+  const handleClosePopup = () => {
+    setShowPopup(false); 
   };
-
-  return (
-    <>
-      <div>
+    return(
+        <>
         <Header />
         <SidebarNav position={position} />
-        <div className='main-content'>
-          <div style={mainContentStyle}>
-            <DigitalClock />
+        <MessageFloat />
+      <div className={`profile-card2 ${showPopup ? 'blur-background' : ''}`}>
+        <h2>Welcome Employee {employeeName.Name}</h2>
+      </div>
+
+      {/* Department Containers (can adjust this to reflect employee roles or actions) */}
+      <div className={`department-containers2 ${showPopup ? 'blur-background' : ''}`}>
+        {departments.map((department, index) => (
+          <div 
+          key={index} 
+          className='department-container2'
+          onClick={department === 'DevOps' ? handleEmployeeClick : undefined}>
+            <h3>{department}</h3>
+          </div>
+        ))}
+      </div>
+
+      {/* Employee Action Pop-up */}
+      {showPopup && (
+        <div className="popup-container2">
+          <div className="popup-content2">
+            <h2>As a DevOps you can:</h2>
+            <ul>
+            <li>
+                <img
+                  src={staffProfile}
+                  alt="View your profile"
+                />
+                View your profile
+              </li>
+              <li>
+                <img
+                  src={leaveRequest}
+                  alt="Request leave"
+                />
+                Request for leave
+              </li>
+              <li>
+                <img
+                  src={requestOvertime}
+                  alt="Request to work overtime"
+                />
+              Request to work overtime
+              </li>
+              <li>
+                <img
+                  src={requestPrint}
+                  alt="Request to print"
+                />
+                Request to print
+              </li>
+              <li>
+                <img
+                  src={viewRequests}
+                  alt="View feedback for your requests"
+                />
+                View feedback for your requests 
+              </li>
+              <li>
+                <img
+                  src={payroll}
+                  alt="payroll information"
+                />
+                View your payroll information
+              </li>
+              <li>
+                <img
+                  src={clockinout}
+                  alt=" Clock in/out"
+                />
+                Clock in/out
+              </li>
+            </ul>
+            <button className="return-button2" onClick={handleClosePopup}>
+              Return
+            </button>
           </div>
         </div>
-      </div>
-    </>
-  );
+      )}
+        </>
+    );
 }
 
 export default HomePage;
