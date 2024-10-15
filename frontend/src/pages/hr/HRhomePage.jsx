@@ -47,7 +47,7 @@ function HRHomePage() {
       <SidebarNav position={position} />
       <MessageFloat />
       <div className={`profile-card3 ${showPopup ? 'blur-background' : ''}`}>
-        <h2>Welcome HR {HRName.Name}</h2> 
+        <h2>Welcome HR {HRName.Name}</h2> {/* Welcome message for HR */}
       </div>
 
       {/* Department Containers for HR actions */}
