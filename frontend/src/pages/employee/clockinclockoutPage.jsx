@@ -19,6 +19,11 @@ function ClockinclockoutPage() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
+    const fetchClockLogs = async () => {
+      const response = await fetch(`http://localhost:8080/api/clock/${userId}`);
+      const data = await response.json();
+      setLog(data);
+    };
     const updateClock = () => {
       const now = new Date();
       const secondsRatio = now.getSeconds() / 60;
@@ -29,12 +34,13 @@ function ClockinclockoutPage() {
       document.getElementById('minute-hand').style.setProperty('--rotation', minutesRatio * 360);
       document.getElementById('second-hand').style.setProperty('--rotation', secondsRatio * 360);
     };
+    fetchClockLogs();
 
     updateClock();
     const intervalId = setInterval(updateClock, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [userId]);
 
   const handleClockAction = (action) => {
     const currentDate = new Date();

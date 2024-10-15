@@ -47,6 +47,7 @@ function HomePage(){
         <>
         <Header />
         <SidebarNav position={position} />
+        <div className='main-content'>
         <MessageFloat />
       <div className={`profile-card2 ${showPopup ? 'blur-background' : ''}`}>
         <h2>Welcome Employee {employeeName.Name}</h2>
@@ -126,6 +127,7 @@ function HomePage(){
           </div>
         </div>
       )}
+        </div>
         </>
     );
 }
