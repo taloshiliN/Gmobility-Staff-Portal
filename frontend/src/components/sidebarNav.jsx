@@ -13,7 +13,7 @@ function SidebarNav({position}) {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/loginPage')
+    navigate('/login')
   }
 
   if (!position) {
@@ -27,8 +27,8 @@ function SidebarNav({position}) {
 
   return (
     <>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous"></link>
-    <div className={`Employee-sidebar ${isExpanded ? 'expanded' : ''}`} onClick={toggleSidebar}>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous"></link>
+      <div className={`Employee-sidebar ${isExpanded ? 'expanded' : ''}`} onClick={toggleSidebar}>
   <img className='arrow' src={arrow} alt="Toggle Sidebar" />
   <ul className={`${isExpanded ? '' : 'disabled-links'}`}>
     {/*Employee */}
@@ -61,16 +61,19 @@ function SidebarNav({position}) {
           <li>Home</li>
         </NavLink>
         <NavLink to="/hremployees">
-          <li>Employees</li>
+          <li>View Employees</li>
         </NavLink>
         <NavLink to="/staffregistration">
           <li>Staff registration</li>
         </NavLink>
-        <NavLink to="/hrleaverequests">
-          <li>View Leave Request</li>
+        <NavLink to="/hrrequests">
+          <li>View Requests</li>
         </NavLink>
-        <NavLink to="/hrovertimerequests">
-          <li>View Overtime Requests</li>
+        <NavLink to="/hrpayroll">
+          <li>View Payroll</li>
+        </NavLink>
+        <NavLink to="/hrdocupload">
+          <li>Upload document</li>
         </NavLink>
        
   </>
@@ -84,8 +87,8 @@ function SidebarNav({position}) {
         <NavLink to="/staffregistrationadmin">
           <li>Manage employees</li>
         </NavLink>
-        <NavLink to="/leaverequestview">
-          <li>View Leave Requests</li>
+        <NavLink to="/viewrequests">
+          <li>View Requests</li>
         </NavLink>
       
         <NavLink to="/printingrequestview">

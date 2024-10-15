@@ -273,7 +273,7 @@ app.get("/api/clock/:userId", (req, res)=> {
     const {userId} = req.params;
 
     db.query(
-        "SELECT * FROM clock_log WHERE userId = ? ORDER BY date DESC, time DESC",
+        "SELECT * FROM clock_log WHERE user_id = ? ORDER BY date DESC, time DESC",
         [userId],
         (err, results) => {
             if (err) return res.status(500).json({message: "Error fetching clock logs", error: err});

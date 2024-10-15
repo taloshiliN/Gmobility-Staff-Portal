@@ -230,13 +230,13 @@ function StaffRegistrationForm() {
             </div>
 
         <div className="form-group">
-          <label htmlFor="position">Position</label>
+          <label htmlFor="Position">Position</label>
           <select
             type="text" 
-            id="position" 
-            name="position"
+            id="Position" 
+            name="Position"
             placeholder='Position'
-            value={position} 
+            value={Position} 
             onChange={e=>setPosition(e.target.value)}
             required 
           >

@@ -235,15 +235,6 @@ function App() {
         }
         />
 
-        <Route 
-        path="/hrchosenemployee" 
-        element={
-        <ProtectedRoute>
-          <HRrequestovertime />
-        </ProtectedRoute>
-        } 
-        />
-
 
         <Route 
         path="/hrchosenemployee" 
