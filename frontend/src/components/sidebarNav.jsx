@@ -18,7 +18,7 @@ function SidebarNav({position}) {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/loginPage')
+    navigate('/login')
   }
 
   if (!position) {
@@ -36,6 +36,9 @@ function SidebarNav({position}) {
           {/*Employee */}
           {position === 'Employee' && (
             <>
+             <li>
+                <NavLink to="/home">Home</NavLink>
+              </li>
               <li>
                 <NavLink to="/leaverequest">Leave Requests</NavLink>
               </li>
@@ -57,26 +60,23 @@ function SidebarNav({position}) {
           {position === 'Human Resource' && (
             <>
             <li>
+              <NavLink to="/HRhomePage">Home Page</NavLink>
+            </li>
+            
+            <li>
               <NavLink to="/hrhome">Home</NavLink>
             </li>
-            <li>
-              <NavLink to="/hremployees">Employees</NavLink>
-            </li>
+        
             <li>
               <NavLink to="/staffregistration">Staff registration</NavLink>
             </li>
-            <li>
-              <NavLink to="/HRViewStaff">View Staff Profiles</NavLink>
-            </li>
-            <li>
-              <NavLink to="/hrleaverequests">View Leave Request</NavLink>
-            </li>
-            <li>
-              <NavLink to="/hrovertimerequests">View Overtime Requests</NavLink>
-            </li>
+
             <li>
               <NavLink to="/hrpayroll">View Payrolls</NavLink>
             </li>
+            <li>
+                <NavLink to='/hrrequests'>View requests</NavLink>
+              </li>
             </>
           )}
           {/*Admin */}
@@ -88,10 +88,12 @@ function SidebarNav({position}) {
               <li>
                 <NavLink to="/staffregistrationadmin">Manage employees</NavLink>
               </li>
+
               <li>
-                <NavLink to="/staffProfiles">Staff Profiles</NavLink>
+                <NavLink to="/staffProfiles">View Staff Profiles</NavLink>
               </li>
-              <li>
+
+              {/*<li>
                 <NavLink to="/leaverequestview">View Leave Requests</NavLink>
               </li>
               <li>
@@ -99,6 +101,10 @@ function SidebarNav({position}) {
               </li>
               <li>
                 <NavLink to="/printingrequestview">View Clock in and Clock out times</NavLink>
+              </li>*/}
+
+              <li>
+                <NavLink to="/adminRequests">View Requests</NavLink>
               </li>
             </>
           )}

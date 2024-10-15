@@ -1,4 +1,4 @@
-import '../../styles/AdminHomePage.css';
+import '../../styles/HRHomePage.css';
 import Header from '../../components/header';
 import SidebarNav from '../../components/sidebarNav';
 import { useSelector } from 'react-redux';
@@ -8,21 +8,21 @@ import staffProfile from '../../assets/staffProfile.png'
 import approve from '../../assets/approve.png'
 import reject from '../../assets/reject.png'
 import clock from '../../assets/clock.png'
+import payroll from '../../assets/payroll.png'
 import MessageFloat from '../hr/MessageFloat';
 
-
-function AdminHomePage() {
+function HRHomePage() {
   const position = useSelector((state) => state.auth.position);
-  const adminName = useSelector((state) => state.auth.data[0]);
+  const HRName = useSelector((state) => state.auth.data[0]);
 
   const [showPopup, setShowPopup] = useState(false);
 
-  console.log("User Data:", adminName);
-  if (!adminName) {
+  console.log("User Data:", HRName);
+  if (!HRName) {
     return <div>Loading...</div>;
   }
 
-  // Array of department titles
+  // HR-specific actions or departments
   const departments = [
     'Super Admin',
     'Admin',
@@ -33,12 +33,12 @@ function AdminHomePage() {
     'Printing',
   ];
 
-  const handleAdminClick = () => {
-    setShowPopup(true); // Show the admin action card pop-up
+  const handleHRClick = () => {
+    setShowPopup(true); // Show the HR action card pop-up
   };
 
   const handleClosePopup = () => {
-    setShowPopup(false); // Hide the admin action card pop-up
+    setShowPopup(false); // Hide the HR action card pop-up
   };
 
   return (
@@ -46,41 +46,41 @@ function AdminHomePage() {
       <Header />
       <SidebarNav position={position} />
       <MessageFloat />
-      <div className={`profile-card ${showPopup ? 'blur-background' : ''}`}>
-        <h2>Welcome Admin {adminName.Name}</h2> {/* Welcome message */}
+      <div className={`profile-card3 ${showPopup ? 'blur-background' : ''}`}>
+        <h2>Welcome HR {HRName.Name}</h2> 
       </div>
 
-      {/* Department Containers */}
-      <div className={`department-containers ${showPopup ? 'blur-background' : ''}`}>
+      {/* Department Containers for HR actions */}
+      <div className={`department-containers3 ${showPopup ? 'blur-background' : ''}`}>
         {departments.map((department, index) => (
           <div 
           key={index} 
-          className='department-container'
-          onClick={department === 'Admin' ? handleAdminClick : undefined}>
+          className='department-container3'
+          onClick={department === 'HR' ? handleHRClick : undefined}>
             <h3>{department}</h3>
           </div>
         ))}
       </div>
 
-      {/* Admin Action Pop-up */}
+      {/* HR Action Pop-up */}
       {showPopup && (
-        <div className="popup-container">
-          <div className="popup-content">
-            <h2>As an Admin you can:</h2>
+        <div className="popup-container3">
+          <div className="popup-content3">
+            <h2>As HR, you can:</h2>
             <ul>
-              <li>
+            <li>
                 <img
                   src={register}
-                  alt="Register staff"
+                  alt="register staff"
                 />
                 Register staff
               </li>
               <li>
                 <img
                   src={staffProfile}
-                  alt="View staff profiles"
+                  alt="Manage employee profiles"
                 />
-                View staff profiles
+                Manage employee profiles
               </li>
               <li>
                 <img
@@ -99,12 +99,19 @@ function AdminHomePage() {
               <li>
                 <img
                   src={clock}
-                  alt="Clock in/out times"
+                  alt=" View clock in/clock out times"
                 />
                 View clock in/clock out times
               </li>
+              <li>
+                <img
+                  src={payroll}
+                  alt="Handle employee payroll information"
+                />
+                Handle employee payroll information
+              </li>
             </ul>
-            <button className="return-button" onClick={handleClosePopup}>
+            <button className="return-button3" onClick={handleClosePopup}>
               Return
             </button>
           </div>
@@ -114,4 +121,4 @@ function AdminHomePage() {
   );
 }
 
-export default AdminHomePage;
+export default HRHomePage;

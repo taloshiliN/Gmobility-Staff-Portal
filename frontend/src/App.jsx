@@ -11,16 +11,10 @@ import PasswordrequestPage from "./pages/employee/passwordrequestPage"
 import PrintingrequestPage from "./pages/employee/printingrequestPage"
 import ClockinclockoutPage from "./pages/employee/clockinclockoutPage"
 import StaffRegistrationForm from "./components/StaffRegister"
-import HRLeaverequests from "./pages/hr/HRLeaverequests"
-import HROvertimerequests from "./pages/hr/HROvertimerequests"
 import ProtectedRoute from "./components/ProtectedRoute"
 import AdminHomePage from "./pages/admin/adminHomePage"
 import StaffRegistrationAdmin from "./pages/admin/staffRegistrationAdmin"
-import ViewLeaveRequest from "./pages/admin/viewleaveRequest"
-import ViewOvertimeRequests from "./pages/admin/viewovertimeRequests"
-import ViewPrintingrequest from "./pages/admin/viewPrintingRequests"
 import HRhome from "./pages/hr/HRhome"
-import HREmployees from "./pages/hr/HREmployees"
 import HRPayroll from "./pages/hr/HRPayroll"
 import HRrequestleave from "./pages/hr/HRrequestleave"
 import HRrequestovertime from "./pages/hr/HRrequestovertime"
@@ -29,7 +23,10 @@ import EditStaffInfo from "./pages/hr/editStaffInfo"
 import MAINPAGE from "./components/MainPage"
 import StaffProfiles from "./pages/admin/staffProfiles"
 import ChangeStaffInfo from "./pages/admin/changeStaffInfo"
-
+import HRChosenemployee from "./pages/hr/HRChosenemployee"
+import HRRequests from "./pages/hr/HRRequests"
+import AdminRequests from "./pages/admin/adminRequests"
+import HRHomePage from "./pages/hr/HRhomePage"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
 function Logout(){
@@ -42,27 +39,35 @@ function App() {
   return (
     <>
     <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-      {/* Login */}
-      <Route path="/" element={<MAINPAGE />} />
-      <Route path="/loginPage" element={<LoginPage />}/>
+      <BrowserRouter>
+        <Routes>
+        {/* Login */}
+          <Route path="/" element={<MAINPAGE />} />
+          <Route path="/loginPage" element={<LoginPage />}/>
 
-      {/* Protected Routes - Home Page */}
+        {/* Protected Routes - Home Page */}
         <Route 
-        path="/home"
-        element={
-          <ProtectedRoute>
-            <HomePage />
-          </ProtectedRoute>
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
         }
         />
 
-
-
-        {/* Employee Portal*/}
-        <Route path="/home" element={<HomePage />}/>
+         {/* Employee Portal*/}
+      
         {/* Protected Routes - Employee */}
+        <Route 
+        path="/homePage" 
+        element={
+        <ProtectedRoute>
+          <HomePage />
+        </ProtectedRoute>
+        }
+        />
+        <Route />
+
         <Route 
         path="/leaverequest" 
         element={
@@ -126,15 +131,15 @@ function App() {
         }
         />
 
-        <Route 
-        path="/hremployees" 
+<Route 
+        path="/HRhomePage" 
         element={
         <ProtectedRoute>
-          <HREmployees />
+          <HRHomePage />
         </ProtectedRoute>
         }
         />
-
+    
         <Route 
         path="/staffregistration" 
         element={
@@ -142,6 +147,17 @@ function App() {
           <StaffRegistrationForm />
         </ProtectedRoute>
         }
+        />
+
+     
+
+        <Route 
+        path="/hrrequests" 
+        element={
+        <ProtectedRoute>
+          <HRRequests />
+        </ProtectedRoute>
+        } 
         />
 
         
@@ -166,9 +182,10 @@ function App() {
 
         <Route 
         path="/hrleaverequests" 
+//         path="/hrpayroll" 
         element={
         <ProtectedRoute>
-          <HRLeaverequests />
+          <HRPayroll />
         </ProtectedRoute>
         } 
         />
@@ -188,23 +205,35 @@ function App() {
         <ProtectedRoute>
           <HRrequestleave />
         </ProtectedRoute>
-        } 
-        />
+        }
+        /> 
+
 
         <Route 
         path="/HROvertimerequests" 
+//         path="/hrrequestovertime" 
         element={
         <ProtectedRoute>
-          <HROvertimerequests />
+          <HRrequestovertime />
         </ProtectedRoute>
-        }
+        } 
         />
 
         <Route 
         path="/hrrequestovertime" 
         element={
+          <ProtectedRoute>
+            <HRrequestovertime />
+          </ProtectedRoute>
+        }
+        />
+
+
+        <Route 
+        path="/hrchosenemployee" 
+        element={
         <ProtectedRoute>
-          <HRrequestovertime />
+          <HRChosenemployee />
         </ProtectedRoute>
         } 
         />
@@ -230,7 +259,7 @@ function App() {
         }
         />
 
-<Route 
+        <Route 
         path="/staffProfiles" 
         element={
         <ProtectedRoute>
@@ -248,37 +277,21 @@ function App() {
         }
         />
 
-        <Route 
-        path="/leaverequestview" 
+<Route 
+        path="/adminRequests" 
         element={
         <ProtectedRoute>
-          <ViewLeaveRequest />
+          <AdminRequests />
         </ProtectedRoute>
         }
         />
 
-        <Route 
-        path="/overtimerequestview" 
-        element={
-        <ProtectedRoute>
-          <ViewOvertimeRequests />
-        </ProtectedRoute>
-        }
-        />
-
-        <Route 
-        path="/printingrequestview" 
-        element={
-        <ProtectedRoute>
-          <ViewPrintingrequest />
-        </ProtectedRoute>
-        }
-        />
+     
 
         {/* Super Admin Portal*/}
         
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
     </Provider>
     </>
   )

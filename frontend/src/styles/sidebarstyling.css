@@ -9,16 +9,18 @@ body {
   }
   .Employee-sidebar {
     width: 5%;
-    height: 100vh;
+    height: calc(100vh - 8%); 
     position: fixed;
+    top: 11%; 
     background-color: rgb(17, 17, 85);
     transition: width 0.3s ease;
     text-align: center;
-    overflow: hidden; /* Ensure content doesn't overflow when resized */
+    overflow: hidden; 
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center align items horizontally */
-    justify-content: space-between; /* Space out content evenly */
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between;
+    z-index: 1000;
   } 
   .Employee-sidebar:hover {
     width: 17%;
@@ -33,7 +35,7 @@ body {
     
   }
   .Employee-sidebar:hover ul {
-    padding-top: 5%; /* Adjust padding to center list items */
+    padding-top: 5%; 
   }
   .Employee-sidebar ul {
     text-align: center;
@@ -73,7 +75,6 @@ body {
   }
   .hrlogout {
     width: 80%; /* Set a width for the button */
-    margin: 50px 0; /* Add some vertical margin */
     padding: 10px; /* Add some padding */
     background-color: rgb(255, 0, 0); /* Set a background color */
     color: white; /* Set text color */
@@ -97,7 +98,7 @@ body {
   }
   .innercontent1{
     width: 40%;
-    height: 410px;
+    height: 550px;
     margin-left: 8%;
     margin-top: 2%;
     box-shadow: 1px 1px 3px 2px #888888;

@@ -1,16 +1,16 @@
-.profile-card {
+.profile-card3 {
     position: fixed;
     left: 50%;
     top: 90px;
     transform: translateX(-50%);
-    width: 400px;
+    width: 500px;
     border-radius: 30px;
     padding: 20px;
     text-align: center;
     color: white;
 }
 
-.department-containers {
+.department-containers3 {
     margin-top: 270px;
     display: flex;
     flex-wrap: wrap;
@@ -19,7 +19,7 @@
     min-height: 40vh;
   }
   
-  .department-container {
+  .department-container3 {
     background: rgba(0, 123, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 27px;
@@ -33,18 +33,18 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
   }
 
-  .department-container:hover {
+  .department-container3:hover {
     transform: scale(1.1);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
     cursor: pointer; 
   }
-  .department-container h3 {
+  .department-container3 h3 {
     color: white; 
     font-size: 30px;
   }
 
   
-.popup-container {
+.popup-container3 {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -54,23 +54,23 @@
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    width: 540px;
-    height: 470px;
+    width: 520px;
+    height: 560px;
   }
   
-  .popup-content h2 {
+  .popup-content3 h2 {
     font-family: Arial, sans-serif;
     font-size: 1.7rem;
     font-weight: bold;
     margin-bottom: 20px;
   }
   
-  .popup-content ul {
+  .popup-content3 ul {
     list-style-type: none;
     padding: 0;
   }
   
-  .popup-content li {
+  .popup-content3 li {
     display: flex;
     align-items: center;
     font-family: Arial, sans-serif;
@@ -79,12 +79,12 @@
     margin-bottom: 15px;
   }
   
-  .popup-content li img {
+  .popup-content3 li img {
     margin-right: 15px;
   }
   
-  .return-button {
-    margin-top: 30px;
+  .return-button3 {
+    margin-top: 20px;
     padding: 10px 20px;
     background-color: #94caff;
     border: none;
@@ -93,7 +93,7 @@
     cursor: pointer;
   }
   
-  .return-button:hover {
+  .return-button3:hover {
     background-color: #72a9e2;
   }
   
@@ -101,14 +101,4 @@
     filter: blur(5px);
   }
 
-  /*Registration form
-  .overtime-view-page {
-    background: rgba(141, 161, 182, 0.2);
-    backdrop-filter: blur(10px);
-  }
-
-  .form-group label {
-    display: block; 
-    margin-bottom: 5px; 
-  }
-    */
+ 

@@ -118,7 +118,6 @@ app.get('/getStaffDetails/:id', (req, res) => {
       if (result.length > 0) {
         const image = result[0].profileImg; 
         
-    
         res.set('Content-Type', 'image/jpg'); 
         
         // Send the image data as the response
@@ -155,8 +154,7 @@ app.patch('/users/:id', (req, res) => {
         updatedData.nationality,
         updatedData.languages, 
         updatedData.languages, 
-        updatedData.position,
-        id
+        updatedData.position
     ];
 
     db.query(sql, values, (err, result) => {
