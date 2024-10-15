@@ -41,7 +41,6 @@ function HRPayroll() {
 
     return (
         <>
-            <HRheader />
             <Header />
             <SidebarNav position={position}/>
             <div className='main-content'>
