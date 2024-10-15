@@ -607,6 +607,60 @@ app.post("/misseddayinsert", (req, res) => {
     );
 });
 
+//Uploading documents api
+
+//Getting all docs for user
+app.get('/getdocuments/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM documents WHERE employee_id = ? "; 
+
+    db.query(sql, [id], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No documents found for this user" });
+        }
+        return res.json(data); // Return all matching records
+    });
+});
+
+//Deleting specific document
+
+app.delete('/deletedocument/:id', (req, res) => {
+    const { id } = req.params;
+const sql = "DELETE FROM documents WHERE id = ?";
+db.query(sql, [id], (err, result) => {
+    if (err) {
+        console.error('Error deleting document:', err);
+        return res.status(500).json({ message: "Error deleting document", error: err });
+    }
+    console.log(`Deleted document with ID: ${id}, affected rows: ${result.affectedRows}`);
+    res.sendStatus(204);
+});
+});
+
+// Inserting document
+app.post("/uploaddocument", upload.single("doc"), (req, res) => {
+    const employee_id = req.body.employee_id;
+    const doc = req.file.buffer; // Get the file buffer
+
+    db.query(
+        "INSERT INTO documents (employee_id, doc) VALUES (?, ?)",
+        [employee_id, doc],
+        (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: "Database insert error" });
+            }
+            const doclog = {
+                employee_id,
+                doc: req.file.originalname, // or another relevant field
+            };
+            res.json(doclog);
+        }
+    );
+});
 
 // Start server
 app.listen(8080, () => {

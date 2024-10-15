@@ -35,6 +35,8 @@ import HRRequests from "./pages/hr/HRRequests"
 import HRHomePage from "./pages/hr/HRHomePage"
 import Viewrequests from "./pages/admin/viewrequests"
 import Misseddays from './pages/hr/HRMisseddays'
+import HRDocupload from "./pages/hr/HRDocupload"
+
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
@@ -247,6 +249,16 @@ function App() {
         } 
         />
 
+
+       <Route 
+        path="/hrdocupload" 
+        element={
+        <ProtectedRoute>
+          <HRDocupload />
+        </ProtectedRoute>
+
+        } 
+        />
         {/* Admin Portal*/}
         {/* Protected Routes - Employee */}
         <Route 

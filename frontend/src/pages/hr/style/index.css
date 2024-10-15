@@ -631,7 +631,68 @@ body {
 #miss2:hover{
   background-color: #810000;
 }
-  /* All requests section */
+
+/* Upload section */
+#hruploadsection{
+  background-color: white;
+  width: 50rem;
+  height: 32rem;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5rem;
+  border-radius: 5px;
+  display: block;
+}
+#uploadedcontent{
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  overflow-y: auto;
+}
+#uploadedsection{
+ width: 100%;
+ height: 28rem;
+}
+#uploadedsection h4{
+  background-color: #1400ca;
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+}
+#uploadedsection td{
+  text-align: center;
+}
+
+#newuploadsection{
+  width: 100%;
+  height: 6rem;
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  box-shadow: 1px 1px 7px rgb(77, 77, 77);
+  display: block;
+}
+#newuploadsection:hover{
+  background-color: rgb(214, 214, 214);
+  cursor: pointer;
+}
+#newuploadsection img{
+  width: 20%;
+}
+#uploaddeletebutton{
+  width: 25%;
+}
+#uploaddeletebutton button{
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  color: white;
+  border: none;
+}
+#uploaddeletebutton button:hover{
+  background-color: #810000;
+}
+  /* ////////////////////////////////////////////////All requests section */
   .requestcontent{
    width: 90%;
    height: 30rem;
