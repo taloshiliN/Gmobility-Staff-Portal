@@ -32,6 +32,7 @@ function HRChosenemployee() {
 
     const [data, setData] = useState([]);
     const [missedDays, setMissedDays] = useState([]); // State for missed days
+    const [documents, setDocuments] = useState([]); // State for documents
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,6 +68,24 @@ function HRChosenemployee() {
 
         fetchMissedDays();
     }, [editedEmployee.id]); // Dependency array includes employee id
+
+    // Fetch documents for the employee
+    useEffect(() => {
+        const fetchDocuments = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/getdocuments/${editedEmployee.id}`);
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await res.json();
+                setDocuments(data);
+            } catch (err) {
+                console.error('Fetch documents error:', err);
+            }
+        };
+
+        fetchDocuments();
+    }, [editedEmployee.id]); // Fetch documents when employee ID changes
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -263,7 +282,17 @@ function HRChosenemployee() {
                         </div>
                         <div id="doccontent">
                             <ul>
-                                <li><p>Hello how are you.pdf </p></li>
+                                {documents.length > 0 ? (
+                                    documents.map((doc) => (
+                                        <li key={doc.id}>
+                                            <a href={`http://localhost:8080/documents/${doc.doc}`} download>
+                                                Document {doc.id} {/* You may replace this with a more descriptive title */}
+                                            </a>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li>No documents found.</li>
+                                )}
                             </ul>
                         </div>
                     </div>

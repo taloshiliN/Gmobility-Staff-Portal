@@ -721,7 +721,7 @@ body {
    height: 30rem;
    display: flex;
    margin-left: 4%;
-   margin-top: 4rem;
+   margin-top: 0rem;
   }
   #newsizediv{
     width: 100%;
@@ -913,6 +913,10 @@ body {
     text-align: center;
     display: inline-block;
     padding: 1rem;
+  }
+  #commissionhistory tr:hover{
+    background-color: rgb(214, 214, 214);
+    cursor: pointer;
   }
   #commissionhistory img{
     width: 20%;
