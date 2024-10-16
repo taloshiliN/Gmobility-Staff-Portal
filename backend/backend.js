@@ -772,6 +772,31 @@ app.get('/download/:id', (req, res) => {
     });
 });
 
+/////////Commissions apis
+app.get('/getcommissions', (req, res) => {
+    db.query('SELECT * FROM commissions ORDER BY id DESC', (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error retrieving commissions' });
+        }
+        console.log('Query Results:', results); // Log results for verification
+        res.json(results); // Return all commission records
+    });
+});
+
+////new commission
+app.post('/addcommission', (req, res) => {
+    const { employee_id, employee_name, employee_surname, item_name, sale_type, product_cost, vat, commission, date } = req.body;
+
+    const query = 'INSERT INTO commissions (employee_id, employee_name, employee_surname, item_name, sale_type, product_cost, vat, commission, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    
+    db.query(query, [employee_id, employee_name, employee_surname, item_name, sale_type, product_cost, vat, commission, date], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error adding commission' });
+        }
+        res.json({ message: 'Commission added successfully', commissionId: results.insertId });
+    });
+});
+
 
 // Start server
 app.listen(8080, () => {

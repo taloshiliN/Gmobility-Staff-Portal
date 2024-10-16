@@ -75,6 +75,10 @@ function SidebarNav({position}) {
         <NavLink to="/hrdocupload">
           <li>Upload document</li>
         </NavLink>
+        <NavLink to="/hrcommissions">
+          <li>Commissions</li>
+        </NavLink>
+        
        
   </>
     )}

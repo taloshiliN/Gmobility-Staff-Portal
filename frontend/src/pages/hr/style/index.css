@@ -717,10 +717,10 @@ body {
 
   /* ////////////////////////////////////////////////All requests section */
   .requestcontent{
-   width: 90%;
+   width: 100%;
    height: 30rem;
    display: flex;
-   margin-left: 7%;
+   margin-left: 4%;
    margin-top: 4rem;
   }
   #newsizediv{
@@ -841,7 +841,7 @@ body {
   
   #newrequestdiv{
     display: block;
-    width: 20%;
+    width: 30%;
   }
   .newleaverequest{
     width: 90%;
@@ -874,6 +874,122 @@ body {
   #leavereq:hover{
     background-color: #570d00;
   }
+
+  /* //////////////////////////////// Commissions section */
+  #commissioncontent{
+    display: flex;
+  }
+  .commissionmain{
+    margin-left: 5rem;
+    margin-right: auto;
+    margin-top: 5rem;
+   width: 75%;
+   height: 32rem;
+   display: flex;
+   background-color: white;
+  }
+  #commissionhistory{
+    width: 30%;
+    height: 100%;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border: 0.1rem solid rgb(226, 226, 226);
+  }
+  #commissionhistory tr{
+    border: 1px solid gray;
+  }
+  #commissionhistory h4{
+    padding: 1rem;
+    width: 100%;
+    height: 13%;
+    color: white;
+    background-color: #090057;
+  }
+  #commissionhistory table{
+    width: 100%;
+  }
+  #commissionhistory td{
+    text-align: center;
+    display: inline-block;
+    padding: 1rem;
+  }
+  #commissionhistory img{
+    width: 20%;
+    height: 40%;
+    padding-right: 0.1rem;
+  }
+  #comissionlist{
+    width: 70%;
+    height: 100%;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    overflow-y: auto;
+  }
+  #comissionlist h5{
+    padding: 1rem;
+    height: 10%;
+  }
+  #comissionlist td{
+    text-align: center;
+  }
+
+  #comissionlist th{
+    background-color: #090057;
+    color: white;
+  }
+#newcommission{
+  width: 15%;
+  height: 4rem;
+  margin: 1rem;
+  text-align: center;
+  color: white;
+  margin-top: 5rem;
+  background-color: #005fc5;
+  border: 1px solid black;
+  display: flex;
+  border-radius: 10px;
+}
+#newcommission:hover{
+  background-color: #090057;
+  cursor: pointer;
+}
+#newcommission img{
+  width: 25%;
+  height: 70%;
+  padding-left: 0.3rem;
+  margin-top: 0.3rem;
+}
+#newcommission p{
+  margin-top: 0.8rem;
+}
+.new-commission{
+  width: 60%;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 6rem;
+  padding: 2rem;
+}
+#buttonsec{
+  display: inline-flex;
+  width: 100%;
+  height: 5rem;
+  text-align: center;
+}
+.new-commission button{
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: green;
+  width: 30%;
+  height: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.new-commission #comissioncancel{
+  background-color: red;
+}
   /* Leav requests section*/
   
   .requestcontainer{

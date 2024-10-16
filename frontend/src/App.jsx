@@ -36,6 +36,10 @@ import HRHomePage from "./pages/hr/HRhomePage"
 import Viewrequests from "./pages/admin/viewrequests"
 import Misseddays from './pages/hr/HRMisseddays'
 import HRDocupload from "./pages/hr/HRDocupload"
+import HRCommissions from "./pages/hr/HRCommissions"
+import HRNewcommission from "./pages/hr/HRNewcommission"
+
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
 
@@ -317,6 +321,24 @@ function App() {
         element={
         <ProtectedRoute>
           <Viewrequests />
+        </ProtectedRoute>
+        }
+        />
+
+        <Route 
+        path="/hrcommissions" 
+        element={
+        <ProtectedRoute>
+          <HRCommissions />
+        </ProtectedRoute>
+        }
+        />
+
+        <Route 
+        path="/hrnewcommission" 
+        element={
+        <ProtectedRoute>
+          <HRNewcommission />
         </ProtectedRoute>
         }
         />
