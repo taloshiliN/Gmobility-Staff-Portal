@@ -287,9 +287,9 @@ function HRChosenemployee() {
                                 {documents.length > 0 ? (
                                     documents.map((doc) => (
                                         <li key={doc.id}>
-                                            <a href={`http://localhost:8080/documents/${doc.doc}`} download>
-                                                Document {doc.id} {/* You may replace this with a more descriptive title */}
-                                            </a>
+                                             <a href={`http://localhost:8080/download/${doc.id}`} target="_blank" rel="noopener noreferrer">
+                                                    Download Document {doc.id} {/* You can replace this with any string or document title */}
+                                                </a>
                                         </li>
                                     ))
                                 ) : (
