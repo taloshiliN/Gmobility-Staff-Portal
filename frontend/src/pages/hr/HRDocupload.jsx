@@ -45,6 +45,11 @@ function HRDocupload() {
         formData.append("employee_id", HRdetails.id); // Adding employee ID
         formData.append("doc", file); // Adding selected file
 
+        // Log form data contents for debugging
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+
         try {
             const response = await fetch("http://localhost:8080/uploaddocument", {
                 method: "POST",
@@ -54,7 +59,6 @@ function HRDocupload() {
             if (response.ok) {
                 const data = await response.json();
                 console.log("File uploaded successfully:", data);
-                // Refresh document list after upload
                 setDocuments((prevDocs) => [...prevDocs, data]); // Add new document to the list
             } else {
                 console.error("Upload failed:", response.statusText);

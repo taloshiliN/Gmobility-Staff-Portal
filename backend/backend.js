@@ -715,7 +715,7 @@ app.delete('/deletedocument/:id', (req, res) => {
             return res.status(404).json({ error: "Document not found" });
         }
 
-        const documentPath = result[0].doc;
+        const documentPath = result[0].doc; // Still retrieving the path, but not using it
 
         // Delete the document from the database
         const sqlDelete = "DELETE FROM documents WHERE id = ?";
@@ -729,66 +729,71 @@ app.delete('/deletedocument/:id', (req, res) => {
                 return res.status(404).json({ message: "Document not found" });
             }
 
-            // Delete the file from the file system
-            fs.unlink(documentPath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.error("Error deleting file:", unlinkErr);
-                    return res.status(500).json({ error: "Error deleting file from file system" });
-                }
-
-                console.log(`Deleted document with ID: ${id} and file: ${documentPath}`);
-                res.sendStatus(204); // No content to send back
-            });
+            // Log the deletion, but do not delete the file
+            console.log(`Deleted document record with ID: ${id}, file path was: ${documentPath}`);
+            res.sendStatus(204); // No content to send back
         });
     });
 });
 
+
 // Inserting document with path storage
 app.post("/uploaddocument", upload.single("doc"), (req, res) => {
-    const employee_id = req.body.employee_id;
-    const filePath = req.file.path; // Path to the uploaded file
+    console.log("Received data:", req.body); // Debugging log
+    console.log("Received file:", req.file); // Debugging log
 
-    if (!filePath) {
-        return res.status(400).json({ error: "Document path is missing" });
+    const employee_id = req.body.employee_id;
+
+    // Ensure the file and employee_id are present
+    if (!req.file || !employee_id) {
+        return res.status(400).json({ error: "File or employee_id is missing" });
     }
 
+    const fileBuffer = req.file.buffer; // Access the file buffer
+
+    // Save the fileBuffer to your database as a BLOB
     db.query(
         "INSERT INTO documents (employee_id, doc) VALUES (?, ?)",
-        [employee_id, filePath],
-        (err) => {
+        [employee_id, fileBuffer],
+        (err, result) => {
             if (err) {
-                console.error(err);
+                console.error("Database insert error:", err);
                 return res.status(500).json({ error: "Database insert error" });
             }
+
             const doclog = {
-                id: this.insertId, // ID of the inserted document
+                id: result.insertId, // ID of the inserted document
                 employee_id,
-                doc: req.file.filename, // File name for display purposes
+                // You may need to adjust this to use a filename or other descriptor if necessary
+                doc: req.file.originalname, // Original filename for display purposes
             };
             res.json(doclog);
         }
     );
 });
 
+
 // Endpoint to download a document by ID
 app.get('/download/:id', (req, res) => {
     const { id } = req.params;
-    const sql = "SELECT doc FROM documents WHERE id = ?";
-    
+    const sql = "SELECT doc, file_name, mime_type FROM documents WHERE id = ?";
+
     db.query(sql, [id], (err, result) => {
         if (err || result.length === 0) {
             return res.status(404).send('Document not found');
         }
 
-        const document = result[0].doc; // Blob data
+        const document = result[0].doc; // Binary data (BLOB)
+        const fileName = result[0].file_name; // Original file name
+        const mimeType = result[0].mime_type; // MIME type of the file
 
-        // Set a valid filename
-        const filename = `document-${id}.blob`; // Change this to your preferred naming convention
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`); // Set appropriate filename
-        res.setHeader('Content-Type', 'application/octet-stream'); // You can set the MIME type according to the document type
-        res.end(document); // Send the blob as response
+        // Set appropriate headers to handle the download
+        res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+        res.setHeader('Content-Type', mimeType); // Set the correct MIME type
+        res.end(document); // Send the file data (BLOB) to the client
     });
 });
+
 
 /////////Commissions apis
 app.get('/getcommissions', (req, res) => {
