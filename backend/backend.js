@@ -36,51 +36,46 @@ db.connect(err => {
 const multer = require('multer');
 
 // Set up multer for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Directory where the images will be saved
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
+const storage = multer.memoryStorage(); // Use memory storage to handle file uploads in memory
 const upload = multer({ storage: storage });
 
-// Insert staff member
 
 // Insert staff member
-app.post("/api/data", (req, res) => {
-//     const { firstname, surname, id_Number, DOB, nationality, homeLanguage, otherLanguages, position, password } = req.body;
-    const { firstname, surname, id_Number, DOB,Gender, nationality, Supervisor, homeLanguage, otherLanguages, position,profilepicture, password } = req.body;
+app.post("/api/data", upload.single('profileImg'), (req, res) => {
+    const { Name, Surname, ID_Number, DOB, Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, password } = req.body;
+    const profileImg = req.file; // The uploaded file (from 'profileImg')
 
+    if (!profileImg) {
+        return res.status(400).json({ message: "Profile picture is required" });
+    }
+
+    // Insert the staff member details into the database
     db.query(
-        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB,Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position,profilepicture, Password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-        [firstname, surname, id_Number, DOB, Gender, nationality, Supervisor, homeLanguage, otherLanguages, position,profilepicture, password],
+        "INSERT INTO staff_members (Name, Surname, ID_Number, DOB, Gender, Nationality, Supervisor, Home_Language, Other_Languages, Position, profileImg, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            Name,
+            Surname,
+            ID_Number,
+            DOB,
+            Gender,
+            Nationality,
+            Supervisor,
+            Home_Language,
+            Other_Languages,
+            Position,
+            profileImg.buffer, // Use the buffer for insertion
+            password
+        ],
         (err) => {
             if (err) {
                 console.error('Error inserting data:', err);
                 return res.status(500).json({ message: "Error inserting data", error: err });
             }
-            const newData = {
-                Name: firstname,
-                Surname: surname,
-                ID_Number: id_Number,
-                DOB: DOB,
-                Gender: Gender,
-                Nationality: nationality,
-                Home_Language: homeLanguage,
-                Other_Languages: otherLanguages,
-                Position: position,
-                Supervisor: Supervisor,
-                profilepicture: profilepicture,
-                Password: password
-            };
-            res.json(newData);
+            res.status(201).json({ message: "Staff member added successfully" });
         }
     );
 });
+
 
 // post methods
 app.post("/api/login", (req, res) => {

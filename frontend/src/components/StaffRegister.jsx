@@ -1,7 +1,7 @@
 import Header from './header';
 import SidebarNav from './sidebarNav';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function StaffRegistrationForm() {
   const uposition = useSelector((state) => state.auth.position);
@@ -19,7 +19,9 @@ function StaffRegistrationForm() {
   const [password, setPassword] = useState("");
 
   const handleFileChange = (e) => {
-    setProfileImage(e.target.files[0]);
+    const file = e.target.files[0];
+    console.log("Selected file:", file); // Log file details
+    setProfileImage(file);
   };
 
   const handleSubmit = (e) => {
@@ -52,12 +54,12 @@ function StaffRegistrationForm() {
       formData.append('Home_Language', Home_Language);
       formData.append('Other_Languages', Other_Languages);
       formData.append('Position', Position);
-      formData.append('profileImg', profileImg);
+      formData.append('profileImg', profileImg); // Append image file
       formData.append('password', password);
 
       fetch('http://localhost:8080/api/data', {
         method: 'POST',
-        body: formData,
+        body: formData, // Send the form data with image as multipart/form-data
       })
         .then((res) => {
           if (!res.ok) {
@@ -125,19 +127,6 @@ function StaffRegistrationForm() {
               />
             </div>
 
-        <div className="form-group">
-          <label htmlFor="dateOfBirth">Date of Birth</label>
-          <input 
-            type="date" 
-            id="dateOfBirth" 
-            name="dateOfBirth"
-            placeholder='DOB'
-            value={DOB}
-            onChange={e=>setDOB(e.target.value)}
-            required 
-          />
-        </div>
-
             <div className="form-group">
               <label htmlFor="ID_Number">ID Number</label>
               <input
@@ -165,40 +154,13 @@ function StaffRegistrationForm() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="dateOfBirth">Date of Birth</label>
+              <label htmlFor="DOB">Date of Birth</label>
               <input
                 type="date"
-                id="dateOfBirth"
+                id="DOB"
                 name="DOB"
                 value={DOB}
                 onChange={(e) => setDOB(e.target.value)}
-                required
-              />
-            </div>
-
-        <div className="form-group">
-          <label htmlFor="homeLanguage">Home Language</label>
-          <input 
-            type="text" 
-            id="homeLanguage" 
-            name="homeLanguage"  
-            placeholder='Home Language'
-            value={Home_Language}
-            onChange={e=>setHomeLanguage(e.target.value)}
-            required 
-          />
-          </div>
-          
-        
-            <div className="form-group">
-              <label htmlFor="Nationality">Nationality</label>
-              <input
-                type="text"
-                id="Nationality"
-                name="Nationality"
-                placeholder='Nationality'
-                value={Nationality}
-                onChange={(e) => setNationality(e.target.value)}
                 required
               />
             </div>
@@ -217,7 +179,20 @@ function StaffRegistrationForm() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="HomeLanguage">Home Language</label>
+              <label htmlFor="Nationality">Nationality</label>
+              <input
+                type="text"
+                id="Nationality"
+                name="Nationality"
+                placeholder='Nationality'
+                value={Nationality}
+                onChange={(e) => setNationality(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="Home_Language">Home Language</label>
               <input
                 type="text"
                 id="Home_Language"
@@ -228,23 +203,6 @@ function StaffRegistrationForm() {
                 required
               />
             </div>
-
-        <div className="form-group">
-          <label htmlFor="Position">Position</label>
-          <select
-            type="text" 
-            id="Position" 
-            name="Position"
-            placeholder='Position'
-            value={Position} 
-            onChange={e=>setPosition(e.target.value)}
-            required 
-          >
-            <option value="Employee">Employee</option>
-            <option value="Human Resource">Human Resource</option>
-            <option value="Admin">Admin</option>
-          </select>
-        </div>
 
             <div className="form-group">
               <label htmlFor="Other_Languages">Other Languages</label>
@@ -274,6 +232,7 @@ function StaffRegistrationForm() {
                 <option value="Admin">Admin</option>
               </select>
             </div>
+
             <div className="form-group">
               <label htmlFor="profileImg">Profile Picture</label>
               <input
