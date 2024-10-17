@@ -4,12 +4,15 @@ import Header from '../../components/header'
 import '../../styles/leaverequest.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { createLeaveRequest } from '../../leaveSlice'
+import { useNavigate } from 'react-router-dom';
 
 function HRrequestleave() {
+  const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const userData = auth.data && auth.data[0];
+  const userData = useSelector((state) => state.auth.data[0]); 
   const username = userData?.Name || 'User';
-  const position = auth.position || 'Employee';
+  const pos = userData?.Position || 'Employee';
+  const [position, setPosition] = useState(pos);
 
   const [employeeName, setEmployeeName] = useState(username);
   const [date, setDate] = useState("");
@@ -26,7 +29,9 @@ function HRrequestleave() {
 
   useEffect(() => {
     setEmployeeName(username);
-  }, [username]);
+    setPosition(pos);
+  }, [username]  [pos]);
+
 
   const calculateResumingWorkDay = () => {
     if (endDate) {
@@ -60,6 +65,7 @@ function HRrequestleave() {
     e.preventDefault();
     console.log("Form submitted with data:", {
       employeeName,
+      position,
       date,
       supervisorName,
       startDate,
@@ -74,6 +80,7 @@ function HRrequestleave() {
     if (
       date &&
       supervisorName &&
+      position &&
       startDate &&
       endDate &&
       totalDays > 0 && 
@@ -85,6 +92,7 @@ function HRrequestleave() {
     ) {
       dispatch(createLeaveRequest({
         employeeName,
+        position,
         date,
         supervisorName,
         startDate,
@@ -268,7 +276,7 @@ function HRrequestleave() {
                 <button type="button" className='clear-button' onClick={handleClear}>
                   Clear
                 </button>
-                <button className='submit-button' type='submit'>Submit</button>
+                <button className='submit-button' type='submit' onClick={() => navigate(-1)}>Submit</button>
               </div>
             </form>
           </div>  

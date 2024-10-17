@@ -128,6 +128,7 @@ function HRChosenemployee() {
         } catch (err) {
             console.error('Update error:', err);
         }
+        window.history.back();
     };
 
     const handleDeleteEmployee = async () => {
@@ -148,6 +149,7 @@ function HRChosenemployee() {
         } catch (err) {
             console.error('Delete error:', err);
         }
+        window.history.back();
     };
 
     return (

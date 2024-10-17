@@ -12,11 +12,13 @@ function HROvertimerequestPage() {
   const [date, setDate] = useState("")
   const [duration, setDuration] = useState("")
   const [reason, setReason] = useState("");
-  const [startTime, setStartTime] = useState();
-  const [endTime, setEndTime] = useState();
+  const [start_time, setStartTime] = useState();
+  const [end_time, setEndTime] = useState();
   const dispatch = useDispatch();
 
-  const position = useSelector((state)=> state.auth.position)
+  const userData = useSelector((state) => state.auth.data[0]); 
+  const pos = userData?.Position || 'Employee';
+  const [position, setPosition] = useState(pos);
   // State to handle form inputs
   // const [formData, setFormData] = useState({
   //   employeeName: '',
@@ -37,6 +39,8 @@ function HROvertimerequestPage() {
   //   // Add form submission logic (e.g., API call)
   // };
 
+ 
+
   const calculateDuration = (start, end) => {
     const [startHour, startMinute] = start.split(':').map(Number);
     const [endHour, endMinute] = end.split(':').map(Number);
@@ -54,31 +58,33 @@ function HROvertimerequestPage() {
   }
 
   useEffect(()=>{
-    if (startTime && endTime) {
-      const calculatedDuration = calculateDuration(startTime, endTime);
+    if (start_time && end_time) {
+      const calculatedDuration = calculateDuration(start_time, end_time);
       setDuration(calculatedDuration.toFixed(2));
     }
-  }, [startTime, endTime]);
+  }, [start_time, end_time]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formattedStartTime = startTime.includes(':') ? `${startTime}:00` : startTime;
-    const formattedEndTime = endTime.includes(':') ? `${endTime}:00` : endTime;
+    const formattedStartTime = start_time.includes(':') ? `${start_time}:00` : start_time;
+    const formattedEndTime = end_time.includes(':') ? `${end_time}:00` : end_time;
 
     if(
       employeeName &&
+      position &&
       date &&
-      startTime &&
-      endTime &&
+      start_time &&
+      end_time &&
       duration &&
       reason
     ) {
       dispatch(createOvertimeRequest({
         employeeName,
+        position,
         date,
-        startTime: formattedStartTime,
-        endTime: formattedEndTime,
+        start_time: formattedStartTime,
+        end_time: formattedEndTime,
         duration,
         reason
       }))
@@ -92,6 +98,9 @@ function HROvertimerequestPage() {
     setReason("");
   }
 
+  useEffect(() => {
+    setPosition(pos);
+  },  [pos]);
   return (
     <>
     <HRheader />
@@ -124,23 +133,23 @@ function HROvertimerequestPage() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="startTime">Overtime Start Time</label>
+          <label htmlFor="start_time">Overtime Start Time</label>
           <input
             type="time"
-            id="startTime"
-            name="startTime"
-            value={startTime}
+            id="start_time"
+            name="start_time"
+            value={start_time}
             onChange={(e) => setStartTime(e.target.value)}
             required
             />
         </div>
         <div className="form-group">
-          <label htmlFor="endTime">Overtime End Time</label>
+          <label htmlFor="end_time">Overtime End Time</label>
           <input
             type="time"
-            id="endTime"
-            name="endTime"
-            value={endTime}
+            id="end_time"
+            name="end_time"
+            value={end_time}
             onChange={(e) => setEndTime(e.target.value)}
             required
             />

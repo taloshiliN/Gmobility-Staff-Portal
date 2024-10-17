@@ -555,15 +555,29 @@ body {
 #doccontent{
   text-align: center;
   width: 90%;
-  background-color: #ddd;
-  margin-left: 5%;
+  height: 10rem;
+  background-color: #fafafa;
   margin-top: 1%;
   border-radius: 10px;
+  overflow-y: auto;
 }
-#doccontent ul{
-  list-style-type: none;
+#doccontent ul li:nth-child(odd) {
+  background-color: rgb(219, 219, 219);
+  color: white; /* Make text white to be readable on a black background */
 }
 
+#doccontent ul li:nth-child(even) {
+  background-color: white;
+  color: black; /* Make text black to be readable on a white background */
+}
+
+#doccontent ul{
+  list-style-type: none;
+  width: 100%;
+}
+#doccontent li{
+  width: 100%;
+}
 #chosenmissedsection{
   background-color: #ffffff;
   width: 100%;
@@ -720,7 +734,7 @@ body {
    width: 100%;
    height: 30rem;
    display: flex;
-   margin-left: 4%;
+   margin-left: 2%;
    margin-top: 0rem;
   }
   #newsizediv{
@@ -731,12 +745,12 @@ body {
   }
   #requestselect img{
     width: 8%;
-    height: 40%;
+    height: 30%;
     margin-top: 0.3rem;
     margin-left: 0.3rem;
   }
   #selectleave{
-    width: 18%;
+    width: 20%;
     text-align: center;
     background-color: #b30000;
     color: white;
@@ -749,7 +763,7 @@ body {
     cursor: pointer;
   }
   #selectovertime{
-    width: 18%;
+    width: 20%;
     text-align: center;
     background-color: #0e008b;
     color: white;
@@ -778,6 +792,7 @@ body {
   }
   #requestlist{
     width: 20%;
+    height: 27rem;
     overflow-y: auto;
   }
   #requestlist::-webkit-scrollbar { 

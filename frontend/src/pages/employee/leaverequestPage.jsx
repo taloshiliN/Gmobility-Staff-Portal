@@ -7,11 +7,13 @@ import { createLeaveRequest } from '../../leaveSlice'
 
 function LeaveRequest() {
   const auth = useSelector((state) => state.auth);
-  const userData = auth.data && auth.data[0];
+  const userData = useSelector((state) => state.auth.data[0]); 
   const username = userData?.Name || 'User';
-  const position = auth.position || 'Employee';
+  const pos = userData?.Position || 'Employee';
+
 
   const [employeeName, setEmployeeName] = useState(username);
+  const [position, setPosition] = useState(pos);
   const [date, setDate] = useState("");
   const [supervisorName, setSupervisorName] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -26,7 +28,9 @@ function LeaveRequest() {
 
   useEffect(() => {
     setEmployeeName(username);
-  }, [username]);
+    setPosition(pos);
+  }, [username]  [pos]);
+
 
   const calculateResumingWorkDay = () => {
     if (endDate) {
@@ -60,6 +64,7 @@ function LeaveRequest() {
     e.preventDefault();
     console.log("Form submitted with data:", {
       employeeName,
+      position,
       date,
       supervisorName,
       startDate,
@@ -74,6 +79,7 @@ function LeaveRequest() {
     if (
       date &&
       supervisorName &&
+      position &&
       startDate &&
       endDate &&
       totalDays > 0 && 
@@ -85,6 +91,7 @@ function LeaveRequest() {
     ) {
       dispatch(createLeaveRequest({
         employeeName,
+        position,
         date,
         supervisorName,
         startDate,

@@ -186,30 +186,40 @@ app.patch('/users/:id', (req, res) => {
 });
 
 app.post("/api/leave", (req, res) => {
-    const {employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone} = req.body;
+    const { employeeName, position, date, supervisorName, startDate, endDate, totalDays, reason, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone } = req.body;
 
     db.query(
-        "INSERT INTO leave_requests (employee_name, date, supervisor_name, start_date, end_date, total_days, resuming_work_days, emergency_name, emergency_address, emergency_phone_number) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        [employeeName, date, supervisorName, startDate, endDate, totalDays, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone],
-        (err) => {
-            if (err) throw err;
+        "INSERT INTO leave_requests (employee_name, position, date, supervisor_name, start_date, end_date, total_days, reason, resuming_work_days, emergency_name, emergency_address, emergency_phone_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [employeeName, position, date, supervisorName, startDate, endDate, totalDays, reason, resumingWorkDay, emergencyName, emergencyAddress, emergencyPhone],
+        (err, result) => {
+            if (err) {
+                console.error("Database error:", err);
+                return res.status(500).json({ error: "Database insertion failed" }); // Handle error and send response
+            }
+
+            // Create newLeaveRequest object inside the callback
             const newLeaveRequest = {
-                EmployeeName:employeeName,
-                Date:date,
-                SuperVisorName:supervisorName,
-                StartDate:startDate,
-                EndDate:endDate,
-                TotalDays:totalDays,
-                ResumingWorkDay:resumingWorkDay,
-                EmergencyName:emergencyName,
-                EmergencyAddress:emergencyAddress,
-                EmergencyPhone:emergencyPhone
+                EmployeeName: employeeName,
+                position: position,
+                Date: date,
+                SuperVisorName: supervisorName,
+                StartDate: startDate,
+                EndDate: endDate,
+                TotalDays: totalDays,
+                reason: reason,
+                ResumingWorkDay: resumingWorkDay,
+                EmergencyName: emergencyName,
+                EmergencyAddress: emergencyAddress,
+                EmergencyPhone: emergencyPhone,
+                ID_Number: result.insertId // Include the generated ID from the database
             };
-            res.json(newLeaveRequest);
+
+            // Send response only once
+            return res.json(newLeaveRequest);
         }
     );
-        res.json({ ID_Number: id, ...updatedData }); // Return updated employee info
 });
+
 
 app.get('/employeeovertime/:name', (req, res) => {
     const employeeName = req.params.name;
@@ -224,25 +234,38 @@ app.get('/employeeovertime/:name', (req, res) => {
 
 
 app.post("/api/overtime", (req, res) => {
-    const {employeeName, date, startTime, endTime, duration, reason} = req.body;
+    const { employeeName, position, date, start_time, end_time, duration, reason } = req.body;
+
+    // Log the incoming request body
+    console.log("Received data:", req.body);
+
+    // Check for required fields
+    if (!employeeName || !position || !date || !start_time || !end_time || !duration || !reason) {
+        return res.status(400).json({ message: "All fields are required." });
+    }
 
     db.query(
-        "INSERT INTO overtime_requests (employee_name, date, start_time, end_time, duration, reason, status, reqstatus) VALUES (?,?,?,?,?,?,'Pending', 'unseen')",
-        [employeeName, date, startTime, endTime, duration, reason],
+        "INSERT INTO overtime_requests (employee_name, position, date, start_time, end_time, duration, reason, status, reqstatus) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', 'unseen')",
+        [employeeName, position, date, start_time, end_time, duration, reason],
         (err) => {
-            if (err) throw err;
+            if (err) {
+                console.error("Database insertion error:", err);
+                return res.status(500).json({ message: "Database error" });
+            }
             const newOvertimeRequest = {
-                EmployeeName:employeeName,
-                Date:date,
-                StartTime:startTime,
-                EndTime:endTime,
-                Duration:duration,
-                Reason:reason
+                employeeName,
+                position,
+                date,
+                start_time,
+                end_time,
+                duration,
+                reason
             };
             res.json(newOvertimeRequest);
         }
-    )
-})
+    );
+});
+
 
 app.post("/api/clock", (req, res) => {
     console.log(req.body)

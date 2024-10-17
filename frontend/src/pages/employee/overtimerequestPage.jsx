@@ -9,14 +9,14 @@ function OvertimerequestPage() {
   const auth = useSelector((state) => state.auth);
   const userData = auth.data && auth.data[0];
   const username = userData?.Name || 'User';
-  const position = auth.position || 'Employee';
+  const [position] = useState(auth.position || 'Employee');
 
   const [employeeName, setEmployeeName] = useState(username);
   const [date, setDate] = useState("");
   const [duration, setDuration] = useState("");
   const [reason, setReason] = useState("");
-  const [startTime] = useState("17:00");  // Fixed to 17:00
-  const [endTime, setEndTime] = useState("18:00");  // Default to 18:00
+  const [start_time, setStartTime] = useState("17:00");  // Default to 17:00
+  const [end_time, setEndTime] = useState("18:00");  // Default to 18:00
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,42 +42,50 @@ function OvertimerequestPage() {
   };
 
   useEffect(() => {
-    if (startTime && endTime) {
-      const calculatedDuration = calculateDuration(startTime, endTime);
+    if (start_time && end_time) {
+      const calculatedDuration = calculateDuration(start_time, end_time);
       setDuration(calculatedDuration.toFixed(2));
     }
-  }, [startTime, endTime]);
+  }, [start_time, end_time]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Log the payload to see what is being sent
+    const payload = {
+      employeeName,
+      position,  // Make sure this is included
+      date,
+      start_time,
+      end_time,
+      duration,
+      reason
+    };
+
+    console.log("Sending payload:", payload); // Log the payload
+
+    // Check that all required fields are present
     if (
       employeeName &&
+      position &&
       date &&
-      startTime &&
-      endTime &&
+      start_time &&
+      end_time &&
       duration &&
       reason
     ) {
-      dispatch(createOvertimeRequest({
-        employeeName,
-        position, // Include the position here
-        date,
-        startTime,
-        endTime,
-        duration,
-        reason
-      }));
+      dispatch(createOvertimeRequest(payload));
+    } else {
+      console.error("Missing required fields in the payload");
     }
 
     // Reset form fields
     setDate("");
+    setStartTime("17:00");
     setEndTime("18:00");
     setDuration("");
     setReason("");
   };
-
-  
 
   const generateTimeOptions = () => {
     const options = [];
@@ -87,8 +95,7 @@ function OvertimerequestPage() {
         options.push(<option key={time} value={time}>{time}</option>);
       }
     }
-    // Add 00:00 (midnight) option
-    options.push(<option key="00:00" value="00:00">00:00</option>);
+    options.push(<option key="00:00" value="00:00">00:00</option>); // Add 00:00 (midnight) option
     return options;
   }
 
@@ -124,22 +131,22 @@ function OvertimerequestPage() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="startTime">Overtime Start Time</label>
+              <label htmlFor="start_time">Overtime Start Time</label>
               <input
                 type="text"
-                id="startTime"
-                name="startTime"
-                value={startTime}
-                readOnly
+                id="start_time"
+                name="start_time"
+                value={start_time}
+                onChange={(e) => setStartTime(e.target.value)}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="endTime">Overtime End Time</label>
+              <label htmlFor="end_time">Overtime End Time</label>
               <select
-                id="endTime"
-                name="endTime"
-                value={endTime}
+                id="end_time"
+                name="end_time"
+                value={end_time}
                 onChange={(e) => setEndTime(e.target.value)}
                 required
               >
@@ -176,6 +183,6 @@ function OvertimerequestPage() {
       </div>
     </>
   );
-
 }
+
 export default OvertimerequestPage;

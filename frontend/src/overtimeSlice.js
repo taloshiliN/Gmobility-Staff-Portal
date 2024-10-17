@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState = {
     overtimeData: [],
@@ -7,22 +6,33 @@ const initialState = {
     error: null
 };
 
+// Using fetch instead of axios
 export const createOvertimeRequest = createAsyncThunk(
     "overtime/createOvertimeRequest",
-//     async ({employeeName, date, start_time, end_time, duration, reason}) => {
-//         const response= await axios.post("http://localhost:8080/api/overtime", {
-//             employeeName,
-    async ({ employeeName, date, start_time, end_time, duration, reason, position }) => { // Added position here
-        const response = await axios.post("http://localhost:8080/api/overtime", {
-            employeeName,
-            position, // Include position in the payload
-            date,
-            start_time,
-            end_time,
-            duration,
-            reason,
+    async ({ employeeName, position, date, start_time, end_time, duration, reason }) => {
+        const response = await fetch("http://localhost:8080/api/overtime", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                employeeName,
+                position,
+                date,
+                start_time,
+                end_time,
+                duration,
+                reason,
+            }),
         });
-        return response.data;
+
+        // Handle the response
+        if (!response.ok) {
+            throw new Error('Network response was not ok' + response.statusText);
+        }
+        
+        const data = await response.json();
+        return data; // Return the data to be handled in the fulfilled case
     }
 );
 
@@ -36,7 +46,7 @@ const overtimeSlice = createSlice({
                 state.status = "loading";
             })
             .addCase(createOvertimeRequest.fulfilled, (state, action) => {
-                state.status = "succeed";
+                state.status = "succeeded"; // Corrected from "succeed" to "succeeded"
                 state.overtimeData.push(action.payload);
             })
             .addCase(createOvertimeRequest.rejected, (state, action) => {
@@ -44,9 +54,6 @@ const overtimeSlice = createSlice({
                 state.error = action.error.message;
             });
     }
-})
-
-// export default overtimeSlice.reducer;
-// });
+});
 
 export default overtimeSlice.reducer;
