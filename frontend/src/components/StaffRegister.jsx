@@ -2,6 +2,8 @@ import Header from './header';
 import SidebarNav from './sidebarNav';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import '../styles/staffRegistration.css'
+import teamicon from '../assets/teamicon.png'
 
 function StaffRegistrationForm() {
   const uposition = useSelector((state) => state.auth.position);
@@ -96,11 +98,12 @@ function StaffRegistrationForm() {
     <>
       <Header />
       <SidebarNav position={uposition} />
-      <div className='main-content'>
-        <div className="overtime-view-page">
+      <div className="staffregistercontent">
+      
           <form onSubmit={handleSubmit} encType='multipart/form-data'>
-            <h2>Register a staff member</h2>
-
+          <div className="formsection">
+          <div className="registerform1">
+          <h2>Register a staff member</h2>
             <div className="form-group">
               <label htmlFor="Name">Name</label>
               <input
@@ -164,20 +167,25 @@ function StaffRegistrationForm() {
                 required
               />
             </div>
-
+          
+        
             <div className="form-group">
               <label htmlFor="Supervisor">Supervisor</label>
-              <input
-                type="text"
+               <select
                 id="Supervisor"
                 name="Supervisor"
-                placeholder='Supervisor'
                 value={Supervisor}
                 onChange={(e) => setSupervisor(e.target.value)}
                 required
-              />
+              >
+                <option value="">Select an option</option>
+                <option value="BraG">BraG</option>
+                <option value="Thomas">Thomas</option>
+                <option value="John">John</option>
+              </select>
             </div>
-
+          
+            
             <div className="form-group">
               <label htmlFor="Nationality">Nationality</label>
               <input
@@ -190,7 +198,12 @@ function StaffRegistrationForm() {
                 required
               />
             </div>
+            </div>
 
+ 
+            <div className="outerregisterform2">
+            <div className="registerform2">
+            <h2>G Mobility</h2>
             <div className="form-group">
               <label htmlFor="Home_Language">Home Language</label>
               <input
@@ -234,7 +247,7 @@ function StaffRegistrationForm() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="profileImg">Profile Picture</label>
+              <label htmlFor="profileImg">Profile Picture: </label>
               <input
                 type="file"
                 id="profileImg"
@@ -257,10 +270,14 @@ function StaffRegistrationForm() {
               />
             </div>
 
-            <button type="submit">Submit</button>
+            <button type="submit">Create</button>
+            </div>
+            <img src={teamicon} alt='Teamwork'></img>
+            </div>
+            </div>
           </form>
         </div>
-      </div>
+
     </>
   );
 }

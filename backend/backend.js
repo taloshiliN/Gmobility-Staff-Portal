@@ -750,11 +750,14 @@ app.post("/uploaddocument", upload.single("doc"), (req, res) => {
     }
 
     const fileBuffer = req.file.buffer; // Access the file buffer
+    const fileName = req.file.originalname; // Get the original filename
+    const mimeType = req.file.mimetype; // Get the mime type of the file
+    const date = new Date(); // Current date/time
 
-    // Save the fileBuffer to your database as a BLOB
+    // Save the file metadata and buffer to the database as a BLOB
     db.query(
-        "INSERT INTO documents (employee_id, doc) VALUES (?, ?)",
-        [employee_id, fileBuffer],
+        "INSERT INTO documents (employee_id, doc, file_name, mime_type, date) VALUES (?, ?, ?, ?, ?)",
+        [employee_id, fileBuffer, fileName, mimeType, date],
         (err, result) => {
             if (err) {
                 console.error("Database insert error:", err);
@@ -764,13 +767,16 @@ app.post("/uploaddocument", upload.single("doc"), (req, res) => {
             const doclog = {
                 id: result.insertId, // ID of the inserted document
                 employee_id,
-                // You may need to adjust this to use a filename or other descriptor if necessary
-                doc: req.file.originalname, // Original filename for display purposes
+                file_name: fileName, // Name of the uploaded file
+                mime_type: mimeType, // File MIME type
+                date, // Submission date
             };
-            res.json(doclog);
+
+            res.json(doclog); // Return the inserted document details
         }
     );
 });
+
 
 
 // Endpoint to download a document by ID

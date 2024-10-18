@@ -99,15 +99,25 @@ function HRDocupload() {
                     <h4>Your documents</h4>
                     <div id="uploadedcontent">
                         <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Last Modified</th>
+                                    <th>Type</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 {documents.length > 0 ? (
                                     documents.map((doc) => (
                                         <tr key={doc.id}>
                                             <td id="doclink">
                                                 <a href={`http://localhost:8080/download/${doc.id}`} target="_blank" rel="noopener noreferrer">
-                                                    Download Document {doc.id} {/* You can replace this with any string or document title */}
+                                                    {doc.file_name} {/* Display the document's file name */}
                                                 </a>
                                             </td>
+                                            <td><p>{new Date(doc.date).toLocaleDateString()}</p></td> {/* Format the submission date */}
+                                            <td id="docmimetype"><p>{doc.mime_type}</p></td> {/* Display the MIME type */}
                                             <td id="uploaddeletebutton">
                                                 <button onClick={() => handleDelete(doc.id)}>Delete</button>
                                             </td>
@@ -115,7 +125,7 @@ function HRDocupload() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td>No documents found</td>
+                                        <td colSpan="4">No documents found</td>
                                     </tr>
                                 )}
                             </tbody>
@@ -126,7 +136,7 @@ function HRDocupload() {
                     <p>Upload file</p>
                     <form onSubmit={handleSubmit}>
                         <input type="file" onChange={handleFileChange} />
-                        <input type="submit" value="Upload" />
+                        <input id="docuploadbutton" type="submit" value="Upload" />
                     </form>
                 </div>
             </div>
