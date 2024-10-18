@@ -72,7 +72,7 @@ function HRNewCommission() {
             <Header />
             <SidebarNav position={position} />
 
-            <div className="new-commission">
+            <div className="newcommission">
                 <h2>New Commission Entry</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -86,13 +86,14 @@ function HRNewCommission() {
                             required
                         />
                     </div>
-
+                    <div id="commissiondetailform1">
                     <div className="form-group">
                         <label htmlFor="employee_name">Employee Name</label>
                         <input
                             type="text"
                             id="employee_name"
                             name="employee_name"
+                            placeholder="First name"
                             value={formData.employee_name}
                             onChange={handleChange}
                             required
@@ -100,15 +101,16 @@ function HRNewCommission() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="employee_surname">Employee Surname</label>
                         <input
                             type="text"
                             id="employee_surname"
                             name="employee_surname"
+                            placeholder="Last name"
                             value={formData.employee_surname}
                             onChange={handleChange}
                             required
                         />
+                    </div>
                     </div>
 
                     <div className="form-group">

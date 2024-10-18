@@ -63,7 +63,7 @@ function HRCommissions() {
                                 {commissions.length > 0 ? (
                                     commissions.map((commission, index) => (
                                         <tr key={index} onClick={() => handleCommissionClick(commission)}>
-                                            <td>{commission.employee_name} {commission.employee_surname}</td>
+                                            <td>{commission.employee_name} {commission.employee_surname} - {new Date(commission.date).toLocaleDateString()}</td>
                                         </tr>
                                     ))
                                 ) : (

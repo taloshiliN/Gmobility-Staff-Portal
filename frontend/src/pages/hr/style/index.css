@@ -301,6 +301,7 @@ body {
     width: 150px;
   }
   .messagingsection{
+    z-index: 99 !important;
     position: absolute;
     background-color: white;
     width: 4%;
@@ -767,7 +768,7 @@ body {
    margin-top: 0rem;
   }
   #newsizediv{
-    width: 100%;
+    width: 90%;
   }
   #requestselect{
     display: flex;
@@ -885,10 +886,10 @@ body {
   
   #newrequestdiv{
     display: block;
-    width: 30%;
+    width: 10%;
   }
   .newleaverequest{
-    width: 90%;
+    width: 160%;
     height: 4rem;
     padding-top: 0.4rem;
     margin-left: 1rem;
@@ -977,6 +978,8 @@ body {
   #comissionlist h5{
     padding: 1rem;
     height: 10%;
+    background-color: #000b6e;
+    color: white;
   }
   #comissionlist td{
     text-align: center;
@@ -998,6 +1001,7 @@ body {
   display: flex;
   border-radius: 10px;
 }
+
 #newcommission:hover{
   background-color: #090057;
   cursor: pointer;
@@ -1011,13 +1015,28 @@ body {
 #newcommission p{
   margin-top: 0.8rem;
 }
-.new-commission{
+.newcommission{
   width: 60%;
+  text-align: center;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
   margin-top: 6rem;
   padding: 2rem;
+  border-radius: 10px;
+}
+.form-group input{
+  border: 1px solid rgb(0, 0, 0) !important;
+  border-radius: 10px !important;
+  width: 60%;
+}
+.form-group label{
+  width: 30%;
+  margin: 0.5rem;
+  margin-top: 0.7rem;
+  padding-left: 1rem;
+  justify-content: left;
+  text-align: left;
 }
 #buttonsec{
   display: inline-flex;
@@ -1025,19 +1044,31 @@ body {
   height: 5rem;
   text-align: center;
 }
-.new-commission button{
+.newcommission button{
   border: none;
   border-radius: 5px;
   color: white;
-  background-color: green;
+  background-color: rgb(0, 115, 223);
   width: 30%;
   height: 60%;
   margin-left: auto;
   margin-right: auto;
 }
-.new-commission #comissioncancel{
+.newcommission #comissioncancel{
   background-color: red;
 }
+#commissiondetailform1{
+  display: flex;
+  text-align: center;
+}
+#commissiondetailform1 input{
+  width: 80% !important;
+
+}
+#commissiondetailform1 label{
+  width: 80% !important;
+}
+
   /* Leav requests section*/
   
   .requestcontainer{
