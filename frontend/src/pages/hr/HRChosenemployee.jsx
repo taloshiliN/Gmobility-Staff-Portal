@@ -33,6 +33,8 @@ function HRChosenemployee() {
     const [data, setData] = useState([]);
     const [missedDays, setMissedDays] = useState([]); // State for missed days
     const [documents, setDocuments] = useState([]); // State for documents
+    const [clockinHistory, setClockinHistory] = useState([]); // State for clock-in history
+    const [selectedDate, setSelectedDate] = useState(''); // State for selected date
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,6 +88,25 @@ function HRChosenemployee() {
 
         fetchDocuments();
     }, [editedEmployee.id]); // Fetch documents when employee ID changes
+
+    // Fetch clock-in history for the employee using the specified API
+    useEffect(() => {
+        const fetchClockinHistory = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/clockin/${employee.id}`);
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await res.json();
+                setClockinHistory(data);
+            } catch (err) {
+                console.error('Fetch clock-in history error:', err);
+            }
+        };
+
+        fetchClockinHistory();
+    }, [editedEmployee.id]); // Dependency array includes employee id
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -152,6 +173,21 @@ function HRChosenemployee() {
         window.history.back();
     };
 
+    const handleDateChange = (e) => {
+        setSelectedDate(e.target.value);
+    };
+
+    // Filter clock-in history based on selected date
+    const filteredClockinHistory = selectedDate
+        ? clockinHistory.filter(clockin => 
+            new Date(clockin.date).toLocaleDateString() === new Date(selectedDate).toLocaleDateString()
+        )
+        : [];
+    
+        const handleClear = () => {
+            setSelectedDate(''); // Clear the date input
+        };
+        
     return (
         <>
             <Header />
@@ -278,6 +314,37 @@ function HRChosenemployee() {
                     </div>
                 </div>
                 <div id="chosenbelongingssection">
+                    <div id="chosenclockinsection">
+                        <h4>Clock-in History</h4>
+                        <input type='date' onChange={handleDateChange} />
+                        <button onClick={handleClear}>Clear</button>
+                        <div id="chosenclocktablediv">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Clock-in Time</th>
+                                        <th>Clock-out Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {(selectedDate ? filteredClockinHistory : clockinHistory).length > 0 ? (
+                                        (selectedDate ? filteredClockinHistory : clockinHistory).map((clockin) => (
+                                            <tr key={clockin.id}>
+                                            <td>{new Date(clockin.date).toLocaleDateString()}</td>
+                                            <td>{clockin.clockinTime || '----'}</td>
+                                            <td>{clockin.clockoutTime || '----'}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                            <tr>
+                                                <td colSpan="3">No clock-in records found.</td>
+                                            </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div id="chosendocuments">
                         <div id="doctitle">
                             <h4>Documents</h4>
@@ -287,9 +354,9 @@ function HRChosenemployee() {
                                 {documents.length > 0 ? (
                                     documents.map((doc) => (
                                         <li key={doc.id}>
-                                             <a href={`http://localhost:8080/download/${doc.id}`} target="_blank" rel="noopener noreferrer">
-                                                    Download Document {doc.id} {/* You can replace this with any string or document title */}
-                                                </a>
+                                            <a href={`http://localhost:8080/download/${doc.id}`} target="_blank" rel="noopener noreferrer">
+                                                {doc.file_name} {/* You can replace this with any string or document title */}
+                                            </a>
                                         </li>
                                     ))
                                 ) : (
@@ -304,8 +371,8 @@ function HRChosenemployee() {
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Clockin Time</th>
-                                    <th>Clockout Time</th>
+                                    <th>Clock-in Time</th>
+                                    <th>Clock-out Time</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -317,7 +384,9 @@ function HRChosenemployee() {
                                             <td>{day.clockinTime || '----'}</td>
                                             <td>{day.clockoutTime || '----'}</td>
                                             <td>
-                                            <button onClick={() => navigate('/hrmisseddays', { state: { missedDay: day, employeeId: editedEmployee.id, employeeName: editedEmployee.firstname + ' ' + editedEmployee.lastname } })}>Edit</button>
+                                                <button onClick={() => navigate('/hrmisseddays', { state: { missedDay: day, employeeId: editedEmployee.id, employeeName: `${editedEmployee.firstname} ${editedEmployee.lastname}` } })}>
+                                                    Edit
+                                                </button>
                                             </td>
                                         </tr>
                                     ))
