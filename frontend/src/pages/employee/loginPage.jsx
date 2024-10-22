@@ -50,13 +50,13 @@ function LoginPage() {
       todayDate.getFullYear(),
       todayDate.getMonth(),
       todayDate.getDate(),
-      1, // Set hours to 01:00:00
+      5, // Set hours to 01:00:00
       0, // Set minutes to 00
       0 // Set seconds to 00
     );
 
     // Add 2 hours to the date
-    clockInDate.setHours(clockInDate.getHours() + 2);
+    clockInDate.setHours(clockInDate.getHours());
 
     const formattedDate = clockInDate.toISOString().split('.')[0].replace('T', ' '); // Format to 'YYYY-MM-DD HH:MM:SS'
 

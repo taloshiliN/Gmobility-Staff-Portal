@@ -13,7 +13,7 @@ function SidebarNav({position}) {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login')
+    navigate('/')
   }
 
   if (!position) {
@@ -36,6 +36,9 @@ function SidebarNav({position}) {
       <>
         <NavLink to="/home">
           <li>Home</li>
+        </NavLink>
+        <NavLink to="/ClockinPage">
+          <li>View Clocking</li>
         </NavLink>
         <NavLink to="/leaverequest">
           <li>Leave Requests</li>
@@ -90,6 +93,9 @@ function SidebarNav({position}) {
       <>
         <NavLink to="/adminhomepage">
           <li>Home Page</li>
+        </NavLink>
+        <NavLink to="/ClockinPage">
+          <li>View Clocking</li>
         </NavLink>
         <NavLink to="/staffregistrationadmin">
           <li>Manage employees</li>

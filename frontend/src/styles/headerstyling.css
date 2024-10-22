@@ -8,6 +8,10 @@
     top: 0;
     z-index: 1000;
   }
+  .header img{
+    width: 80%;
+ 
+  }
   .headerheader p{
     color: white;
     font-weight: 600;
