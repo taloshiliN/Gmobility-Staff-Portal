@@ -38,7 +38,7 @@ import Misseddays from './pages/hr/HRMisseddays'
 import HRDocupload from "./pages/hr/HRDocupload"
 import HRCommissions from "./pages/hr/HRCommissions"
 import HRNewcommission from "./pages/hr/HRNewcommission"
-
+import ClockinPage from "./components/ClockinPage"
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
@@ -269,6 +269,17 @@ function App() {
 
         } 
         />
+
+      <Route 
+        path="/ClockinPage" 
+        element={
+        <ProtectedRoute>
+          <ClockinPage />
+        </ProtectedRoute>
+
+        } 
+        />
+
         {/* Admin Portal*/}
         {/* Protected Routes - Employee */}
         <Route 

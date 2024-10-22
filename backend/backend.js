@@ -826,6 +826,21 @@ app.post('/addcommission', (req, res) => {
     });
 });
 
+//retrieves clockin details for specific user
+app.get('/clockin/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM clockin WHERE employee_id = ? ";
+
+    db.query(sql, [id], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No clocked days found for this user" });
+        }
+        return res.json(data); // Return all matching records
+    });
+});
 
 // Start server
 app.listen(8080, () => {

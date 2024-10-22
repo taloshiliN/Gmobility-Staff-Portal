@@ -1,0 +1,54 @@
+#clocksection{
+    width: 85%;
+    height: 15rem;
+    margin-top: 7rem;
+    margin-left: 8rem;
+    margin-right: auto;
+    display: flex;
+    border-radius: 10px;
+    text-align: center;
+}
+#currentclockinsection{
+    background-color: rgb(255, 255, 255);
+    width: 50%;
+    border-radius: 10px;
+}
+#currentclockinsection button{
+    background-color: red;
+    color: white;
+    width: 30%;
+    height: 10%;
+    border-radius: 10px;
+    border: none;
+}
+#currentclockinsection button:hover{
+    background-color: brown;
+    cursor: pointer;
+}
+#innercurrentclockin th, td{
+    text-align: center;
+}
+#lastclockinsection{
+    background-color: rgb(233, 233, 233);
+    width: 50%;
+    border-radius: 10px;
+    margin-left: 1rem;
+    overflow-y: auto;
+}
+#lastclockinsection h4{
+    color: white;
+    background-color: rgb(0, 4, 255);
+}
+#lastclockinsection table{
+    width: 100%;
+}
+#lastclockinsection input{
+    width: 40%;
+    height: 2rem;
+    margin-left: 2rem;
+    border-radius: 20px;
+}
+#clockhistorydiv{
+    width: 100%;
+    overflow-y: auto;
+}

@@ -60,6 +60,9 @@ function SidebarNav({position}) {
         <NavLink to="/hrhomepage">
           <li>Home</li>
         </NavLink>
+        <NavLink to="/ClockinPage">
+          <li>View Clocking</li>
+        </NavLink>
         <NavLink to="/hremployees">
           <li>View Employees</li>
         </NavLink>
