@@ -37,11 +37,10 @@ function ClockinPage() {
 
                 console.log("Today's clock-in details:", todayClockin); // Log today's clock-in details
 
-                // If found, increment the date by 1 day and the time by 2 hours
+                // If found, adjust only the time (increase by 2 hours)
                 if (todayClockin) {
                     const adjustedDate = new Date(todayClockin.date);
                     adjustedDate.setHours(adjustedDate.getHours() + 2); // Increase by 2 hours
-                    adjustedDate.setDate(adjustedDate.getDate() + 1); // Move to the next day
                     todayClockin.date = adjustedDate.toISOString(); // Store the adjusted date
                     console.log("Adjusted clock-in details:", todayClockin); // Log adjusted clock-in details
                 } else {
