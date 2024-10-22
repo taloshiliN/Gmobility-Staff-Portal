@@ -102,7 +102,7 @@ function HRDocupload() {
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Last Modified</th>
+                                    <th>Date Submitted</th>
                                     <th>Type</th>
                                     <th>Action</th>
                                 </tr>

@@ -28,6 +28,13 @@
 #innercurrentclockin th, td{
     text-align: center;
 }
+#innercurrentclockin p{
+    padding: 1rem;
+}
+#innercurrentclockin button{
+    margin-left: auto;
+    margin-right: auto;
+}
 #lastclockinsection{
     background-color: rgb(233, 233, 233);
     width: 50%;
@@ -51,4 +58,16 @@
 #clockhistorydiv{
     width: 100%;
     overflow-y: auto;
+}
+#clockinclear{
+    width: 20%;
+    height: 20%;
+    background-color: rgb(0, 0, 219);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-left: 1rem;
+}
+#clockinclear:hover{
+   background-color: rgb(0, 0, 95);
 }

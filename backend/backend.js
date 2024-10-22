@@ -829,7 +829,7 @@ app.post('/addcommission', (req, res) => {
 //retrieves clockin details for specific user
 app.get('/clockin/:id', (req, res) => {
     const { id } = req.params;
-    const sql = "SELECT * FROM clockin WHERE employee_id = ? ";
+    const sql = "SELECT * FROM clockin WHERE employee_id = ? ORDER BY id DESC";
 
     db.query(sql, [id], (err, data) => {
         if (err) {
@@ -841,6 +841,65 @@ app.get('/clockin/:id', (req, res) => {
         return res.json(data); // Return all matching records
     });
 });
+
+app.post("/clockout", (req, res) => {
+    console.log("Clock-out request received:", req.body);
+    const { clockoutTime, date, employee_id } = req.body;
+
+    db.query(
+        "UPDATE clockin SET clockoutTime = ? WHERE date = ? AND employee_id = ?",
+        [clockoutTime, date, employee_id],
+        (err, result) => {
+            if (err) {
+                console.error("Error updating clockout:", err);
+                return res.status(500).json({ error: 'Database error occurred' });
+            }
+
+            if (result.affectedRows === 0) {
+                console.log("No rows updated. Check if the record exists.");
+                return res.status(404).json({ message: 'Record not found' });
+            }
+
+            const newClockLog = {
+                clockoutTime,
+                date,
+                employee_id,
+            };
+            console.log("Clock-out successful:", newClockLog);
+            res.json(newClockLog);
+        }
+    );
+});
+
+app.post("/clockinset", (req, res) => {
+    console.log("Clock-in request received:", req.body);
+    const { date, employee_id } = req.body;
+
+    db.query(
+        "UPDATE clockin SET clockinTime = NOW() WHERE date = ? AND employee_id = ? AND clockinTime IS NULL",
+        [date, employee_id],
+        (err, result) => {
+            if (err) {
+                console.error("Error updating clockin:", err);
+                return res.status(500).json({ error: 'Database error occurred' });
+            }
+
+            if (result.affectedRows === 0) {
+                console.log("No rows updated. Check if the record exists or if clockinTime is not NULL.");
+                return res.status(404).json({ message: 'Record not found or already clocked in.' });
+            }
+
+            const newClockLog = {
+                date,
+                employee_id,
+            };
+            console.log("Clock-in successful:", newClockLog);
+            res.json(newClockLog);
+        }
+    );
+});
+
+
 
 // Start server
 app.listen(8080, () => {
