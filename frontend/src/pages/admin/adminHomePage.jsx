@@ -9,13 +9,14 @@ import approve from '../../assets/approve.png'
 import reject from '../../assets/reject.png'
 import clock from '../../assets/clock.png'
 import MessageFloat from '../hr/MessageFloat';
-
+import SimpleChatPlatform from '../../components/MessagePlatfom';
 
 function AdminHomePage() {
   const position = useSelector((state) => state.auth.position);
   const adminName = useSelector((state) => state.auth.data[0]);
 
   const [showPopup, setShowPopup] = useState(false);
+  const [showChatPlatform, setShowChatPlatform] = useState(false);
 
   console.log("User Data:", adminName);
   if (!adminName) {
@@ -41,14 +42,25 @@ function AdminHomePage() {
     setShowPopup(false); // Hide the admin action card pop-up
   };
 
+  const handleToggleChat = () => {
+    setShowChatPlatform((prev) => !prev)
+  }
+
   return (
     <>
       <Header />
       <SidebarNav position={position} />
-      <MessageFloat />
-      <div className={`profile-card ${showPopup ? 'blur-background' : ''}`}>
+      <div className='main-content'>
+      <MessageFloat onClick={handleToggleChat}/>
+      <div className={`profile-card4 ${showPopup ? 'blur-background' : ''}`}>
         <h2>Welcome Admin {adminName.Name}</h2> {/* Welcome message */}
       </div>
+
+      {showChatPlatform && (
+        <div className='chat-platform'>
+          <SimpleChatPlatform currentUser={adminName}/>
+        </div>
+      )}
 
       {/* Department Containers */}
       <div className={`department-containers ${showPopup ? 'blur-background' : ''}`}>
@@ -110,6 +122,7 @@ function AdminHomePage() {
           </div>
         </div>
       )}
+      </div>
     </>
   );
 }

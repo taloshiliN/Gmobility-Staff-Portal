@@ -122,6 +122,7 @@ function ClockinPage() {
         <>
             <Header />
             <SidebarNav position={position} />
+            <div className='main-content'>
             <div id="clocksection">
                 <div id="currentclockinsection">
                     <div id="innercurrentclockin">
@@ -191,6 +192,7 @@ function ClockinPage() {
                         </table>
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );

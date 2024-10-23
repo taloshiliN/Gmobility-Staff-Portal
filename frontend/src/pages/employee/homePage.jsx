@@ -11,6 +11,7 @@ import viewRequests from '../../assets/viewRequests.png'
 import payroll from '../../assets/payroll.png'
 import clockinout from '../../assets/clockinout.png'
 import MessageFloat from '../hr/MessageFloat';
+import SimpleChatPlatform from '../../components/MessagePlatfom.jsx';
 import DigitalClock from '../../components/clock.jsx';
 
 
@@ -19,6 +20,7 @@ function HomePage(){
   const employeeName = useSelector((state) => state.auth.data[0]);
 
   const [showPopup, setShowPopup] = useState(false);
+  const [showChatPlatform, setShowChatPlatform] = useState(false);
 
   console.log("User Data:", employeeName);
   if (!employeeName) {
@@ -43,15 +45,25 @@ function HomePage(){
   const handleClosePopup = () => {
     setShowPopup(false); 
   };
+
+  const handleToggleChat = () => {
+    setShowChatPlatform((prev) => !prev);
+  };
+
     return(
         <>
         <Header />
         <SidebarNav position={position} />
         <div className='main-content'>
-        <MessageFloat />
+        <MessageFloat onClick={handleToggleChat}/>
       <div className={`profile-card2 ${showPopup ? 'blur-background' : ''}`}>
         <h2>Welcome Employee {employeeName.Name}</h2>
       </div>
+      {showChatPlatform && (
+        <div className='chat-platform'>
+          <SimpleChatPlatform currentUser={employeeName} />
+        </div>
+      )}
 
       {/* Department Containers (can adjust this to reflect employee roles or actions) */}
       <div className={`department-containers2 ${showPopup ? 'blur-background' : ''}`}>

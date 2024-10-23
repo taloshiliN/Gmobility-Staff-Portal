@@ -71,7 +71,7 @@ function HRNewCommission() {
         <>
             <Header />
             <SidebarNav position={position} />
-
+            <div className='main-content'>
             <div className="newcommission">
                 <h2>New Commission Entry</h2>
                 <form onSubmit={handleSubmit}>
@@ -196,6 +196,7 @@ function HRNewCommission() {
                         </button>
                     </div>
                 </form>
+            </div>
             </div>
         </>
     );

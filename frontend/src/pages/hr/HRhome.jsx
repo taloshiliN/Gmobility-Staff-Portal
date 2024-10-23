@@ -7,12 +7,14 @@ import './style/index.css';
 import search from './assets/searchicon.png';
 import MessagingFloat from './MessageFloat.jsx';
 import personicon from './assets/personicon.png';
+import SimpleChatPlatform from '../../components/MessagePlatfom.jsx';
 
 function HRhome() {
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.data[0]); 
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [showChatPlatform, setShowChatPlatform] = useState(false);
 
     const filteredData = data.filter(employee => {
         return (
@@ -47,15 +49,23 @@ function HRhome() {
         setSearchQuery(event.target.value);
     };
 
+    const handleToggleChat = () => {
+        setShowChatPlatform((prev) => !prev);
+    }
+
     return (
         <>
             <Header />
             <SidebarNav position={position} />
-            <MessagingFloat />
+            <MessagingFloat onClick={handleToggleChat}/>
             <div className='main-content'>
                 <div className="homecontent">
                     <h4 className='greeting'>Welcome {user.Name}</h4>
-
+                    {showChatPlatform && (
+                    <div className='chat-platform'>
+                        <SimpleChatPlatform currentUser={user}/>
+                    </div>
+                    )}
                     <div id="totalemployees">
                         <p><img src={personicon} alt="Person Icon" /> {data.length}</p>
                     </div>

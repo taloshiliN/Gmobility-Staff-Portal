@@ -1,23 +1,23 @@
 .profile-card2 {
-    position: fixed;
-    left: 50%;
-    top: 90px;
-    transform: translateX(-50%);
-    width: 500px;
-    border-radius: 30px;
-    padding: 20px;
-    text-align: center;
-    color: white;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  border-radius: 30px;
+  padding: 20px;
+  text-align: center;
+  color: white;
 }
 
 .department-containers2 {
-    margin-top: 270px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    min-height: 40vh;
-  }
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+}
   
   .department-container2 {
     background: rgba(0, 123, 255, 0.2);

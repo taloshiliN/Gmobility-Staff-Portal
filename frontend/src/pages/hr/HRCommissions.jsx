@@ -54,6 +54,7 @@ function HRCommissions() {
         <>
             <Header />
             <SidebarNav position={position} />
+            <div className='main-content'>
             <div id="commissioncontent">
                 <div className="commissionmain">
                     <div id="commissionhistory">
@@ -110,6 +111,7 @@ function HRCommissions() {
                     <img src={plus} alt="Plus Icon" />
                     <p>New Commission</p>
                 </div>
+            </div>
             </div>
         </>
     );

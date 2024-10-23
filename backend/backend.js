@@ -1,15 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const json = require("body-parser/lib/types/json");
-const router = express.Router();
 const mysql = require("mysql");
 const app = express();
 const fs = require('fs');
-const path = require('path');
+const http = require('http');
+const WebSocket = require('ws');
+require('dotenv').config();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
 const corsOptions = {
     origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
@@ -31,7 +35,291 @@ db.connect(err => {
         return;
     }
     console.log('Connected to database.');
+    const PORT = process.env.PORT || 8080;
+    server.listen(PORT, () => {
+        console.log(`Server listening on port http://0.0.0.0:${PORT}`);
+    });
 });
+
+// The Messaging Platform code
+
+wss.on('connection', (ws) => {
+    console.log('New WebSocket connection established'); // Log when a new connection is made
+  
+    // Listen for incoming messages from the WebSocket
+    ws.on('message', async (message) => {
+      console.log('Received WebSocket message:', message); // Log the received message
+      try {
+        const data = JSON.parse(message); // Parse the message from JSON format
+  
+        // If the message is a chat message
+        if (data.type === 'chatMessage') {
+          const { chat_id, sender_id, content } = data; // Destructure message data
+  
+          // Insert the message into the database
+          db.query(
+            'INSERT INTO messages (chat_id, sender_id, content) VALUES (?, ?, ?)',
+            [chat_id, sender_id, content],
+            (err, result) => {
+                if (err) {
+                    console.error('Error inserting message into database:', err);
+                    return;
+                }
+                console.log('Message saved to database:', result);
+
+                db.query(
+                    'SELECT user_id FROM chat_participants WHERE chat_id = ? AND user_id != ?',
+                    [chat_id, sender_id],
+                    (err, participants) => {
+                        if (err) {
+                            console.error('Error fetching participants:', err);
+                            return;
+                        }
+                        const recipient_id = participants[0].user_id; // Get the recipient's user ID
+
+                        db.query(`
+                            INSERT INTO unread_messages (chat_id, user_id, count)
+                            VALUES (?, ?, 1)
+                            ON DUPLICATE KEY UPDATE count = count + 1
+                        `, [chat_id, recipient_id], (err)=>{
+                            if (err){
+                                console.error('Error updating unread messages:', err);
+                                return;
+                            }
+
+                            db.query(`
+                                SELECT count FROM unread_messages
+                                WHERE chat_id = ? AND user_id = ?
+                            `, [chat_id, recipient_id], (err, unreadCount)=>{
+                                if (err){
+                                    console.error('Error fetching unread messages:', err);
+                                    return;
+                                }
+
+                                wss.clients.forEach((client) => {
+                                    if (client.readyState === WebSocket.OPEN) {
+                                        client.send(JSON.stringify({
+                                            type: 'newMessage',
+                                            message: {
+                                                id: result.insertId,
+                                                chat_id,
+                                                sender_id,
+                                                content,
+                                                timestamp: new Date().toISOString()
+                                            },
+                                            unreadCount: {
+                                                chat_id,
+                                                user_id: recipient_id,
+                                                count: unreadCount[0].count
+                                            }
+                                        }));
+                                    }
+                                })
+                            })
+                        });
+                        ws.on('close', () => {
+                            console.log('WebSocket connection closed'); // Log when the connection is closed
+                        });
+                    }
+                )
+            }
+          )
+          const [result] = await db.query(
+            'INSERT INTO messages (chat_id, sender_id, content) VALUES (?, ?, ?)',
+            [chat_id, sender_id, content]
+          );
+          console.log('Message saved to database:', result); // Log the result of the database query
+  
+          // Find the other participants in the chat (except the sender)
+          const [participants] = await pool.query(
+            'SELECT user_id FROM chat_participants WHERE chat_id = ? AND user_id != ?',
+            [chat_id, sender_id]
+          );
+        //   const recipient_id = participants[0].user_id; // Get the recipient's user ID
+  
+        //   // Update the unread messages count for the recipient
+        //   await pool.query(`
+        //     INSERT INTO unread_messages (chat_id, user_id, count)
+        //     VALUES (?, ?, 1)
+        //     ON DUPLICATE KEY UPDATE count = count + 1
+        //   `, [chat_id, recipient_id]);
+  
+        //   // Get the unread message count for the recipient
+        //   const [unreadCount] = await pool.query(`
+        //     SELECT count FROM unread_messages
+        //     WHERE chat_id = ? AND user_id = ?
+        //   `, [chat_id, recipient_id]);
+  
+          // Broadcast the new message to all connected clients
+        //   wss.clients.forEach((client) => {
+        //     if (client.readyState === WebSocket.OPEN) { // Check if the client is connected
+        //       client.send(JSON.stringify({
+        //         type: 'newMessage',
+        //         message: {
+        //           id: result.insertId, // ID of the newly inserted message
+        //           chat_id, // ID of the chat
+        //           sender_id, // ID of the sender
+        //           content, // The message content
+        //           timestamp: new Date().toISOString() // The timestamp of the message
+        //         },
+        //         unreadCount: {
+        //           chat_id, // Chat ID for unread messages
+        //           user_id: recipient_id, // Recipient user ID
+        //           count: unreadCount[0].count // Unread message count
+        //         }
+        //       }));
+        //     }
+        //   });
+        }
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error); // Log errors
+      }
+    });
+  
+    // Handle WebSocket connection closure
+    ws.on('close', () => {
+      console.log('WebSocket connection closed'); // Log when the connection is closed
+    });
+});
+
+// API endpoint to get a list of users
+app.get('/api/users', (req, res) => {
+    db.query('SELECT id, name, email FROM users', (err, rows) => {
+        if (err) {
+            console.error('Error fetching users:', err); // Log errors
+            return res.status(500).json({ error: 'An error occurred while fetching users' }); // Send error response
+        }
+        console.log('Fetched users:', rows.length); // Log the number of users fetched
+        res.json(rows); // Send the user data as a JSON response
+    });
+});
+
+app.get('/api/users/:id', (req, res) => {
+    db.query('SELECT id, name, email FROM users WHERE id = ?', [req.params.id], (err, rows) => {
+        if (err) {
+            console.error('Error fetching user:', err);
+            return res.status(500).json({ error: 'An error occurred while fetching the user' });
+        }
+        if (rows.length === 0) {
+            console.log('User not found:', req.params.id);
+            return res.status(404).json({ error: 'User not found' });
+        }
+        console.log('Fetched user:', rows[0]);
+        res.json(rows[0]);
+    });
+});
+
+app.get('/api/chats/user/:userId', (req, res) => {
+    db.query(
+        `SELECT c.id, c.created_at, 
+        GROUP_CONCAT(cp.user_id) as participants
+         FROM chats c 
+         JOIN chat_participants cp ON c.id = cp.chat_id 
+         WHERE c.id IN (SELECT chat_id FROM chat_participants WHERE user_id = ?)
+         GROUP BY c.id`,
+        [req.params.userId],
+        (err, rows) => {
+            if (err) {
+                console.error('Error fetching chats:', err);
+                return res.status(500).json({ error: 'An error occurred while fetching chats' });
+            }
+            console.log('Fetched chats for user:', req.params.userId, 'Count:', rows.length);
+            res.json(rows.map(row => ({
+                ...row,
+                participants: row.participants.split(',').map(Number)
+            })));
+        }
+    );
+});
+
+app.post('/api/chats', (req, res) => {
+    db.query('INSERT INTO chats () VALUES ()', (err, result) => {
+        if (err) {
+            console.error('Error creating chat:', err);
+            return res.status(500).json({ error: 'An error occurred while creating the chat' });
+        }
+        const chatId = result.insertId;
+        
+        // Insert participants into chat_participants table
+        const participants = req.body.participants.map(userId => [chatId, userId]);
+        db.query('INSERT INTO chat_participants (chat_id, user_id) VALUES ?', [participants], (err) => {
+            if (err) {
+                console.error('Error inserting chat participants:', err);
+                return res.status(500).json({ error: 'An error occurred while adding participants' });
+            }
+            console.log('Created new chat:', chatId, 'Participants:', req.body.participants);
+            res.status(201).json({ id: chatId, message: 'Chat created successfully' });
+        });
+    });
+});
+
+// API endpoint to get messages for a specific chat
+app.get('/api/messages/chat/:chatId', (req, res) => {
+    db.query(
+        `SELECT m.id, m.content, m.timestamp, m.sender_id, u.name as sender_name 
+         FROM messages m 
+         JOIN users u ON m.sender_id = u.id 
+         WHERE m.chat_id = ? 
+         ORDER BY m.timestamp ASC`,
+        [req.params.chatId],
+        (err, rows) => {
+            if (err) {
+                console.error('Error fetching messages:', err);
+                return res.status(500).json({ error: 'An error occurred while fetching messages' });
+            }
+            console.log('Fetched messages for chat:', req.params.chatId, 'Count:', rows.length);
+            res.json(rows);
+        }
+    );
+});
+
+// API endpoint to send a new message
+app.post('/api/messages', (req, res) => {
+    const { chat_id, sender_id, content } = req.body;
+    db.query(
+        'INSERT INTO messages (chat_id, sender_id, content) VALUES (?, ?, ?)',
+        [chat_id, sender_id, content],
+        (err, result) => {
+            if (err) {
+                console.error('Error sending message:', err);
+                return res.status(500).json({ error: 'An error occurred while sending the message' });
+            }
+            console.log('Message saved via HTTP:', result.insertId);
+            res.status(201).json({ id: result.insertId, message: 'Message sent successfully' });
+        }
+    );
+});
+
+// API endpoint to get unread message counts for a specific user
+app.get('/api/unread/:userId', (req, res) => {
+    db.query(`SELECT chat_id, count FROM unread_messages WHERE user_id = ?`, [req.params.userId], (err, rows) => {
+        if (err) {
+            console.error('Error fetching unread counts:', err);
+            return res.status(500).json({ error: 'An error occurred while fetching unread counts' });
+        }
+        res.json(rows);
+    });
+});
+
+  
+  // API endpoint to mark messages as read
+  app.post('/api/markAsRead', (req, res) => {
+    const { userId, chatId } = req.body;
+    db.query(`DELETE FROM unread_messages WHERE user_id = ? AND chat_id = ?`, [userId, chatId], (err) => {
+        if (err) {
+            console.error('Error marking messages as read:', err);
+            return res.status(500).json({ error: 'An error occurred while marking messages as read' });
+        }
+        res.json({ message: 'Messages marked as read' });
+    });
+});
+
+// initDatabase().then(() => {
+//     const PORT = process.env.PORT || 8080; // Use the environment variable or default to port 3000
+//     server.listen(PORT, '0.0.0.0', () => {
+//       console.log(`Server running on http://0.0.0.0:${PORT}`); // Log the server startup
+//     });
+// });
 
 const multer = require('multer');
 
@@ -902,6 +1190,6 @@ app.post("/clockinset", (req, res) => {
 
 
 // Start server
-app.listen(8080, () => {
-    console.log("Server started on port 8080");
-});
+// app.listen(8080, () => {
+//     console.log("Server started on port 8080");
+// });

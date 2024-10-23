@@ -10,7 +10,6 @@ function StaffRegistrationAdmin () {
     return (
         <>
         <StaffRegistrationForm />
-        <SidebarNav position={position} />
         </>
     )
 }

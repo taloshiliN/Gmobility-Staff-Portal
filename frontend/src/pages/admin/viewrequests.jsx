@@ -117,6 +117,7 @@ function viewrequests() {
         <>
             <Header />
             <SidebarNav position={position} />
+            <div className='main-content'>
             <div className="requestcontent">
                 <div id="newsizediv">
                 <div id="requestselect">
@@ -194,6 +195,7 @@ function viewrequests() {
                 </div>
                 
           </div>
+            </div>
         </>
     );
 }

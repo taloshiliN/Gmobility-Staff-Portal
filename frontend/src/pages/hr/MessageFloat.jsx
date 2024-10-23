@@ -1,12 +1,11 @@
 import message from './assets/msg.png'
 import './style/index.css'
-
-function MessageFloat(){
+function MessageFloat({onClick}){
     return(
         
-          <div className='messagingsection'>
-               <img src={message}></img>
-           </div>
+        <div className='messagingsection' onClick={onClick}>
+            <img src={message}></img>
+        </div>
     
     );
 }
