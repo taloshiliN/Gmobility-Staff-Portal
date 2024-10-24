@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 function ClockinPage() {
     const position = useSelector((state) => state.auth.position);
     const userDetails = useSelector((state) => state.auth.data[0]);
+    const userRoles = useSelector((state) => state.auth.userRoles); // Access user roles from Redux state
 
     const [clockin, setClockin] = useState([]); // State for clockin details
     const [inputDate, setInputDate] = useState(''); // State for date input
@@ -82,21 +83,18 @@ function ClockinPage() {
             console.warn("No current clock-in details available for clocking out."); // Warning if there's no clock-in
             return;
         }
-
-        const clockoutTime = new Date().toLocaleTimeString(); // Get current local time
-
+    
         // Use the adjusted date from currentClockin
         const dateFromCurrentClockin = new Date(currentClockin.date);
         const formattedDate = dateFromCurrentClockin.toISOString().slice(0, 19).replace('T', ' '); // Format as 'YYYY-MM-DD HH:MM:SS'
-
+    
         const clockoutData = {
-            clockoutTime,
             date: formattedDate, // Use the correctly formatted date
             employee_id: userDetails.id,
         };
-
+    
         console.log('Clock-out request received:', clockoutData); // Log the clockout data
-
+    
         try {
             const response = await fetch('http://localhost:8080/clockout', {
                 method: 'POST',
@@ -105,18 +103,25 @@ function ClockinPage() {
                 },
                 body: JSON.stringify(clockoutData),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
             const result = await response.json();
             console.log('Clock-out successful:', result); // Log the successful response
-            setCurrentClockin((prev) => ({ ...prev, clockoutTime })); // Update state with new clock-out time
+            
+            // Notify the user of successful clock-out
+            alert('Clock-out successful!');
+    
+            // Update state with new clock-out time
+            setCurrentClockin((prev) => ({ ...prev, clockoutTime: new Date().toLocaleTimeString() }));
         } catch (error) {
             console.error('Clock-out error:', error);
+            alert('Clock-out failed. Please try again.');
         }
     };
+    
 
     return (
         <>
@@ -155,6 +160,7 @@ function ClockinPage() {
                         )}
                     </div>
                 </div>
+            
                 <div id="lastclockinsection">
                     <h4>Clocking History</h4>
                     <div>

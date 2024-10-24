@@ -589,23 +589,55 @@ app.get("/api/clock/:userId", (req, res)=> {
 });
 
 app.post("/api/printing", (req, res) => {
-    const {from, to, subject, message} = req.body;
+    const { employee_id, name, type, email, date } = req.body;
 
+    // Corrected SQL query with backticks for column names
     db.query(
-        "INSERT INTO printing_requests (`from`, `to`, `subject`, `message`) VALUES (?,?,?,?)",
-        [from, to, subject, message],
+        "INSERT INTO printing_requests (`employee_id`, `name`, `type`, `email`, `date`) VALUES (?, ?, ?, ?, ?)",
+        [employee_id, name, type, email, date],
         (err) => {
             if (err) throw err;
             const newPrintingRequest = {
-                from,
-                to,
-                subject,
-                message,
-            }
+                employee_id,
+                name,
+                type, 
+                email, 
+                date
+            };
             res.json(newPrintingRequest);
         }
-    )
+    );
 });
+
+app.get("/api/getprinting", (req, res) => {
+    db.query(
+        "SELECT * FROM printing_requests ORDER BY date DESC",
+        (err, results) => {
+            if (err) {
+                console.error("Database query error:", err);
+                return res.status(500).json({ message: "Error fetching report requests", error: err });
+            }
+            console.log("Fetched results:", results);
+            res.json(results);
+        }
+    );
+});
+
+app.patch('/api/setprinting/:id', (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const sql = "UPDATE printing_requests SET status = ? WHERE id = ?"; // Change table name here
+    db.query(sql, [status, id], (err, result) => {
+        if (err) {
+            console.error('Error updating printing request:', err);
+            return res.status(500).json({ message: "Error updating printing request", error: err });
+        }
+        res.json({ id, status }); // Return updated printing request info
+    });
+});
+
+
 
 // get requests
 app.get('/users', (req, res) => {
@@ -831,6 +863,93 @@ app.get('/hrpayroll', (req, res) => {
         return res.json(data);
     });
 });
+
+app.post("/api/setpayroll", (req, res) => {
+    console.log(req.body);
+    const { employee_id, Name, Surname, Position, regular_rate, overtime_rate, gross_pay } = req.body;
+
+    // Validate required fields (you may want to add more validation)
+    if (!employee_id || !Name || !Surname || !Position || regular_rate === undefined || overtime_rate === undefined || gross_pay === undefined) {
+        return res.status(400).json({ message: "All fields are required." });
+    }
+
+    // Updated query: removed single quotes from column names
+    db.query(
+        "INSERT INTO pay_roll (employee_id, Name, Surname, Position, regular_rate, overtime_rate, gross_pay) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [employee_id, Name, Surname, Position, regular_rate, overtime_rate, gross_pay], // Use an array for parameters
+        (err) => {
+            if (err) {
+                console.error(err); // Log the error for debugging
+                return res.status(500).json({ message: "Error inserting payroll data." });
+            }
+            const newPayrollLog = {
+                employee_id, Name, Surname, Position, regular_rate, overtime_rate, gross_pay
+            };
+            res.status(201).json(newPayrollLog); // Respond with the created object and a 201 status
+        }
+    );
+});
+
+app.patch('/api/updatepayroll/:id', (req, res) => {
+    const { id } = req.params;
+    const { employee_id, Name, Surname, Position, regular_rate, overtime_rate, gross_pay } = req.body;
+
+    // Create an array for the fields to be updated
+    const updates = [];
+    const values = [];
+
+    // Add fields to the updates array if they are provided
+    if (employee_id !== undefined) {
+        updates.push('employee_id = ?');
+        values.push(employee_id);
+    }
+    if (Name !== undefined) {
+        updates.push('Name = ?');
+        values.push(Name);
+    }
+    if (Surname !== undefined) {
+        updates.push('Surname = ?');
+        values.push(Surname);
+    }
+    if (Position !== undefined) {
+        updates.push('Position = ?');
+        values.push(Position);
+    }
+    if (regular_rate !== undefined) {
+        updates.push('regular_rate = ?');
+        values.push(regular_rate);
+    }
+    if (overtime_rate !== undefined) {
+        updates.push('overtime_rate = ?');
+        values.push(overtime_rate);
+    }
+    if (gross_pay !== undefined) {
+        updates.push('gross_pay = ?');
+        values.push(gross_pay);
+    }
+
+    // Check if there are updates to be made
+    if (updates.length === 0) {
+        return res.status(400).json({ message: "No fields provided for update." });
+    }
+
+    // Construct the SQL query
+    const sql = `UPDATE pay_roll SET ${updates.join(', ')} WHERE id = ?`;
+    values.push(id); // Add the id to the end of the values array
+
+    // Execute the query
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Error updating pay_roll:', err);
+            return res.status(500).json({ message: "Error updating payroll", error: err });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Payroll not found." });
+        }
+        res.json({ message: "Payroll updated successfully", id }); // Return a success message and the updated id
+    });
+});
+
 
 
 // Leave request operations
@@ -1135,8 +1254,8 @@ app.post("/clockout", (req, res) => {
     const { clockoutTime, date, employee_id } = req.body;
 
     db.query(
-        "UPDATE clockin SET clockoutTime = ? WHERE date = ? AND employee_id = ?",
-        [clockoutTime, date, employee_id],
+        "UPDATE clockin SET clockoutTime = NOW() WHERE date = ? AND employee_id = ?",
+        [ date, employee_id],
         (err, result) => {
             if (err) {
                 console.error("Error updating clockout:", err);
@@ -1149,7 +1268,6 @@ app.post("/clockout", (req, res) => {
             }
 
             const newClockLog = {
-                clockoutTime,
                 date,
                 employee_id,
             };
@@ -1164,7 +1282,7 @@ app.post("/clockinset", (req, res) => {
     const { date, employee_id } = req.body;
 
     db.query(
-        "UPDATE clockin SET clockinTime = NOW() WHERE date = ? AND employee_id = ? AND clockinTime IS NULL",
+        "UPDATE clockin SET clockinTime = NOW() WHERE date = ? AND employee_id = ? AND clockinTime IS NULL;",
         [date, employee_id],
         (err, result) => {
             if (err) {
@@ -1187,6 +1305,123 @@ app.post("/clockinset", (req, res) => {
     );
 });
 
+////////// Getting roles
+app.get('/roles/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM roles WHERE employee_id = ?";
+
+    db.query(sql, [id], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No roles found for this user" });
+        }
+        return res.json(data[0]); // Return all matching records
+    });
+});
+
+app.post('/setroles/:id', (req, res) => {
+    const { id } = req.params;
+    // Assuming req.body contains the updated role fields
+    const {
+        clockin_out,
+        view_clockin_details,
+        request_report,
+        request_leave,
+        request_overtime,
+        view_employees,
+        edit_employee_details,
+        delete_employee,
+        view_clockin_history,
+        view_employee_documents,
+        view_your_documents,
+        view_employee_missed_days,
+        give_back_missed_day,
+        register_staff,
+        approve_request_overtime,
+        approve_request_leave,
+        approve_request_report,
+        approve_leave_request,
+        view_employee_payroll,
+        set_employee_payroll,
+        view_self_payroll_info,
+        upload_own_documents,
+        delete_own_documents,
+        view_employee_commissions,
+        create_new_commission,
+    } = req.body;
+
+    const sql = `
+        UPDATE roles 
+        SET 
+            clockin_out = ?, 
+            view_clockin_details = ?, 
+            request_report = ?, 
+            request_leave = ?, 
+            request_overtime = ?, 
+            view_employees = ?, 
+            edit_employee_details = ?, 
+            delete_employee = ?, 
+            view_clockin_history = ?, 
+            view_employee_documents = ?, 
+            view_your_documents = ?, 
+            view_employee_missed_days = ?, 
+            give_back_missed_day = ?, 
+            register_staff = ?, 
+            approve_request_overtime = ?, 
+            approve_request_leave = ?, 
+            approve_request_report = ?, 
+            approve_leave_request = ?, 
+            view_employee_payroll = ?, 
+            set_employee_payroll = ?, 
+            view_self_payroll_info = ?, 
+            upload_own_documents = ?, 
+            delete_own_documents = ?, 
+            view_employee_commissions = ?, 
+            create_new_commission = ?
+        WHERE employee_id = ?
+    `;
+
+    const values = [
+        clockin_out,
+        view_clockin_details,
+        request_report,
+        request_leave,
+        request_overtime,
+        view_employees,
+        edit_employee_details,
+        delete_employee,
+        view_clockin_history,
+        view_employee_documents,
+        view_your_documents,
+        view_employee_missed_days,
+        give_back_missed_day,
+        register_staff,
+        approve_request_overtime,
+        approve_request_leave,
+        approve_request_report,
+        approve_leave_request,
+        view_employee_payroll,
+        set_employee_payroll,
+        view_self_payroll_info,
+        upload_own_documents,
+        delete_own_documents,
+        view_employee_commissions,
+        create_new_commission,
+        id // employee_id should be the last value in the array
+    ];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "No roles found for this user" });
+        }
+        return res.json({ message: "Roles updated successfully", affectedRows: result.affectedRows });
+    });
+});
 
 
 // Start server

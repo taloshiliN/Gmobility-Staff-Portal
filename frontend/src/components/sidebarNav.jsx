@@ -40,6 +40,7 @@ function SidebarNav({position}) {
         <NavLink to="/ClockinPage">
           <li>View Clocking</li>
         </NavLink>
+
         <NavLink to="/leaverequest">
           <li>Leave Requests</li>
         </NavLink>
@@ -49,11 +50,14 @@ function SidebarNav({position}) {
         <NavLink to="/overtimeview">
           <li>View Overtime</li>
         </NavLink>
+        <NavLink to="/hrdocupload">
+          <li>Upload document</li>
+        </NavLink>
         <NavLink to="/clockinclockout">
           <li>View Clock in and Clock out times</li>
         </NavLink>
         <NavLink to='/printingrequest'>
-          <li>Printing request</li>
+          <li>Report request</li>
         </NavLink>
       </>
     )}
@@ -84,7 +88,9 @@ function SidebarNav({position}) {
         <NavLink to="/hrcommissions">
           <li>Commissions</li>
         </NavLink>
-        
+        <NavLink to="/reportrequests">
+          <li>Report Requests </li>
+        </NavLink>
        
   </>
     )}
@@ -103,12 +109,19 @@ function SidebarNav({position}) {
         <NavLink to="/viewrequests">
           <li>View Requests</li>
         </NavLink>
-      
         <NavLink to="/printingrequestview">
           <li>View Clock in and Clock out times</li>
         </NavLink>
       </>
     )}
+    {/* Super Admin */}
+    {position === 'Super Admin' && (
+      <>
+      <NavLink to="/hremployees">
+      <li>View Employees</li>
+    </NavLink>
+    </>
+    )}    
   </ul>
   <button className={`hrlogout ${isExpanded ? '' : 'disabled-button'}`} onClick={isExpanded ? handleLogout : null}>
     Logout

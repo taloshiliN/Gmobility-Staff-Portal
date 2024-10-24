@@ -10,13 +10,14 @@ const initialState = {
 // Thunk to handle the printing request
 export const createPrintingRequest = createAsyncThunk(
     "printing/createPrintingRequest",
-    async ({ from, to, subject, message }) => {
+    async ({  employee_id, name, type, email, date}) => {
         try {
             const response = await axios.post("http://localhost:8080/api/printing", {
-                from,
-                to,
-                subject,
-                message
+                employee_id, 
+                name, 
+                type, 
+                email,
+                date
             });
             return response.data;
         } catch (error) {

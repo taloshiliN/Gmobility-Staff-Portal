@@ -39,6 +39,10 @@ import HRDocupload from "./pages/hr/HRDocupload"
 import HRCommissions from "./pages/hr/HRCommissions"
 import HRNewcommission from "./pages/hr/HRNewcommission"
 import ClockinPage from "./components/ClockinPage"
+import Superregister from "./pages/superadmin/superregister"
+import Reportrequests from "./components/Reportrequests"
+import Setpayroll from "./components/Setpayroll"
+
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import Admindashboard from "./pages/AdminDashBoard"
@@ -354,6 +358,25 @@ function App() {
         }
         />
 
+
+      <Route 
+        path="/reportrequests" 
+        element={
+        <ProtectedRoute>
+          <Reportrequests />
+        </ProtectedRoute>
+        }
+        />
+
+        <Route 
+        path="/setpayroll" 
+        element={
+        <ProtectedRoute>
+          <Setpayroll />
+        </ProtectedRoute>
+        }
+        />
+
         {/* <Route 
         path="/overtimerequestview" 
         element={
@@ -374,6 +397,15 @@ function App() {
         /> */}
 
         {/* Super Admin Portal*/}
+        
+        <Route 
+        path="/superregister" 
+        element={
+        <ProtectedRoute>
+          <Superregister />
+        </ProtectedRoute>
+        }
+         />
         </Routes>
       </BrowserRouter>
     </Provider>

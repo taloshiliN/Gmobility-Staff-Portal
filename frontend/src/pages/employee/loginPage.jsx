@@ -28,9 +28,12 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    console.log("Authentication status updated:", isAuthenticated);
-    if (isAuthenticated) {
-      clockInEmployee(employeeId); // Call clockInEmployee after successful login
+    if (isAuthenticated && employeeId) {
+      // Call clockInEmployee after successful login
+      clockInEmployee(employeeId);
+      
+      // Fetch roles after login
+      fetchRoles(employeeId);
 
       console.log("User Position:", position);
       if (position === 'Human Resource') {
@@ -39,6 +42,9 @@ function LoginPage() {
         navigate('/homePage');
       } else if (position === 'Admin') {
         navigate('/adminHomePage');
+      }
+      else if (position === 'Super Admin') {
+        navigate('/superregister');
       }
     }
   }, [isAuthenticated, position, navigate, employeeId]);
@@ -50,18 +56,15 @@ function LoginPage() {
       todayDate.getFullYear(),
       todayDate.getMonth(),
       todayDate.getDate(),
-      5, // Set hours to 01:00:00
+      5, // Set hours to 05:00:00
       0, // Set minutes to 00
       0 // Set seconds to 00
     );
 
-    // Add 2 hours to the date
-    clockInDate.setHours(clockInDate.getHours());
-
     const formattedDate = clockInDate.toISOString().split('.')[0].replace('T', ' '); // Format to 'YYYY-MM-DD HH:MM:SS'
 
     const clockinData = {
-      date: formattedDate, // Today's date at 01:00:00 plus 2 hours
+      date: formattedDate, // Today's date at 05:00:00
       employee_id: id,
     };
 
@@ -86,6 +89,36 @@ function LoginPage() {
       console.error('Error during clock-in:', error);
     }
   };
+
+// Fetch roles based on employee ID
+const fetchRoles = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:8080/roles/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch roles');
+    }
+
+    const result = await response.json();
+    console.log("Roles fetched:", result);
+
+    // Save roles in Redux and create 'role' constant for direct access
+    dispatch((result)); // Dispatch to Redux store
+
+    // Set the constant 'role' to the roles object
+    const userRoles = result[0]; // Assuming the first object is what you need
+    console.log("Role object:", userRoles); // Log to ensure it's retrieved correctly
+
+  } catch (error) {
+    console.error("Error fetching roles:", error);
+  }
+};
+
 
   return (
     <>
