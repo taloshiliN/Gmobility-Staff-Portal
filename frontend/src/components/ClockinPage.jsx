@@ -115,8 +115,11 @@ function ClockinPage() {
             alert('Clock-out successful!');
     
             // Update state with new clock-out time
-            setCurrentClockin((prev) => ({ ...prev, clockoutTime: new Date().toLocaleTimeString() }));
-        } catch (error) {
+            setCurrentClockin((prev) => ({
+                ...prev,
+                clockoutTime: new Date().toLocaleTimeString([], { hour12: false })    
+            }));
+               } catch (error) {
             console.error('Clock-out error:', error);
             alert('Clock-out failed. Please try again.');
         }
