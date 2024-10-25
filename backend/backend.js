@@ -1424,6 +1424,60 @@ app.post('/setroles/:id', (req, res) => {
 });
 
 
+// Fetch staff permissions for a specific employee
+app.get('/staff_permissions/:employeeId', async (req, res) => {
+    const { employeeId } = req.params;
+
+    try {
+        const query = 'SELECT permission_id FROM staff_permission WHERE employee_id = ?';
+        db.query(query, [employeeId], (err, results) => {
+            if (err) {
+                console.error("Error fetching staff permissions:", err);
+                return res.status(500).json({ error: "Failed to fetch staff permissions" });
+            }
+
+            // Ensure that results are returned as an array
+            const permissions = Array.isArray(results) ? results : [results];
+            
+            res.json(permissions);
+        });
+    } catch (error) {
+        console.error("Error in fetching staff permissions:", error);
+        res.status(500).send({ error: "Internal Server Error" });
+    }
+});
+
+
+// Assign a permission to a specific staff member
+app.post('/staff_permissions/assign', async (req, res) => {
+    const { employee_id, permission_id } = req.body;
+    try {
+        await db.query(
+            'INSERT INTO staff_permission (employee_id, permission_id) VALUES (?, ?)',
+            [employee_id, permission_id]
+        );
+        res.status(200).json({ message: 'Permission assigned successfully' });
+    } catch (err) {
+        console.error('Error assigning permission:', err);
+        res.status(500).json({ message: 'Failed to assign permission' });
+    }
+});
+
+// Remove a specific permission from a staff member
+app.delete('/staff_permissions/remove', async (req, res) => {
+    const { employee_id, permission_id } = req.body;
+    try {
+        await db.query(
+            'DELETE FROM staff_permission WHERE employee_id = ? AND permission_id = ?',
+            [employee_id, permission_id]
+        );
+        res.status(200).json({ message: 'Permission removed successfully' });
+    } catch (err) {
+        console.error('Error removing permission:', err);
+        res.status(500).json({ message: 'Failed to remove permission' });
+    }
+});
+
 // Start server
 // app.listen(8080, () => {
 //     console.log("Server started on port 8080");

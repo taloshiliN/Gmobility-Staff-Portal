@@ -7,6 +7,7 @@ import '../styles/sidebarstyling.css'
 import arrow from '../assets/arrow.png'
 
 function SidebarNav({position}) {
+  const userPermissions = useSelector((state) => state.auth.userPermissions);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false); // State for sidebar expansion
@@ -37,6 +38,7 @@ function SidebarNav({position}) {
         <NavLink to="/home">
           <li>Home</li>
         </NavLink>
+
         <NavLink to="/ClockinPage">
           <li>View Clocking</li>
         </NavLink>
@@ -53,23 +55,10 @@ function SidebarNav({position}) {
         <NavLink to="/hrdocupload">
           <li>Upload document</li>
         </NavLink>
-        <NavLink to="/clockinclockout">
-          <li>View Clock in and Clock out times</li>
-        </NavLink>
         <NavLink to='/printingrequest'>
           <li>Report request</li>
         </NavLink>
-      </>
-    )}
-    {/*Human Resource */}
-    {position === 'Human Resource' && (
-      <>
-        <NavLink to="/hrhomepage">
-          <li>Home</li>
-        </NavLink>
-        <NavLink to="/ClockinPage">
-          <li>View Clocking</li>
-        </NavLink>
+
         <NavLink to="/hremployees">
           <li>View Employees</li>
         </NavLink>
@@ -82,15 +71,25 @@ function SidebarNav({position}) {
         <NavLink to="/hrpayroll">
           <li>View Payroll</li>
         </NavLink>
-        <NavLink to="/hrdocupload">
-          <li>Upload document</li>
-        </NavLink>
         <NavLink to="/hrcommissions">
           <li>Commissions</li>
         </NavLink>
         <NavLink to="/reportrequests">
           <li>Report Requests </li>
         </NavLink>
+
+
+
+      </>
+    )}
+    {/*Human Resource */}
+    {position === 'Human Resource' && (
+      <>
+        <NavLink to="/hrhomepage">
+          <li>Home</li>
+        </NavLink>
+      
+        
        
   </>
     )}
@@ -100,18 +99,7 @@ function SidebarNav({position}) {
         <NavLink to="/adminhomepage">
           <li>Home Page</li>
         </NavLink>
-        <NavLink to="/ClockinPage">
-          <li>View Clocking</li>
-        </NavLink>
-        <NavLink to="/staffregistrationadmin">
-          <li>Manage employees</li>
-        </NavLink>
-        <NavLink to="/viewrequests">
-          <li>View Requests</li>
-        </NavLink>
-        <NavLink to="/printingrequestview">
-          <li>View Clock in and Clock out times</li>
-        </NavLink>
+   
       </>
     )}
     {/* Super Admin */}

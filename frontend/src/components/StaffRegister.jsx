@@ -98,7 +98,7 @@ function StaffRegistrationForm() {
     <>
       <Header />
       <SidebarNav position={uposition} />
-      <div className='main-content'>
+   
       <div className="staffregistercontent">
       
       <form onSubmit={handleSubmit} encType='multipart/form-data'>
@@ -294,7 +294,7 @@ function StaffRegistrationForm() {
         </div>
       </form>
     </div>
-      </div>
+ 
     </>
   );
 }

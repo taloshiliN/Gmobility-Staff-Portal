@@ -8,6 +8,7 @@ function ClockinPage() {
     const position = useSelector((state) => state.auth.position);
     const userDetails = useSelector((state) => state.auth.data[0]);
     const userRoles = useSelector((state) => state.auth.userRoles); // Access user roles from Redux state
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     const [clockin, setClockin] = useState([]); // State for clockin details
     const [inputDate, setInputDate] = useState(''); // State for date input
@@ -125,13 +126,14 @@ function ClockinPage() {
         }
     };
     
-
+    console.log('User Permissions:', userPermissions);
     return (
         <>
             <Header />
             <SidebarNav position={position} />
             <div className='main-content'>
             <div id="clocksection">
+            {userPermissions.includes(2) && (
                 <div id="currentclockinsection">
                     <div id="innercurrentclockin">
                         <h4>Today's Log</h4>
@@ -163,7 +165,7 @@ function ClockinPage() {
                         )}
                     </div>
                 </div>
-            
+            )}
                 <div id="lastclockinsection">
                     <h4>Clocking History</h4>
                     <div>
