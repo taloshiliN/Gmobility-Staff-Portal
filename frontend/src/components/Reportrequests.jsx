@@ -11,6 +11,7 @@ function Reportrequests() {
     const [printingRequests, setPrintingRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     useEffect(() => {
         const fetchPrintingRequests = async () => {
@@ -69,27 +70,28 @@ function Reportrequests() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {printingRequests.map((request) => (
-                                    <tr key={request.id}>
-                                        <td>{request.name}</td>
-                                        <td>{request.email}</td>
-                                        <td>{request.type}</td>
-                                        <td>{new Date(request.date).toLocaleDateString()}</td>
-                                        <td>{request.status}</td>
-                                        <td>
-                                            {request.status === 'unsent' ? ( // Conditionally render button
-                                                <button 
-                                                    id="statuschangebutton" 
-                                                    onClick={() => handleStatusChange(request.id)} 
-                                                    disabled={request.status === 'Sent'} // Disable button if already sent
-                                                >
-                                                    Sent
-                                                </button>
-                                            ) : null} {/* Button disappears when status is Sent */}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
+    {printingRequests.map((request) => (
+        <tr key={request.id}>
+            <td>{request.name}</td>
+            <td>{request.email}</td>
+            <td>{request.type}</td>
+            <td>{new Date(request.date).toLocaleDateString()}</td>
+            <td>{request.status}</td>
+            <td>
+                {request.status === 'unsent' && userPermissions.includes(28) && (
+                    <button
+                        id="statuschangebutton"
+                        onClick={() => handleStatusChange(request.id)}
+                        disabled={request.status === 'Sent'} // Disable button if already sent
+                    >
+                        Sent
+                    </button>
+                )}
+            </td>
+        </tr>
+    ))}
+</tbody>
+
                         </table>
                     )}
                 </div>

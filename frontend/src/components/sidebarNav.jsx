@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../authslice'
 import { useNavigate } from 'react-router-dom'
 import '../styles/sidebarstyling.css'
@@ -42,43 +42,67 @@ function SidebarNav({position}) {
         <NavLink to="/ClockinPage">
           <li>View Clocking</li>
         </NavLink>
-
-        <NavLink to="/leaverequest">
-          <li>Leave Requests</li>
-        </NavLink>
-        <NavLink to="/overtimerequest">
-          <li>Overtime Request</li>
-        </NavLink>
-        <NavLink to="/overtimeview">
-          <li>View Overtime</li>
-        </NavLink>
-        <NavLink to="/hrdocupload">
-          <li>Upload document</li>
-        </NavLink>
-        <NavLink to='/printingrequest'>
-          <li>Report request</li>
-        </NavLink>
-
+        {userPermissions.includes(4) && (
         <NavLink to="/hremployees">
           <li>View Employees</li>
         </NavLink>
+        )}
+       {userPermissions.includes(11) && (
         <NavLink to="/staffregistration">
           <li>Staff registration</li>
         </NavLink>
+       )}
+
+       {userPermissions.includes(13) || userPermissions.includes(15) && (
         <NavLink to="/hrrequests">
           <li>View Requests</li>
         </NavLink>
-        <NavLink to="/hrpayroll">
+        )}
+       {userPermissions.includes(17) && (
+        <NavLink to="/leaverequest">
+          <li>Create Leave Request</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(18) && (
+        <NavLink to="/overtimerequest">
+          <li>Create Overtime Request</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(19) && (
+       <NavLink to="/hrpayroll">
           <li>View Payroll</li>
         </NavLink>
+       )}
+
+      {userPermissions.includes(22) && (
+       <NavLink to="/hrdocupload">
+          <li>Upload document</li>
+        </NavLink>
+      )}
+
+      {userPermissions.includes(24) && (
         <NavLink to="/hrcommissions">
           <li>Commissions</li>
         </NavLink>
-        <NavLink to="/reportrequests">
+       )}
+
+     {userPermissions.includes(26) && (
+       <NavLink to="/reportrequests">
           <li>Report Requests </li>
         </NavLink>
+      )}
 
+      {userPermissions.includes(27) && (
+       <NavLink to='/printingrequest'>
+          <li>Report request</li>
+        </NavLink>
+        )}
 
+        <NavLink to="/overtimeview">
+          <li>View Overtime</li>
+        </NavLink>
 
       </>
     )}
@@ -88,7 +112,71 @@ function SidebarNav({position}) {
         <NavLink to="/hrhomepage">
           <li>Home</li>
         </NavLink>
-      
+
+        <NavLink to="/ClockinPage">
+          <li>View Clocking</li>
+        </NavLink>
+        {userPermissions.includes(4) && (
+        <NavLink to="/hremployees">
+          <li>View Employees</li>
+        </NavLink>
+        )}
+       {userPermissions.includes(11) && (
+        <NavLink to="/staffregistration">
+          <li>Staff registration</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(13) || userPermissions.includes(15) && (
+        <NavLink to="/hrrequests">
+          <li>View Requests</li>
+        </NavLink>
+        )}
+       {userPermissions.includes(17) && (
+        <NavLink to="/leaverequest">
+          <li>Create Leave Request</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(18) && (
+        <NavLink to="/overtimerequest">
+          <li>Create Overtime Request</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(19) && (
+       <NavLink to="/hrpayroll">
+          <li>View Payroll</li>
+        </NavLink>
+       )}
+
+      {userPermissions.includes(22) && (
+       <NavLink to="/hrdocupload">
+          <li>Upload document</li>
+        </NavLink>
+      )}
+
+      {userPermissions.includes(24) && (
+        <NavLink to="/hrcommissions">
+          <li>Commissions</li>
+        </NavLink>
+       )}
+
+     {userPermissions.includes(26) && (
+       <NavLink to="/reportrequests">
+          <li>Report Requests </li>
+        </NavLink>
+      )}
+
+      {userPermissions.includes(27) && (
+       <NavLink to='/printingrequest'>
+          <li>Report request</li>
+        </NavLink>
+        )}
+
+        <NavLink to="/overtimeview">
+          <li>View Overtime</li>
+        </NavLink>
         
        
   </>
@@ -96,20 +184,75 @@ function SidebarNav({position}) {
     {/*Admin */}
     {position === 'Admin' && (
       <>
-        <NavLink to="/adminhomepage">
-          <li>Home Page</li>
+     <NavLink to="/ClockinPage">
+          <li>View Clocking</li>
+        </NavLink>
+        {userPermissions.includes(4) && (
+        <NavLink to="/hremployees">
+          <li>View Employees</li>
+        </NavLink>
+        )}
+       {userPermissions.includes(11) && (
+        <NavLink to="/staffregistration">
+          <li>Staff registration</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(13) || userPermissions.includes(15) && (
+        <NavLink to="/hrrequests">
+          <li>View Requests</li>
+        </NavLink>
+        )}
+       {userPermissions.includes(17) && (
+        <NavLink to="/leaverequest">
+          <li>Create Leave Request</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(18) && (
+        <NavLink to="/overtimerequest">
+          <li>Create Overtime Request</li>
+        </NavLink>
+       )}
+
+       {userPermissions.includes(19) && (
+       <NavLink to="/hrpayroll">
+          <li>View Payroll</li>
+        </NavLink>
+       )}
+
+      {userPermissions.includes(22) && (
+       <NavLink to="/hrdocupload">
+          <li>Upload document</li>
+        </NavLink>
+      )}
+
+      {userPermissions.includes(24) && (
+        <NavLink to="/hrcommissions">
+          <li>Commissions</li>
+        </NavLink>
+       )}
+
+     {userPermissions.includes(26) && (
+       <NavLink to="/reportrequests">
+          <li>Report Requests </li>
+        </NavLink>
+      )}
+
+      {userPermissions.includes(27) && (
+       <NavLink to='/printingrequest'>
+          <li>Report request</li>
+        </NavLink>
+        )}
+
+        <NavLink to="/overtimeview">
+          <li>View Overtime</li>
         </NavLink>
    
       </>
     )}
-    {/* Super Admin */}
-    {position === 'Super Admin' && (
-      <>
-      <NavLink to="/hremployees">
-      <li>View Employees</li>
-    </NavLink>
-    </>
-    )}    
+
+    
   </ul>
   <button className={`hrlogout ${isExpanded ? '' : 'disabled-button'}`} onClick={isExpanded ? handleLogout : null}>
     Logout

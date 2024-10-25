@@ -8,6 +8,7 @@ function HRDocupload() {
     const HRdetails = useSelector((state) => state.auth.data[0]);
     const [file, setFile] = useState(null);
     const [documents, setDocuments] = useState([]);
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     // Fetch documents when component mounts
     useEffect(() => {
@@ -119,9 +120,12 @@ function HRDocupload() {
                                             </td>
                                             <td><p>{new Date(doc.date).toLocaleDateString()}</p></td> {/* Format the submission date */}
                                             <td id="docmimetype"><p>{doc.mime_type}</p></td> {/* Display the MIME type */}
+                                           
+                                            {userPermissions.includes(23) && (
                                             <td id="uploaddeletebutton">
                                                 <button onClick={() => handleDelete(doc.id)}>Delete</button>
                                             </td>
+                                            )}
                                         </tr>
                                     ))
                                 ) : (

@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom';
 function HRRequests() {
     const position = useSelector((state) => state.auth.position);
     const navigate = useNavigate();
-    
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
+
     const [leaveData, setLeaveData] = useState([]);
     const [overtimeData, setOvertimeData] = useState([]);
     const [selectedRequest, setSelectedRequest] = useState(null);
@@ -183,7 +184,8 @@ function HRRequests() {
                             ) : (
                                 <p>Select a request to see the details.</p>
                             )}
-                            {selectedRequest && selectedRequest.status === 'Pending' && (
+                            
+                            {selectedRequest && selectedRequest.status === 'Pending' &&  userPermissions.includes(14) && userPermissions.includes(16) && (
                                 <>
                                     <button className='requestapprove' onClick={() => handleApprove(selectedRequest)}>Approve</button>
                                     <button className='requestreject' onClick={() => handleReject(selectedRequest)}>Reject</button>

@@ -61,7 +61,7 @@ function HRhome() {
             <div className='main-content'>
                 <div className="homecontent">
                     <h4 className='greeting'>Welcome {user.Name}</h4>
-                    {showChatPlatform && (
+                    {showChatPlatform && userPermissions.includes(1) && (
                     <div className='chat-platform'>
                         <SimpleChatPlatform currentUser={user}/>
                     </div>

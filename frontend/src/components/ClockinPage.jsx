@@ -166,6 +166,7 @@ function ClockinPage() {
                     </div>
                 </div>
             )}
+                {userPermissions.includes(3) && (
                 <div id="lastclockinsection">
                     <h4>Clocking History</h4>
                     <div>
@@ -203,8 +204,10 @@ function ClockinPage() {
                         </table>
                     </div>
                 </div>
+                    )}
             </div>
             </div>
+                
         </>
     );
 }

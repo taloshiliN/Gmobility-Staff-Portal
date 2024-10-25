@@ -15,6 +15,7 @@ function HRPayroll() {
     const [error, setError] = useState(null);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [editedValues, setEditedValues] = useState({}); // State for edited values
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     useEffect(() => {
         fetch('http://localhost:8080/hrpayroll') // Update this to your actual endpoint
@@ -162,7 +163,7 @@ function HRPayroll() {
                                     )}
                                 </tbody>
                             </table>
-                            {selectedEmployee && ( // Show buttons only if an employee is selected
+                            {selectedEmployee && userPermissions.includes(20) && ( // Show buttons only if an employee is selected
                                 <div id="payrolleditdiv">
                                     <button id="editpayrollcancel" onClick={handleCancel}>Cancel</button>
                                     <button id="editpayrollsubmit" onClick={handleSubmit}>Change</button>
@@ -171,10 +172,12 @@ function HRPayroll() {
                         </div>
                     </div>
                 </div>
+                {userPermissions.includes(21) && (
                 <div id="newpayroll" onClick={event => navigate('/setpayroll')}>
                     <img src={plus} alt="Add new payroll" />
                     <p>Create New Payroll</p>
                 </div>
+                )}
             </div>
         </>
     );

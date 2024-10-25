@@ -210,6 +210,7 @@ const SimpleChatPlatform = ({ currentUser }) => {
   });
 
   return (
+    
     <div className='animated fadeInDown' style={{ 
       display: 'flex', 
       height: '20%', 

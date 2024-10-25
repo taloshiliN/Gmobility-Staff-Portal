@@ -11,6 +11,7 @@ function HRChosenemployee() {
     const position = useSelector((state) => state.auth.position);
     const location = useLocation();
     const { employee } = location.state || {};
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     if (!employee || !employee.id) {
         console.error('Employee data is missing or invalid');
@@ -377,11 +378,16 @@ function HRChosenemployee() {
                                 </tr>
                             </thead>
                         </table>
+                        {userPermissions.includes(5) && (
                         <button id="editbutton" onClick={handleUpdateEmployee}>Update Profile</button>
+                        )}
+                           {userPermissions.includes(6) && (
                         <button id="deletebutton" onClick={handleDeleteEmployee}>Delete</button>
+                           )}
                     </div>
                 </div>
                 <div id="chosenbelongingssection">
+                {userPermissions.includes(7) && (
                     <div id="chosenclockinsection">
                         <h4>Clock-in History</h4>
                         <input type='date' onChange={handleDateChange} />
@@ -413,6 +419,8 @@ function HRChosenemployee() {
                             </table>
                         </div>
                     </div>
+                )}
+                 {userPermissions.includes(8) && (
                     <div id="chosendocuments">
                         <div id="doctitle">
                             <h4>Documents</h4>
@@ -433,6 +441,8 @@ function HRChosenemployee() {
                             </ul>
                         </div>
                     </div>
+                 )}
+                  {userPermissions.includes(9) && (
                     <div id="chosenmissedsection">
                         <h4>Days Missed</h4>
                         <table id="missedtable">
@@ -452,9 +462,11 @@ function HRChosenemployee() {
                                             <td>{day.clockinTime || '----'}</td>
                                             <td>{day.clockoutTime || '----'}</td>
                                             <td>
+                                            {userPermissions.includes(10) && (
                                                 <button onClick={() => navigate('/hrmisseddays', { state: { missedDay: day, employeeId: editedEmployee.id, employeeName: `${editedEmployee.firstname} ${editedEmployee.lastname}` } })}>
                                                     Edit
                                                 </button>
+                                            )}
                                             </td>
                                         </tr>
                                     ))
@@ -466,6 +478,7 @@ function HRChosenemployee() {
                             </tbody>
                         </table>
                     </div>
+                  )}
                 </div>
             </div>
         </>

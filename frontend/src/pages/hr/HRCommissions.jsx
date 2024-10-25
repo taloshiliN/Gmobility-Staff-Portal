@@ -11,6 +11,7 @@ function HRCommissions() {
     const position = useSelector((state) => state.auth.position);
     const [commissions, setCommissions] = useState([]); // Store all commissions
     const [selectedCommission, setSelectedCommission] = useState(null); // Track selected commission
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     // Fetch all commissions
     useEffect(() => {
@@ -107,10 +108,12 @@ function HRCommissions() {
                         </table>
                     </div>
                 </div>
+                {userPermissions.includes(25) && (
                 <div id="newcommission" onClick={() => navigate('/hrnewcommission')}>
                     <img src={plus} alt="Plus Icon" />
                     <p>New Commission</p>
                 </div>
+                )}
             </div>
             </div>
         </>
