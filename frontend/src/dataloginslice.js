@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    isAuthenticated: false,
+    isAuthenticated: !!localStorage.getItem("authToken"), // Check if token exists on load
     data: [],
     status: "idle",
     error: null,
-    position: null, // Added to store user position
-    userRoles: [],  // Added to store user roles
-    userPermissions: [], // Added to store user permissions
+    position: null, // To store user position
+    userRoles: [],  // To store user roles
+    userPermissions: [], // To store user permissions
 };
 
 // Async thunk for logging in
@@ -21,9 +21,10 @@ export const loginUser = createAsyncThunk(
                 password,
             });
 
-            // If login is successful, fetch the user's permissions
+            // If login is successful, save the auth token and fetch user permissions
             if (response.data.message === "Login successful") {
                 const userId = response.data.user.id;
+                localStorage.setItem("authToken", response.data.token); // Save token in localStorage
                 await dispatch(fetchUserPermissions(userId)); // Fetch permissions after login
             }
 
@@ -67,6 +68,22 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
+        logout: (state) => {
+            localStorage.removeItem("authToken"); // Remove token on logout
+            state.user = null;
+            state.isAuthenticated = false;
+            state.status = "idle";
+            state.error = null;
+            state.position = null;
+            state.userRoles = [];
+            state.userPermissions = [];
+        },
+        checkAuthState: (state) => {
+            const token = localStorage.getItem("authToken");
+            if (token) {
+                state.isAuthenticated = true;
+            }
+        },
         setUserRoles: (state, action) => {
             state.userRoles = action.payload; // Update state with fetched roles
         },
@@ -92,7 +109,7 @@ const authSlice = createSlice({
                 state.status = "idle";
             })
             .addCase(loginUser.rejected, (state, action) => {
-                state.error = action.error?.message || "Failed to Login";
+                state.error = action.payload || "Failed to Login";
                 state.status = "failed";
             })
             .addCase(fetchUserRoles.pending, (state) => {
@@ -121,5 +138,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { setUserRoles, setUserPermissions } = authSlice.actions; // Export the actions
+export const { logout, checkAuthState, setUserRoles, setUserPermissions } = authSlice.actions; 
 export default authSlice.reducer;

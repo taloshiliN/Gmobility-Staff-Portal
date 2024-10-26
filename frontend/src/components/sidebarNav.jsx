@@ -13,9 +13,8 @@ function SidebarNav({position}) {
   const [isExpanded, setIsExpanded] = useState(false); // State for sidebar expansion
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate('/')
-  }
+    dispatch(logout()); // Dispatch logout to clear state and token
+};
 
   if (!position) {
     console.warn('Position is undefined in SidebarNav component');
