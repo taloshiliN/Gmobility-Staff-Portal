@@ -83,8 +83,8 @@ function OvertimeViewPage() {
                                    return (
                                        <tr key={request.id}>
                                            <td>{request.date}</td>
-                                           <td>{request.start_date}</td>
-                                           <td>{request.end_date}</td>
+                                           <td>{request.start_time}</td>
+                                           <td>{request.end_time}</td>
                                            <td>{request.duration}</td>
                                            <td style={{ backgroundColor: statusColor }}>{request.status}</td>
                                            <td>{request.reqstatus}</td>

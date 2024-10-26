@@ -95,7 +95,6 @@ function HRDocupload() {
         <>
             <Header />
             <SidebarNav position={position} />
-            <div className='main-content'>
             <div id="hruploadsection">
                 <div id="uploadedsection">
                     <h4>Your documents</h4>
@@ -144,7 +143,6 @@ function HRDocupload() {
                         <input id="docuploadbutton" type="submit" value="Upload" />
                     </form>
                 </div>
-            </div>
             </div>
         </>
     );

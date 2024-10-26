@@ -160,12 +160,12 @@ function HRRequests() {
                                             <td>{selectedRequest.position || 'N/A'}</td>
                                         </tr>
                                         <tr>
-                                            <td>Start Date:</td>
-                                            <td>{selectedRequest.start_date || 'N/A'}</td>
+                                            <td>Start Date/Time:</td>
+                                            <td>{selectedRequest.start_date || selectedRequest.start_time || 'N/A'}</td>
                                         </tr>
                                         <tr>
-                                            <td>End Date:</td>
-                                            <td>{selectedRequest.end_date || 'N/A'}</td>
+                                            <td>End Date/Time:</td>
+                                            <td>{selectedRequest.end_date || selectedRequest.end_time || 'N/A'}</td>
                                         </tr>
                                         <tr>
                                             <td>Total Days:</td>
@@ -185,12 +185,18 @@ function HRRequests() {
                                 <p>Select a request to see the details.</p>
                             )}
                             
-                            {selectedRequest && selectedRequest.status === 'Pending' &&  userPermissions.includes(14) && userPermissions.includes(16) && (
-                                <>
-                                    <button className='requestapprove' onClick={() => handleApprove(selectedRequest)}>Approve</button>
-                                    <button className='requestreject' onClick={() => handleReject(selectedRequest)}>Reject</button>
-                                </>
+
+                            {selectedRequest && selectedRequest.status === 'Pending' && (
+                             <>
+                            {userPermissions.includes(14) && userPermissions.includes(16) && (
+                              <>
+                                <button className='requestapprove' onClick={() => handleApprove(selectedRequest)}>Approve</button>
+                                <button className='requestreject' onClick={() => handleReject(selectedRequest)}>Reject</button>
+                              </>
                             )}
+                            </>
+                            )}
+
                         </div>
                     </div>
                 </div>

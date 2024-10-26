@@ -53,19 +53,20 @@ function SidebarNav({position}) {
         </NavLink>
        )}
 
-       {userPermissions.includes(13) || userPermissions.includes(15) && (
-        <NavLink to="/hrrequests">
-          <li>View Requests</li>
-        </NavLink>
-        )}
+{(userPermissions.includes(13) && userPermissions.includes(15)) && (
+    <NavLink to="/hrrequests">
+        <li>View Requests</li>
+    </NavLink>
+)}
+
        {userPermissions.includes(17) && (
-        <NavLink to="/leaverequest">
+        <NavLink to="/hrrequestleave">
           <li>Create Leave Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(18) && (
-        <NavLink to="/overtimerequest">
+        <NavLink to="/hrrequestovertime">
           <li>Create Overtime Request</li>
         </NavLink>
        )}
@@ -127,19 +128,19 @@ function SidebarNav({position}) {
         </NavLink>
        )}
 
-       {userPermissions.includes(13) || userPermissions.includes(15) && (
-        <NavLink to="/hrrequests">
-          <li>View Requests</li>
-        </NavLink>
-        )}
+{(userPermissions.includes(13) && userPermissions.includes(15)) && (
+    <NavLink to="/hrrequests">
+        <li>View Requests</li>
+    </NavLink>
+)}
        {userPermissions.includes(17) && (
-        <NavLink to="/leaverequest">
+        <NavLink to="/hrrequestleave">
           <li>Create Leave Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(18) && (
-        <NavLink to="/overtimerequest">
+        <NavLink to="/hrrequestovertime">
           <li>Create Overtime Request</li>
         </NavLink>
        )}
@@ -184,9 +185,15 @@ function SidebarNav({position}) {
     {/*Admin */}
     {position === 'Admin' && (
       <>
+      
+      <NavLink to="/adminHomePage">
+          <li>Home</li>
+        </NavLink>
+
      <NavLink to="/ClockinPage">
           <li>View Clocking</li>
         </NavLink>
+        
         {userPermissions.includes(4) && (
         <NavLink to="/hremployees">
           <li>View Employees</li>
@@ -196,21 +203,21 @@ function SidebarNav({position}) {
         <NavLink to="/staffregistration">
           <li>Staff registration</li>
         </NavLink>
+        
        )}
-
-       {userPermissions.includes(13) || userPermissions.includes(15) && (
-        <NavLink to="/hrrequests">
-          <li>View Requests</li>
-        </NavLink>
-        )}
+{(userPermissions.includes(13) && userPermissions.includes(15)) && (
+    <NavLink to="/hrrequests">
+        <li>View Requests</li>
+    </NavLink>
+)}
        {userPermissions.includes(17) && (
-        <NavLink to="/leaverequest">
+        <NavLink to="/hrrequestleave">
           <li>Create Leave Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(18) && (
-        <NavLink to="/overtimerequest">
+        <NavLink to="/hrrequestovertime">
           <li>Create Overtime Request</li>
         </NavLink>
        )}
