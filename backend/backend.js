@@ -511,7 +511,7 @@ app.post("/api/leave", (req, res) => {
 
 app.get('/employeeovertime/:name', (req, res) => {
     const employeeName = req.params.name;
-    const sql = "SELECT * FROM overtime_requests WHERE employee_name = ?";
+    const sql = "SELECT * FROM overtime_requests WHERE employee_name = ? ";
     db.query(sql, [employeeName], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Error fetching overtime requests' });
@@ -622,6 +622,21 @@ app.get("/api/getprinting", (req, res) => {
         }
     );
 });
+
+app.get("/api/getprinting/:id", (req, res) => {
+    const { id } = req.params; // Extract id from route parameter
+    const sql = "SELECT * FROM printing_requests WHERE employee_id = ? ORDER BY date DESC"; // Add the condition for employee_id
+
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error("Database query error:", err);
+            return res.status(500).json({ message: "Error fetching report requests", error: err });
+        }
+        console.log("Fetched results:", results);
+        res.json(results);
+    });
+});
+
 
 app.patch('/api/setprinting/:id', (req, res) => {
     const { id } = req.params;
@@ -808,7 +823,7 @@ app.get('/overtimerequest', (req, res) => {
 
 app.get('/employeeovertime/:Name', (req, res) => {
     const { Name } = req.params;
-    const sql = "SELECT * FROM overtime_requests WHERE employee_name = ? "; 
+    const sql = "SELECT * FROM overtime_requests WHERE employee_name = ? ORDER BY date DESC"; 
 
     db.query(sql, [Name], (err, data) => {
         if (err) {
@@ -856,14 +871,18 @@ app.get('/hrpayroll', (req, res) => {
 app.get('/hrpayroll/:id', (req, res) => {
     const { id } = req.params;
     const sql = "SELECT * FROM pay_roll WHERE employee_id = ?";
-    db.query([sql,id], (err, data) => {
+    
+    db.query(sql, [id], (err, data) => {
         if (err) {
             console.error('Error fetching payroll:', err);
             return res.status(500).json({ message: "Error fetching payroll", error: err });
         }
+        
+        console.log('Fetched payroll data:', data); // Log to verify data structure
         return res.json(data);
     });
 });
+
 
 app.post("/api/setpayroll", (req, res) => {
     console.log(req.body);
@@ -968,7 +987,7 @@ app.patch('/api/updatepayroll/:id', (req, res) => {
 
  app.get('/employeeleave/:Name', (req, res) => {
     const { Name } = req.params;
-    const sql = "SELECT * FROM leave_requests WHERE employee_name = ? "; 
+    const sql = "SELECT * FROM leave_requests WHERE employee_name = ? ORDER BY date DESC"; 
 
     db.query(sql, [Name], (err, data) => {
         if (err) {

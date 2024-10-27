@@ -30,8 +30,9 @@ function DigitalClock() {
 const styles = {
   container: {
     position: 'fixed',
-    bottom: '200px', 
-    right: '340px',  
+    bottom: '50px', 
+    right: '180px',  
+  
     fontFamily: 'Arial, sans-serif',
     zIndex: 1000,  // Ensures the clock is on top of other elements
   },

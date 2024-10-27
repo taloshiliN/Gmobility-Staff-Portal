@@ -94,7 +94,7 @@ function LoginPage() {
     return (
         <>
             {status === 'loading' && <Loader />}
-            <div className='logo-container'>
+            <div className='logo-container2'>
                 <img src={glogo} alt="Gmobility Logo" className="logo" />
             </div>
             <div className='everything'>

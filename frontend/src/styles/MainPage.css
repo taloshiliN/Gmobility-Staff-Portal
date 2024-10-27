@@ -1,3 +1,35 @@
+#mainhomecontent{
+  width: 100%;
+  height: 40rem;
+
+  display: flex;
+}
+#mainhomecontent #leftdiv{
+  width: 50%;
+  height: 40rem;
+  margin-left: auto;
+  text-align: center;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+#mainhomecontent #leftdiv img{
+  width: 70rem;
+}
+
+#mainhomecontent #rightdiv{
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, #00aaff, #0066ff, #0033cc);
+}
+
+
+
+
+
+
+
+/* ///////////////////////////////// */
 .main-container {
   display: flex;
   flex-direction: column;
@@ -17,15 +49,18 @@
 }
 
 .logo-container {
-  position: absolute; 
-  top: 20px; 
-  left: 40px; 
-  z-index: 10; 
+  position: absolute;
+  margin-left: 60rem;
+  width: 10rem;
+  height: 30rem;
+  top: 0;
+  z-index: 9999 !important; 
 }
-.logo {
-  width: 320px; 
-  height: auto; 
+.logo-container img{
+  width: 10rem;
+
 }
+
 
 .mainpage-content {
   position: relative; 
@@ -35,18 +70,19 @@
 /* Styles for the GIF */
 .bottom-left-gif {
   position: absolute;
-  bottom: 0; 
-  right: 300px; 
+  right: 200px; 
+  margin-top: 0rem;
   width: 1000px;
   height: 800px; 
 }
 
 .heading-container {
-    position: absolute; 
+    margin-left: 68%;
     right: 250px; 
     top: 24%; 
-    width: 25%; 
-    height: 40vh; 
+    margin-top: 9rem;
+    width: 15%; 
+    height: 25vh; 
     display: flex; 
     justify-content: center; 
     align-items: center; 
@@ -59,8 +95,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; 
   text-shadow: 2px 2px 4px rgba(34, 0, 255, 0.1);
-  font-size: 120px;
-  animation: expand 2s ease-in-out infinite; 
+  font-size: 100px;
+  animation: expand 4s ease-in-out infinite; 
 }
 
 /* Define the expand animation */
@@ -76,10 +112,9 @@
 
 .heading2-container {
   position: absolute; 
-    right: 40px; 
-    top: 34%; 
+    margin-left: 53%;
     width: 48%; 
-    height: 40vh; 
+    height: 15vh; 
     display: flex; 
     justify-content: center; 
     align-items: center; 

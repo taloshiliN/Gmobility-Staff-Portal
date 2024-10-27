@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import glogo from '../assets/glogo.png';
 import '../styles/headerstyling.css';
-
+import MessageFloat from '../pages/hr/MessageFloat'
 function Header() {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
 
@@ -14,11 +14,12 @@ function Header() {
   }, []);
 
   return (
-    <div className="headerheader w-100 p-3">
+    <div className="headerheader ">
       <img src={glogo} alt="Logo" />
       <p>Staff Portal</p>
-      <p id='currenttime'>{currentTime}</p>
-    </div>
+      <h4 id='currenttime'>{currentTime}</h4>
+      {/*<MessageFloat></MessageFloat> */}
+     </div>
   );
 }
 

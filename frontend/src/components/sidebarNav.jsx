@@ -262,11 +262,13 @@ function SidebarNav({position}) {
           <li>View Overtime</li>
         </NavLink>
       )}
+      
         {userPermissions.includes(36) && (
         <NavLink to="/leaveview">
           <li>View Leave</li>
         </NavLink>
         )}
+
       </>
     )}
 

@@ -2,128 +2,149 @@ import '../../styles/HRHomePage.css';
 import Header from '../../components/header';
 import SidebarNav from '../../components/sidebarNav';
 import { useSelector } from 'react-redux';
-import { useState } from 'react'; 
-import register from '../../assets/register.png';
-import staffProfile from '../../assets/staffProfile.png';
-import approve from '../../assets/approve.png';
-import reject from '../../assets/reject.png';
-import clock from '../../assets/clock.png';
-import payroll from '../../assets/payroll.png';
-import MessageFloat from '../hr/MessageFloat';
+import { useState, useEffect } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { useNavigate } from 'react-router-dom';
 
 function HRHomePage() {
   const position = useSelector((state) => state.auth.position);
   const userDetails = useSelector((state) => state.auth.data[0]);
-  const userRoles = useSelector((state) => state.auth.userRoles); // Access user roles from Redux state
-  const [showPopup, setShowPopup] = useState(false);
+  const userRoles = useSelector((state) => state.auth.userRoles);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const navigate = useNavigate();
 
-  console.log("User Data:", userDetails);
-  console.log("User Roles:", userRoles); // Log roles to confirm they are available
+  const [latestLeave, setLatestLeave] = useState(null);
+  const [latestOvertime, setLatestOvertime] = useState(null);
+  const [latestReport, setLatestReport] = useState(null);
+  const [todayClockIn, setTodayClockIn] = useState(null); // State for today's clock-in time
+  const [payrollInfo, setPayrollInfo] = useState(null); // State for payroll information
 
-  if (!userDetails) {
-    return <div>Loading...</div>;
-  }
+  const onChange = (date) => setSelectedDate(date);
 
-  // HR-specific actions or departments
-  const departments = [
-    'Super Admin',
-    'Admin',
-    'HR',
-    'DevOps',
-    'Technical',
-    'Accounting',
-    'Printing',
-  ];
+  useEffect(() => {
+    // Fetch the latest leave request (first row)
+    fetch(`http://localhost:8080/employeeleave/${userDetails.Name}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.length > 0) {
+          setLatestLeave(data[0]); // Only the first record is set
+        }
+      })
+      .catch((err) => console.error("Error fetching leave data:", err));
 
-  const handleHRClick = () => {
-    setShowPopup(true); // Show the HR action card pop-up
-  };
+    // Fetch the latest overtime request (first row)
+    fetch(`http://localhost:8080/employeeovertime/${userDetails.Name}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.length > 0) {
+          setLatestOvertime(data[0]); // Only the first record is set
+        }
+      })
+      .catch((err) => console.error("Error fetching overtime data:", err));
 
-  const handleClosePopup = () => {
-    setShowPopup(false); // Hide the HR action card pop-up
-  };
+    // Fetch the latest printing request (first row)
+    fetch(`http://localhost:8080/api/getprinting/${userDetails.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.length > 0) {
+          setLatestReport(data[0]); // Only the first record is set
+        }
+      })
+      .catch((err) => console.error("Error fetching printing request data:", err));
+
+    // Fetch today's clock-in details
+    fetch(`http://localhost:8080/clockin/${userDetails.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.length > 0) {
+          const today = new Date().toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
+          const todayClockInData = data.find(clockin => 
+            new Date(clockin.date).toISOString().split('T')[0] === today
+          );
+          if (todayClockInData) {
+            setTodayClockIn(todayClockInData.clockinTime); // Set today's clock-in time
+          } else {
+            setTodayClockIn(null); // No clock-in time for today
+          }
+        }
+      })
+      .catch((err) => console.error("Error fetching clock-in data:", err));
+
+    // Fetch payroll information
+    fetch(`http://localhost:8080/hrpayroll/${userDetails.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.length > 0) {
+          console.log("Payroll info:", data[0]); // Log to confirm structure and contents
+          setPayrollInfo(data[0]); // Set the first item of the array
+        } else {
+          console.warn("No payroll data found.");
+          setPayrollInfo(null);
+        }
+      })
+      .catch((err) => console.error("Error fetching payroll data:", err));
+
+  }, [userDetails.Name, userDetails.id]);
 
   return (
     <>
-      <MessageFloat style={{ marginTop: '-100px' }} />
       <Header />
       <SidebarNav position={position} />
-      <div className={`profile-card3 ${showPopup ? 'blur-background' : ''}`}>
-        <h2>Welcome HR {userDetails.Name }</h2> {/* Welcome message for HR */}
-       
-  
-      </div>
-
-      {/* Department Containers for HR actions */}
-      <div className={`department-containers3 ${showPopup ? 'blur-background' : ''}`}>
-        {departments.map((department, index) => (
-          <div 
-            key={index} 
-            className='department-container3'
-            onClick={department === 'HR' ? handleHRClick : undefined}>
-            <h3>{department}</h3>
+      <div className='homepagecontent'>
+        <div id='innerhomepage'>
+          <div id='horizon1'>
+            <div id='greeting'>
+              <h3>Welcome, {userDetails.Name}!</h3>
+              <p>The staff portal awaits you.</p>
+            </div>
+            <div id='imagediv'>
+              <img 
+                src={`http://localhost:8080/staff/${userDetails.id}/profile-image`} 
+                alt='Profile image' 
+                id="homeprofileimage"
+                onError={(e) => { e.target.src = '/path/to/default-image.png'; }}
+              />
+            </div>
           </div>
-        ))}
-      </div>
-
-      {/* HR Action Pop-up */}
-      {showPopup && (
-        <div className="popup-container3">
-          <div className="popup-content3">
-            <h2>As HR, you can:</h2>
-            <ul>
-              <li>
-                <img
-                  src={register}
-                  alt="register staff"
-                />
-                Register staff
-              </li>
-              <li>
-                <img
-                  src={staffProfile}
-                  alt="Manage employee profiles"
-                />
-                Manage employee profiles
-              </li>
-              <li>
-                <img
-                  src={approve}
-                  alt="Approve requests"
-                />
-                Approve leave/overtime/printing requests
-              </li>
-              <li>
-                <img
-                  src={reject}
-                  alt="Reject requests"
-                />
-                Reject leave/overtime/printing requests
-              </li>
-              <li>
-                <img
-                  src={clock}
-                  alt="View clock in/clock out times"
-                />
-                View clock in/clock out times
-              </li>
-              <li>
-                <img
-                  src={payroll}
-                  alt="Handle employee payroll information"
-                />
-                Handle employee payroll information
-              </li>
-            </ul>
-            <button className="return-button3" onClick={handleClosePopup}>
-              Return
-            </button>
+          <div id='horizon2'>
+            <div id='homecardssection'>
+              <Calendar id="calender" onChange={onChange} value={selectedDate} />
+              <div id='allhomecards'>
+                <div id='payrollcard'>
+                  <div id='clockincard' onClick={() => navigate('/ClockinPage')}>
+                    <p>Today's Clock-In Time</p>
+                    <h3>{todayClockIn ? todayClockIn : "No clock-in today"}</h3>
+                  </div>
+                  <div id='paycard'>
+                    <p>Your Payroll Info</p>
+                    <h3>{payrollInfo && payrollInfo.gross_pay !== undefined ? `N$ ${payrollInfo.gross_pay}` : "No payroll data"}</h3>
+                  </div>
+                </div>
+                <div id='outterhomecards'>
+                  <div className='homecards' id='leavecard' onClick={() => navigate('/leaveview')}>
+                    <p className='title'>Latest Leave Request</p>
+                    <h3>{latestLeave ? latestLeave.status : "No Records"}</h3>
+                    <p>Sent: {latestLeave ? new Date(latestLeave.date).toLocaleDateString() : "N/A"}</p>
+                  </div>
+                  <div className='homecards' id='overtimecard' onClick={() => navigate('/overtimeview')}>
+                    <p className='title'>Latest Overtime Request</p>
+                    <h3>{latestOvertime ? latestOvertime.status : "No Records"}</h3>
+                    <p>Sent: {latestOvertime ? new Date(latestOvertime.date).toLocaleDateString() : "N/A"}</p>
+                  </div>
+                  <div className='homecards' id='reportcard' onClick={() => navigate('/printingrequest')}>
+                    <p className='title'>Latest Report Request</p>
+                    <h3>{latestReport ? latestReport.status : "No Records"}</h3>
+                    <p>Sent: {latestReport ? new Date(latestReport.date).toLocaleDateString() : "N/A"}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }
 
 export default HRHomePage;
-
