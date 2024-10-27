@@ -104,6 +104,10 @@ function SidebarNav({position}) {
           <li>View Overtime</li>
         </NavLink>
 
+        <NavLink to="/leaveview">
+          <li>View Leave</li>
+        </NavLink>
+
       </>
     )}
     {/*Human Resource */}
@@ -178,7 +182,9 @@ function SidebarNav({position}) {
           <li>View Overtime</li>
         </NavLink>
         
-       
+        <NavLink to="/leaveview">
+          <li>View Leave</li>
+        </NavLink>
   </>
     )}
     {/*Admin */}
@@ -251,10 +257,16 @@ function SidebarNav({position}) {
         </NavLink>
         )}
 
+      {userPermissions.includes(35) && (
         <NavLink to="/overtimeview">
           <li>View Overtime</li>
         </NavLink>
-   
+      )}
+        {userPermissions.includes(36) && (
+        <NavLink to="/leaveview">
+          <li>View Leave</li>
+        </NavLink>
+        )}
       </>
     )}
 

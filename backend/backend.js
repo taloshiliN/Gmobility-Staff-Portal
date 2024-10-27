@@ -781,17 +781,6 @@ app.delete('/deleteuser/:id', (req, res) => {
 
 // // Leave request operations
 
-////
-app.get('/leave_requests', (req, res) => {
-    const sql = "SELECT * FROM leave_requests";
-    db.query(sql, (err, data) => {
-        if (err) {
-            console.error('Error fetching leave requests:', err);
-            return res.status(500).json({ message: "Error fetching leave requests", error: err });
-        }
-        return res.json(data);
-    });
-});
 
 // // Update leave request
 // app.patch('/leaverequests/:id', (req, res) => {
@@ -859,6 +848,18 @@ app.get('/hrpayroll', (req, res) => {
         if (err) {
             console.error('Error fetching leave requests:', err);
             return res.status(500).json({ message: "Error fetching leave requests", error: err });
+        }
+        return res.json(data);
+    });
+});
+
+app.get('/hrpayroll/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM pay_roll WHERE employee_id = ?";
+    db.query([sql,id], (err, data) => {
+        if (err) {
+            console.error('Error fetching payroll:', err);
+            return res.status(500).json({ message: "Error fetching payroll", error: err });
         }
         return res.json(data);
     });
@@ -964,6 +965,21 @@ app.patch('/api/updatepayroll/:id', (req, res) => {
          return res.json(data);
      });
  });
+
+ app.get('/employeeleave/:Name', (req, res) => {
+    const { Name } = req.params;
+    const sql = "SELECT * FROM leave_requests WHERE employee_name = ? "; 
+
+    db.query(sql, [Name], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No leave records found for this user" });
+        }
+        return res.json(data); // Return all matching records
+    });
+});
 
 // Update leave request
 app.patch('/leaverequests/:id', (req, res) => {

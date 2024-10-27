@@ -13,14 +13,14 @@ import MessageFloat from '../hr/MessageFloat';
 
 function HRHomePage() {
   const position = useSelector((state) => state.auth.position);
-  const HRName = useSelector((state) => state.auth.data[0]);
+  const userDetails = useSelector((state) => state.auth.data[0]);
   const userRoles = useSelector((state) => state.auth.userRoles); // Access user roles from Redux state
   const [showPopup, setShowPopup] = useState(false);
 
-  console.log("User Data:", HRName);
+  console.log("User Data:", userDetails);
   console.log("User Roles:", userRoles); // Log roles to confirm they are available
 
-  if (!HRName) {
+  if (!userDetails) {
     return <div>Loading...</div>;
   }
 
@@ -49,7 +49,7 @@ function HRHomePage() {
       <Header />
       <SidebarNav position={position} />
       <div className={`profile-card3 ${showPopup ? 'blur-background' : ''}`}>
-        <h2>Welcome HR {HRName.Name }</h2> {/* Welcome message for HR */}
+        <h2>Welcome HR {userDetails.Name }</h2> {/* Welcome message for HR */}
        
   
       </div>

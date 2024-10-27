@@ -42,6 +42,8 @@ import ClockinPage from "./components/ClockinPage"
 import Superregister from "./pages/superadmin/superregister"
 import Reportrequests from "./components/Reportrequests"
 import Setpayroll from "./components/Setpayroll"
+import OvertimeViewPage from "./pages/employee/overtimeviewPage"
+import LeaveViewPage from "./pages/employee/leaveviewPage"
 
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -94,6 +96,16 @@ function App() {
         </ProtectedRoute>
         }
         />
+
+<Route 
+        path="/leaveview" 
+        element={
+        <ProtectedRoute>
+          <LeaveViewPage />
+        </ProtectedRoute>
+        }
+        />
+
         <Route 
         path="/overtimerequest" 
         element={
