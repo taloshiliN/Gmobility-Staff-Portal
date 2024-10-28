@@ -22,9 +22,17 @@ function StaffRegistrationForm() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log("Selected file:", file); // Log file details
-    setProfileImage(file);
-  };
+    
+    if (file.size > 2 * 1024 * 1024) { // 2 MB limit
+        alert("File size exceeds the 2 MB limit. Please choose a smaller image.");
+        setNewProfileImg(null);
+        e.target.value = ""; // Clear the file input
+        return;
+    }
+    
+    setNewProfileImg(file);
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();

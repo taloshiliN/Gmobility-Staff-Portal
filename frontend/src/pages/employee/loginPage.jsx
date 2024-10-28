@@ -120,7 +120,7 @@ function LoginPage() {
                             required
                         />
                         {error && <p style={{ color: 'red' }} className='error'>{error}</p>}
-                        <p>Forgot Password?</p>
+                    
                         <button className="form-button" type="submit">
                             Login
                         </button>

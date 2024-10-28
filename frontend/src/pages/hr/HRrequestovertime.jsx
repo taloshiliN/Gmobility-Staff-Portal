@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import '../../styles/OvertimerequestPage.css'; // Assuming you use a CSS file for styles
 import { useDispatch, useSelector } from 'react-redux';
 import { createOvertimeRequest } from '../../overtimeSlice';
-import HRheader from './HRheader';
 import SidebarNav from '../../components/sidebarNav.jsx';
 import Header from '../../components/header.jsx';
 
@@ -103,7 +102,6 @@ function HROvertimerequestPage() {
   },  [pos]);
   return (
     <>
-    <HRheader />
      <Header />
      <SidebarNav position={position} />
       <div className='main-content'>

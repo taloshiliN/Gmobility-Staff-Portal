@@ -44,6 +44,7 @@ import Reportrequests from "./components/Reportrequests"
 import Setpayroll from "./components/Setpayroll"
 import OvertimeViewPage from "./pages/employee/overtimeviewPage"
 import LeaveViewPage from "./pages/employee/leaveviewPage"
+import PrintingViewPage from "./pages/employee/printingviewpage"
 
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -351,6 +352,16 @@ function App() {
         </ProtectedRoute>
         }
         />
+        
+        <Route 
+        path="/printingView" 
+        element={
+        <ProtectedRoute>
+          <PrintingViewPage />
+        </ProtectedRoute>
+        }
+        />
+
 
         <Route 
         path="/hrcommissions" 

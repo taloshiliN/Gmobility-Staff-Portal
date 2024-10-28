@@ -369,7 +369,7 @@ app.post("/api/data", upload.single('profileImg'), (req, res) => {
 app.post("/api/login", (req, res) => {
     const { firstname, password } = req.body;
     db.query(
-        "SELECT * FROM staff_members WHERE Name = ? AND Password = ?",
+        "SELECT * FROM staff_members WHERE Name = ? AND Password = ? AND Position != 'Super Admin'",
         [firstname, password],
         (err, results) => {
             if (err) {
@@ -656,7 +656,7 @@ app.patch('/api/setprinting/:id', (req, res) => {
 
 // get requests
 app.get('/users', (req, res) => {
-    const sql = "SELECT * FROM staff_members";
+    const sql = "SELECT * FROM staff_members where Position != 'Super Admin'";
     db.query(sql, (err, data) => {
         if (err) {
             console.error('Error fetching users:', err);

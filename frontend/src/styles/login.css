@@ -6,7 +6,11 @@ justify-content: center;
   margin: 0;    
 }
    
-
+.logo-container2{
+  width: 20%;
+  position: absolute;
+  margin: 1rem;
+}
 h1{
   color: azure;
   padding: 20px;

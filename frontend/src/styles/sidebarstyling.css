@@ -2,7 +2,7 @@
   z-index: 99 !important;
   font-size: 20px;
   width: 5%;
-  height: calc(100vh - 8%);
+  height: calc(105vh - 8%);
   position: fixed;
   top: 8%;
   background-color: rgb(17, 17, 85);
@@ -126,13 +126,13 @@
 
 .Employee-sidebar ul {
   text-align: center;
-  width: 100%;
+  width: 80%;
   color: white;
   list-style-type: none;
   margin: 0;
   padding: 0;
   flex: 1;
-  padding-top: 20%;
+  padding-top: 10%;
   overflow: scroll;
 
 }
@@ -141,13 +141,13 @@
 }
 .Employee-sidebar li {
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: 650;
+  font-weight: 600;
+  font-size: 18px;
   padding: 5% 0;
   text-align: left; 
   width: 100%;
   display: flex;
   justify-content: left;
-  margin-left: 20%;
   transition: background-color 0.3s;
   opacity: 0; /* Initially hidden when collapsed */
   transition: opacity 0.3s ease; /* Smooth transition */
@@ -159,11 +159,13 @@
   pointer-events: auto;
 }
 
-/* .Employee-sidebar li:hover {
-  background-color: rgb(255, 255, 255);
+ .Employee-sidebar li:hover {
   cursor: pointer;
-} */
-
+} 
+.item.active li{
+  background-color: rgb(17, 17, 85);
+  color: #0357b1;
+}
 .Employee-sidebar a {
   text-decoration: none;
   color: white;
@@ -176,7 +178,7 @@
 
 .Employee-sidebar .hrlogout {
   width: 80%;
-  height: 10%;
+  height: 8%;
   padding: 0.5rem;
   background-color: rgb(255, 0, 0);
   color: white;

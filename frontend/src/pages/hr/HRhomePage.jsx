@@ -118,23 +118,26 @@ function HRHomePage() {
                   </div>
                   <div id='paycard'>
                     <p>Your Payroll Info</p>
-                    <h3>{payrollInfo && payrollInfo.gross_pay !== undefined ? `N$ ${payrollInfo.gross_pay}` : "No payroll data"}</h3>
+                    <h4>{payrollInfo && payrollInfo.gross_pay !== undefined ? `N$ ${payrollInfo.gross_pay}` : "No payroll data"}</h4>
                   </div>
                 </div>
                 <div id='outterhomecards'>
-                  <div className='homecards' id='leavecard' onClick={() => navigate('/leaveview')}>
+                  <div className='homecards' id='leavecard' onClick={() => 
+                      {userPermissions.includes(36) && (navigate('/leaveview'))}}>
                     <p className='title'>Latest Leave Request</p>
-                    <h3>{latestLeave ? latestLeave.status : "No Records"}</h3>
+                    <h4>{latestLeave ? latestLeave.status : "No Records"}</h4>
                     <p>Sent: {latestLeave ? new Date(latestLeave.date).toLocaleDateString() : "N/A"}</p>
                   </div>
-                  <div className='homecards' id='overtimecard' onClick={() => navigate('/overtimeview')}>
+                  <div className='homecards' id='overtimecard' onClick={() => 
+                      {userPermissions.includes(35) && (navigate('/overtimeview'))}}>
                     <p className='title'>Latest Overtime Request</p>
-                    <h3>{latestOvertime ? latestOvertime.status : "No Records"}</h3>
+                    <h4>{latestOvertime ? latestOvertime.status : "No Records"}</h4>
                     <p>Sent: {latestOvertime ? new Date(latestOvertime.date).toLocaleDateString() : "N/A"}</p>
                   </div>
-                  <div className='homecards' id='reportcard' onClick={() => navigate('/printingrequest')}>
+                  <div className='homecards' id='reportcard' onClick={() => 
+                      {userPermissions.includes(37) && (navigate('/printingrequest'))}}>
                     <p className='title'>Latest Report Request</p>
-                    <h3>{latestReport ? latestReport.status : "No Records"}</h3>
+                    <h4>{latestReport ? latestReport.status : "No Records"}</h4>
                     <p>Sent: {latestReport ? new Date(latestReport.date).toLocaleDateString() : "N/A"}</p>
                   </div>
                 </div>

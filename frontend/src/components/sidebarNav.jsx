@@ -34,241 +34,255 @@ function SidebarNav({position}) {
     {/*Employee */}
     {position === 'Employee' && (
       <>
-        <NavLink to="/home">
+    <NavLink to="/hrhomepage" className={`item ${location.pathname === '/hrhomepage' ? 'active' : ''}`}>
           <li>Home</li>
         </NavLink>
 
-        <NavLink to="/ClockinPage">
+        <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
           <li>View Clocking</li>
         </NavLink>
         {userPermissions.includes(4) && (
-        <NavLink to="/hremployees">
+        <NavLink to="/hremployees" className={`item ${location.pathname === '/hremployees' ? 'active' : ''}`}>
           <li>View Employees</li>
         </NavLink>
         )}
        {userPermissions.includes(11) && (
-        <NavLink to="/staffregistration">
+        <NavLink to="/staffregistration" className={`item ${location.pathname === '/staffregistration' ? 'active' : ''}`}>
           <li>Staff registration</li>
         </NavLink>
        )}
 
 {(userPermissions.includes(13) && userPermissions.includes(15)) && (
-    <NavLink to="/hrrequests">
+    <NavLink to="/hrrequests" className={`item ${location.pathname === '/hrrequests' ? 'active' : ''}`}>
         <li>View Requests</li>
     </NavLink>
 )}
-
        {userPermissions.includes(17) && (
-        <NavLink to="/hrrequestleave">
+        <NavLink to="/hrrequestleave" className={`item ${location.pathname === '/hrrequestleave' ? 'active' : ''}`}>
           <li>Create Leave Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(18) && (
-        <NavLink to="/hrrequestovertime">
+        <NavLink to="/hrrequestovertime" className={`item ${location.pathname === '/hrrequestovertime' ? 'active' : ''}`}>
           <li>Create Overtime Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(19) && (
-       <NavLink to="/hrpayroll">
+       <NavLink to="/hrpayroll" className={`item ${location.pathname === '/hrpayroll' ? 'active' : ''}`}>
           <li>View Payroll</li>
         </NavLink>
        )}
 
       {userPermissions.includes(22) && (
-       <NavLink to="/hrdocupload">
+       <NavLink to="/hrdocupload" className={`item ${location.pathname === '/hrdocupload' ? 'active' : ''}`}>
           <li>Upload document</li>
         </NavLink>
       )}
 
       {userPermissions.includes(24) && (
-        <NavLink to="/hrcommissions">
+        <NavLink to="/hrcommissions" className={`item ${location.pathname === '/hrcommissions' ? 'active' : ''}`}>
           <li>Commissions</li>
         </NavLink>
        )}
 
      {userPermissions.includes(26) && (
-       <NavLink to="/reportrequests">
+       <NavLink to="/reportrequests" className={`item ${location.pathname === '/reportrequests' ? 'active' : ''}`}>
           <li>Report Requests </li>
         </NavLink>
       )}
 
       {userPermissions.includes(27) && (
-       <NavLink to='/printingrequest'>
+       <NavLink to='/printingrequest' className={`item ${location.pathname === '/printingrequest' ? 'active' : ''}`}>
           <li>Report request</li>
         </NavLink>
         )}
 
-        <NavLink to="/overtimeview">
+        <NavLink to="/overtimeview" className={`item ${location.pathname === '/overtimeview' ? 'active' : ''}`}>
           <li>View Overtime</li>
         </NavLink>
-
-        <NavLink to="/leaveview">
+        
+        <NavLink to="/leaveview" className={`item ${location.pathname === '/leaveview' ? 'active' : ''}`}>
           <li>View Leave</li>
         </NavLink>
+
+        
+      {userPermissions.includes(37) && (
+        <NavLink to="/printingview"className={`item ${location.pathname === '/printingview' ? 'active' : ''}`}>
+          <li>View Report </li>
+        </NavLink>
+        )}
 
       </>
     )}
     {/*Human Resource */}
     {position === 'Human Resource' && (
       <>
-        <NavLink to="/hrhomepage">
+        <NavLink to="/hrhomepage" className={`item ${location.pathname === '/hrhomepage' ? 'active' : ''}`}>
           <li>Home</li>
         </NavLink>
 
-        <NavLink to="/ClockinPage">
+        <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
           <li>View Clocking</li>
         </NavLink>
         {userPermissions.includes(4) && (
-        <NavLink to="/hremployees">
+        <NavLink to="/hremployees" className={`item ${location.pathname === '/hremployees' ? 'active' : ''}`}>
           <li>View Employees</li>
         </NavLink>
         )}
        {userPermissions.includes(11) && (
-        <NavLink to="/staffregistration">
+        <NavLink to="/staffregistration" className={`item ${location.pathname === '/staffregistration' ? 'active' : ''}`}>
           <li>Staff registration</li>
         </NavLink>
        )}
 
 {(userPermissions.includes(13) && userPermissions.includes(15)) && (
-    <NavLink to="/hrrequests">
+    <NavLink to="/hrrequests" className={`item ${location.pathname === '/hrrequests' ? 'active' : ''}`}>
         <li>View Requests</li>
     </NavLink>
 )}
        {userPermissions.includes(17) && (
-        <NavLink to="/hrrequestleave">
+        <NavLink to="/hrrequestleave" className={`item ${location.pathname === '/hrrequestleave' ? 'active' : ''}`}>
           <li>Create Leave Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(18) && (
-        <NavLink to="/hrrequestovertime">
+        <NavLink to="/hrrequestovertime" className={`item ${location.pathname === '/hrrequestovertime' ? 'active' : ''}`}>
           <li>Create Overtime Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(19) && (
-       <NavLink to="/hrpayroll">
+       <NavLink to="/hrpayroll" className={`item ${location.pathname === '/hrpayroll' ? 'active' : ''}`}>
           <li>View Payroll</li>
         </NavLink>
        )}
 
       {userPermissions.includes(22) && (
-       <NavLink to="/hrdocupload">
+       <NavLink to="/hrdocupload" className={`item ${location.pathname === '/hrdocupload' ? 'active' : ''}`}>
           <li>Upload document</li>
         </NavLink>
       )}
 
       {userPermissions.includes(24) && (
-        <NavLink to="/hrcommissions">
+        <NavLink to="/hrcommissions" className={`item ${location.pathname === '/hrcommissions' ? 'active' : ''}`}>
           <li>Commissions</li>
         </NavLink>
        )}
 
      {userPermissions.includes(26) && (
-       <NavLink to="/reportrequests">
+       <NavLink to="/reportrequests" className={`item ${location.pathname === '/reportrequests' ? 'active' : ''}`}>
           <li>Report Requests </li>
         </NavLink>
       )}
 
       {userPermissions.includes(27) && (
-       <NavLink to='/printingrequest'>
+       <NavLink to='/printingrequest' className={`item ${location.pathname === '/printingrequest' ? 'active' : ''}`}>
           <li>Report request</li>
         </NavLink>
         )}
 
-        <NavLink to="/overtimeview">
+        <NavLink to="/overtimeview" className={`item ${location.pathname === '/overtimeview' ? 'active' : ''}`}>
           <li>View Overtime</li>
         </NavLink>
         
-        <NavLink to="/leaveview">
+        <NavLink to="/leaveview" className={`item ${location.pathname === '/leaveview' ? 'active' : ''}`}>
           <li>View Leave</li>
         </NavLink>
+
+        
+      {userPermissions.includes(37) && (
+        <NavLink to="/printingview">
+          <li>View Report </li>
+        </NavLink>
+        )}
   </>
     )}
     {/*Admin */}
     {position === 'Admin' && (
       <>
       
-      <NavLink to="/adminHomePage">
+      <NavLink to="/hrhomepage" className={`item ${location.pathname === '/hrhomepage' ? 'active' : ''}`}>
           <li>Home</li>
         </NavLink>
 
-     <NavLink to="/ClockinPage">
+        <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
           <li>View Clocking</li>
         </NavLink>
-        
         {userPermissions.includes(4) && (
-        <NavLink to="/hremployees">
+        <NavLink to="/hremployees" className={`item ${location.pathname === '/hremployees' ? 'active' : ''}`}>
           <li>View Employees</li>
         </NavLink>
         )}
        {userPermissions.includes(11) && (
-        <NavLink to="/staffregistration">
+        <NavLink to="/staffregistration" className={`item ${location.pathname === '/staffregistration' ? 'active' : ''}`}>
           <li>Staff registration</li>
         </NavLink>
-        
        )}
+
 {(userPermissions.includes(13) && userPermissions.includes(15)) && (
-    <NavLink to="/hrrequests">
+    <NavLink to="/hrrequests" className={`item ${location.pathname === '/hrrequests' ? 'active' : ''}`}>
         <li>View Requests</li>
     </NavLink>
 )}
        {userPermissions.includes(17) && (
-        <NavLink to="/hrrequestleave">
+        <NavLink to="/hrrequestleave" className={`item ${location.pathname === '/hrrequestleave' ? 'active' : ''}`}>
           <li>Create Leave Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(18) && (
-        <NavLink to="/hrrequestovertime">
+        <NavLink to="/hrrequestovertime" className={`item ${location.pathname === '/hrrequestovertime' ? 'active' : ''}`}>
           <li>Create Overtime Request</li>
         </NavLink>
        )}
 
        {userPermissions.includes(19) && (
-       <NavLink to="/hrpayroll">
+       <NavLink to="/hrpayroll" className={`item ${location.pathname === '/hrpayroll' ? 'active' : ''}`}>
           <li>View Payroll</li>
         </NavLink>
        )}
 
       {userPermissions.includes(22) && (
-       <NavLink to="/hrdocupload">
+       <NavLink to="/hrdocupload" className={`item ${location.pathname === '/hrdocupload' ? 'active' : ''}`}>
           <li>Upload document</li>
         </NavLink>
       )}
 
       {userPermissions.includes(24) && (
-        <NavLink to="/hrcommissions">
+        <NavLink to="/hrcommissions" className={`item ${location.pathname === '/hrcommissions' ? 'active' : ''}`}>
           <li>Commissions</li>
         </NavLink>
        )}
 
      {userPermissions.includes(26) && (
-       <NavLink to="/reportrequests">
+       <NavLink to="/reportrequests" className={`item ${location.pathname === '/reportrequests' ? 'active' : ''}`}>
           <li>Report Requests </li>
         </NavLink>
       )}
 
       {userPermissions.includes(27) && (
-       <NavLink to='/printingrequest'>
+       <NavLink to='/printingrequest' className={`item ${location.pathname === '/printingrequest' ? 'active' : ''}`}>
           <li>Report request</li>
         </NavLink>
         )}
 
-      {userPermissions.includes(35) && (
-        <NavLink to="/overtimeview">
+        <NavLink to="/overtimeview" className={`item ${location.pathname === '/overtimeview' ? 'active' : ''}`}>
           <li>View Overtime</li>
         </NavLink>
-      )}
-      
-        {userPermissions.includes(36) && (
-        <NavLink to="/leaveview">
+        
+        <NavLink to="/leaveview" className={`item ${location.pathname === '/leaveview' ? 'active' : ''}`}>
           <li>View Leave</li>
         </NavLink>
-        )}
 
+        
+      {userPermissions.includes(37) && (
+        <NavLink to="/printingview"className={`item ${location.pathname === '/printingview' ? 'active' : ''}`}>
+          <li>View Report </li>
+        </NavLink>
+        )}
       </>
     )}
 
