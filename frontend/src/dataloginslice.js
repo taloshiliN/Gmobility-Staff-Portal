@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    isAuthenticated: !!localStorage.getItem("authToken"), // Check if token exists on load
+    isAuthenticated: !!sessionStorage.getItem("authToken"), // Check if token exists on load
     data: [],
     status: "idle",
     error: null,
@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
             // If login is successful, save the auth token and fetch user permissions
             if (response.data.message === "Login successful") {
                 const userId = response.data.user.id;
-                localStorage.setItem("authToken", response.data.token); // Save token in localStorage
+                sessionStorage.setItem("authToken", response.data.token); // Save token in sessionStorage
                 await dispatch(fetchUserPermissions(userId)); // Fetch permissions after login
             }
 
@@ -69,17 +69,18 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            localStorage.removeItem("authToken"); // Remove token on logout
+            sessionStorage.removeItem("authToken"); // Remove token on logout
             state.user = null;
             state.isAuthenticated = false;
             state.status = "idle";
             state.error = null;
+            state.data = [];
             state.position = null;
             state.userRoles = [];
             state.userPermissions = [];
         },
         checkAuthState: (state) => {
-            const token = localStorage.getItem("authToken");
+            const token = sessionStorage.getItem("authToken");
             if (token) {
                 state.isAuthenticated = true;
             }
@@ -138,5 +139,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout, checkAuthState, setUserRoles, setUserPermissions } = authSlice.actions; 
+export const { logout, checkAuthState, setUserRoles, setUserPermissions } = authSlice.actions;
 export default authSlice.reducer;

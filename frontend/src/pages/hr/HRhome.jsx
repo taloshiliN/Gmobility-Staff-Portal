@@ -60,7 +60,7 @@ function HRhome() {
             <MessagingFloat onClick={handleToggleChat}/>
             <div className='main-content'>
                 <div className="homecontent">
-                    <h4 className='greeting'>Welcome {user.Name}</h4>
+                    <h4 className='greeting'>G Mobility Staff</h4>
                     {showChatPlatform && userPermissions.includes(1) && (
                     <div className='chat-platform'>
                         <SimpleChatPlatform currentUser={user}/>

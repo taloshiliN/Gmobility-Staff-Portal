@@ -17,7 +17,7 @@ function ClockinPage() {
     useEffect(() => {
         const fetchClockinDetails = async () => {
             try {
-                const res = await fetch(`http://localhost:8080/clockin/${userDetails.id}`);
+                const res = await fetch(`http://localhost:8080/employeeclockin/${userDetails.id}`);
                 if (!res.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -168,7 +168,7 @@ function ClockinPage() {
             )}
                 {userPermissions.includes(3) && (
                 <div id="lastclockinsection">
-                    <h4>Clocking History</h4>
+                    <h4>Monthly Clocking History</h4>
                     <div>
                         <input
                             type="date"

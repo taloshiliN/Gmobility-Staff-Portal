@@ -572,6 +572,10 @@ body {
     vertical-align:top;
     background-color: #ffffff;
   }
+.choseninput {
+    text-align: center;
+    justify-content: center;
+  }
   /* Leav requests section*/
   #editbutton{
     background-color: #0400f3;

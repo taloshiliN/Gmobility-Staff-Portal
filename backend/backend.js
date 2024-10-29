@@ -10,13 +10,20 @@ require('dotenv').config();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+// CORS configuration
 const corsOptions = {
-    origin: ["http://localhost:5173"],
+    origin: "http://localhost:5173",  // Allow requests from this origin
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true  // Allow credentials if needed
 };
 
 app.use(cors(corsOptions));
+
+// Handle preflight requests for all routes
+app.options("*", cors(corsOptions));
+
+// Body parser setup
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -1283,6 +1290,30 @@ app.get('/clockin/:id', (req, res) => {
         return res.json(data); // Return all matching records
     });
 });
+
+// retrieves clockin details for the current month for a specific user
+app.get('/employeeclockin/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = `
+        SELECT * 
+        FROM clockin 
+        WHERE employee_id = ? 
+        AND MONTH(date) = MONTH(CURRENT_DATE())
+        AND YEAR(date) = YEAR(CURRENT_DATE())
+        ORDER BY id DESC
+    `;
+
+    db.query(sql, [id], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No clocked days found for this user in the current month" });
+        }
+        return res.json(data); // Return records matching the current month
+    });
+});
+
 
 app.post("/clockout", (req, res) => {
     console.log("Clock-out request received:", req.body);

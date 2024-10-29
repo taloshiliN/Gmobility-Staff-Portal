@@ -139,7 +139,7 @@ function HRDocupload() {
                 <div id="newuploadsection">
                     <p>Upload file</p>
                     <form onSubmit={handleSubmit}>
-                        <input type="file" onChange={handleFileChange} />
+                        <input type="file"  onChange={handleFileChange} />
                         <input id="docuploadbutton" type="submit" value="Upload" />
                     </form>
                 </div>

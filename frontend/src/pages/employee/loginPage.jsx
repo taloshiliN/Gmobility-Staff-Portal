@@ -40,12 +40,12 @@ function LoginPage() {
             if (position === 'Human Resource') {
                 navigate('/hrhomepage');
             } else if (position === 'Employee') {
-                navigate('/homePage');
+                navigate('/hrhomepage');
             } else if (position === 'Admin') {
-                navigate('/adminHomePage');
+                navigate('/hrhomepage');
             }
             else if (position === 'Super Admin') {
-                navigate('/superregister');
+                navigate('/hrhomepage');
             }
         }
     }, [isAuthenticated, position, navigate, employeeId, dispatch]);

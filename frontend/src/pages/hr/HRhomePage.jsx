@@ -13,6 +13,7 @@ function HRHomePage() {
   const userRoles = useSelector((state) => state.auth.userRoles);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const navigate = useNavigate();
+  const userPermissions = useSelector((state) => state.auth.userPermissions);
 
   const [latestLeave, setLatestLeave] = useState(null);
   const [latestOvertime, setLatestOvertime] = useState(null);
@@ -135,7 +136,7 @@ function HRHomePage() {
                     <p>Sent: {latestOvertime ? new Date(latestOvertime.date).toLocaleDateString() : "N/A"}</p>
                   </div>
                   <div className='homecards' id='reportcard' onClick={() => 
-                      {userPermissions.includes(37) && (navigate('/printingrequest'))}}>
+                      {userPermissions.includes(37) && (navigate('/printingview'))}}>
                     <p className='title'>Latest Report Request</p>
                     <h4>{latestReport ? latestReport.status : "No Records"}</h4>
                     <p>Sent: {latestReport ? new Date(latestReport.date).toLocaleDateString() : "N/A"}</p>

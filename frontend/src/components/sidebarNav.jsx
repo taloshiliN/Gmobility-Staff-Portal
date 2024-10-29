@@ -98,14 +98,16 @@ function SidebarNav({position}) {
           <li>Report request</li>
         </NavLink>
         )}
-
+      {userPermissions.includes(35) && (
         <NavLink to="/overtimeview" className={`item ${location.pathname === '/overtimeview' ? 'active' : ''}`}>
           <li>View Overtime</li>
         </NavLink>
-        
+      )}
+     {userPermissions.includes(36) && (
         <NavLink to="/leaveview" className={`item ${location.pathname === '/leaveview' ? 'active' : ''}`}>
           <li>View Leave</li>
         </NavLink>
+      )}
 
         
       {userPermissions.includes(37) && (

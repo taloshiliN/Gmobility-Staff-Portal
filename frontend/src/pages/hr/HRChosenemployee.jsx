@@ -280,7 +280,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Name:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="firstname" 
                                             value={editedEmployee.firstname} 
@@ -291,7 +291,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Surname:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="lastname" 
                                             value={editedEmployee.lastname} 
@@ -302,7 +302,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Supervisor:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="Supervisor" 
                                             value={editedEmployee.Supervisor} 
@@ -313,7 +313,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>ID Number:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="ID_Number" 
                                             value={editedEmployee.ID_Number} 
@@ -324,7 +324,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Date of Birth:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="date" 
                                             name="DOB" 
                                             value={editedEmployee.DOB} 
@@ -335,7 +335,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Gender:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="Gender" 
                                             value={editedEmployee.Gender} 
@@ -346,7 +346,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Nationality:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="nationality" 
                                             value={editedEmployee.nationality} 
@@ -357,7 +357,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Language:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="languages" 
                                             value={editedEmployee.languages} 
@@ -368,7 +368,7 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Position:</td>
                                     <td>
-                                        <input 
+                                        <input  className='choseninput'
                                             type="text" 
                                             name="position" 
                                             value={editedEmployee.position} 
