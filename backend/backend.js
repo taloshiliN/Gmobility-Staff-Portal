@@ -12,7 +12,7 @@ const wss = new WebSocket.Server({ server });
 
 // CORS configuration
 const corsOptions = {
-    origin: "http://localhost:5173",  // Allow requests from this origin
+    origin: ["http://localhost:5173", 'http://localhost:5174'] , // Allow requests from this origin
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true  // Allow credentials if needed
