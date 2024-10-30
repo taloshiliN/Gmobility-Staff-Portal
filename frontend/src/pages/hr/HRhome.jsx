@@ -15,6 +15,7 @@ function HRhome() {
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showChatPlatform, setShowChatPlatform] = useState(false);
+    const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     const filteredData = data.filter(employee => {
         return (
