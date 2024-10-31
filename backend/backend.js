@@ -190,31 +190,27 @@ wss.on('connection', (ws) => {
 });
 
 // API endpoint to get a list of users
-app.get('/api/users', (req, res) => {
-    db.query('SELECT id, name, email FROM users', (err, rows) => {
+app.get('/api/staff_members', (req, res) => {
+    db.query('SELECT id, Name AS name, email FROM staff_members', (err, rows) => {
         if (err) {
-            console.error('Error fetching users:', err); // Log errors
-            return res.status(500).json({ error: 'An error occurred while fetching users' }); // Send error response
+            console.error('Error fetching staff members:', err);
+            return res.status(500).json({ error: 'An error occurred while fetching staff members' });
         }
-        console.log('Fetched users:', rows.length); // Log the number of users fetched
-        res.json(rows); // Send the user data as a JSON response
+        res.json(rows);
     });
 });
 
-app.get('/api/users/:id', (req, res) => {
-    db.query('SELECT id, name, email FROM users WHERE id = ?', [req.params.id], (err, rows) => {
+
+app.get('/api/staff_members/:id', (req, res) => {
+    db.query('SELECT id, Name AS name, email FROM staff_members WHERE id = ?', [req.params.id], (err, rows) => {
         if (err) {
-            console.error('Error fetching user:', err);
-            return res.status(500).json({ error: 'An error occurred while fetching the user' });
+            console.error('Error fetching staff member:', err);
+            return res.status(500).json({ error: 'An error occurred while fetching the staff member' });
         }
-        if (rows.length === 0) {
-            console.log('User not found:', req.params.id);
-            return res.status(404).json({ error: 'User not found' });
-        }
-        console.log('Fetched user:', rows[0]);
         res.json(rows[0]);
     });
 });
+
 
 app.get('/api/chats/user/:userId', (req, res) => {
     db.query(
@@ -263,9 +259,9 @@ app.post('/api/chats', (req, res) => {
 // API endpoint to get messages for a specific chat
 app.get('/api/messages/chat/:chatId', (req, res) => {
     db.query(
-        `SELECT m.id, m.content, m.timestamp, m.sender_id, u.name as sender_name 
+        `SELECT m.id, m.content, m.timestamp, m.sender_id, sm.Name AS sender_name 
          FROM messages m 
-         JOIN users u ON m.sender_id = u.id 
+         JOIN staff_members sm ON m.sender_id = sm.id 
          WHERE m.chat_id = ? 
          ORDER BY m.timestamp ASC`,
         [req.params.chatId],
@@ -283,23 +279,44 @@ app.get('/api/messages/chat/:chatId', (req, res) => {
 // API endpoint to send a new message
 app.post('/api/messages', (req, res) => {
     const { chat_id, sender_id, content } = req.body;
+    const timestampThreshold = 5000; // 5 seconds in milliseconds
+
     db.query(
-        'INSERT INTO messages (chat_id, sender_id, content) VALUES (?, ?, ?)',
-        [chat_id, sender_id, content],
-        (err, result) => {
+        `SELECT COUNT(*) AS count 
+         FROM messages 
+         WHERE chat_id = ? AND sender_id = ? AND content = ? 
+         AND timestamp >= NOW() - INTERVAL ? SECOND`,
+        [chat_id, sender_id, content, timestampThreshold / 1000],
+        (err, results) => {
             if (err) {
-                console.error('Error sending message:', err);
-                return res.status(500).json({ error: 'An error occurred while sending the message' });
+                console.error('Error checking for duplicate message:', err);
+                return res.status(500).json({ error: 'Error checking for duplicate message' });
             }
-            console.log('Message saved via HTTP:', result.insertId);
-            res.status(201).json({ id: result.insertId, message: 'Message sent successfully' });
+
+            if (results[0].count > 0) {
+                console.log('Duplicate message detected within threshold; skipping insert.');
+                return res.status(409).json({ message: 'Duplicate message detected' });
+            }
+
+            db.query(
+                'INSERT INTO messages (chat_id, sender_id, content, timestamp) VALUES (?, ?, ?, NOW())',
+                [chat_id, sender_id, content],
+                (err, result) => {
+                    if (err) {
+                        console.error('Error sending message:', err);
+                        return res.status(500).json({ error: 'An error occurred while sending the message' });
+                    }
+                    console.log('Message saved with ID:', result.insertId);
+                    res.status(201).json({ id: result.insertId, message: 'Message sent successfully' });
+                }
+            );
         }
     );
 });
 
 // API endpoint to get unread message counts for a specific user
-app.get('/api/unread/:userId', (req, res) => {
-    db.query(`SELECT chat_id, count FROM unread_messages WHERE user_id = ?`, [req.params.userId], (err, rows) => {
+app.get('/api/unread/:staffId', (req, res) => {
+    db.query(`SELECT chat_id, count FROM unread_messages WHERE user_id = ?`, [req.params.staffId], (err, rows) => {
         if (err) {
             console.error('Error fetching unread counts:', err);
             return res.status(500).json({ error: 'An error occurred while fetching unread counts' });
@@ -307,7 +324,6 @@ app.get('/api/unread/:userId', (req, res) => {
         res.json(rows);
     });
 });
-
   
   // API endpoint to mark messages as read
   app.post('/api/markAsRead', (req, res) => {
@@ -992,20 +1008,24 @@ app.patch('/api/updatepayroll/:id', (req, res) => {
      });
  });
 
- app.get('/employeeleave/:Name', (req, res) => {
-    const { Name } = req.params;
-    const sql = "SELECT * FROM leave_requests WHERE employee_name = ? ORDER BY date DESC"; 
-
-    db.query(sql, [Name], (err, data) => {
+ app.get('/employeeleave/:name', (req, res) => {
+    const { name } = req.params;
+    // Query the database for records
+    db.query('SELECT * FROM leave_requests WHERE employee_name = ? ORDER BY id DESC', [name], (err, results) => {
         if (err) {
-            return res.status(500).json({ error: "Database error" });
+            console.error(err);
+            return res.status(500).json({ error: 'Database query error' });
         }
-        if (data.length === 0) {
-            return res.status(404).json({ message: "No leave records found for this user" });
+        
+        if (results.length === 0) {
+            // Send 200 status with an empty array if no records are found
+            return res.status(200).json([]);
         }
-        return res.json(data); // Return all matching records
+        
+        res.status(200).json(results); // Return found records
     });
 });
+
 
 // Update leave request
 app.patch('/leaverequests/:id', (req, res) => {

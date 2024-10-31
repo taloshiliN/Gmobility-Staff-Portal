@@ -25,12 +25,12 @@ function StaffRegistrationForm() {
     
     if (file.size > 2 * 1024 * 1024) { // 2 MB limit
         alert("File size exceeds the 2 MB limit. Please choose a smaller image.");
-        setNewProfileImg(null);
+        setProfileImage(null);
         e.target.value = ""; // Clear the file input
         return;
     }
     
-    setNewProfileImg(file);
+    setProfileImage(file);
 };
 
 
@@ -239,22 +239,6 @@ function StaffRegistrationForm() {
           />
         </div>
 
-            <div className="form-group">
-              <label htmlFor="Position">Position</label>
-              <select
-                id="Position"
-                name="Position"
-                value={Position}
-                onChange={(e) => setPosition(e.target.value)}
-                required
-              >
-                <option value="">Select an option</option>
-                <option value="Employee">Employee</option>
-                <option value="Human Resource">Human Resource</option>
-                <option value="Admin">Admin</option>
-                <option value="Super Admin">Super Admin</option>
-              </select>
-            </div>
         <div className="form-group">
           <label htmlFor="Position">Position</label>
           <select

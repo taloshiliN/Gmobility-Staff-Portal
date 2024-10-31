@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 
 // Define the main component SimpleChatPlatform, which takes the current user as a prop
@@ -17,7 +16,7 @@ const SimpleChatPlatform = ({ currentUser }) => {
 
   // Establish WebSocket connection when the component loads
   useEffect(() => {
-    const ws = new WebSocket('ws://10.11.12.136:8080'); // WebSocket URL for server
+    const ws = new WebSocket('ws://localhost:8080'); // WebSocket URL for server
     setSocket(ws); // Save WebSocket object to state
 
     // When the WebSocket connection opens
@@ -28,31 +27,44 @@ const SimpleChatPlatform = ({ currentUser }) => {
     // When a message is received from the server
     ws.onmessage = (event) => {
       try {
-        const data = JSON.parse(event.data); // Parse the message from JSON
-        console.log('Received WebSocket message:', data);
-        
-        if (data.type === 'newMessage') {
-          // If the new message is for the currently open chat, update the messages
-          if (data.message.chat_id === currentChat?.id) {
-            setMessages(prevMessages => [...prevMessages, data.message]);
-          } else if (data.unreadCount.user_id === currentUser.id) {
-            // If the chat isn't open, update the unread message count for that chat
-            setUnreadMessages(prev => ({
-              ...prev,
-              [data.message.chat_id]: data.unreadCount.count
-            }));
+          const data = JSON.parse(event.data);
+          console.log('Received WebSocket message:', data);
+  
+          if ((data.type === 'chatMessage' || data.type === 'newMessage') && data.message) {
+              const { chat_id, sender_id, content } = data.message;
+  
+              if (chat_id && sender_id && content) {
+                  if (sender_id === currentUser.id) return; // Skip messages sent by the current user
+  
+                  if (chat_id === currentChat?.id) {
+                      setMessages((prevMessages) => {
+                          if (!prevMessages.some((msg) => msg.id === data.message.id)) {
+                              return [...prevMessages, data.message];
+                          }
+                          return prevMessages;
+                      });
+                  } else {
+                      setUnreadMessages((prev) => ({
+                          ...prev,
+                          [chat_id]: (prev[chat_id] || 0) + 1,
+                      }));
+                  }
+              } else {
+                  console.warn('Incomplete message data received:', data.message);
+              }
+          } else {
+              console.warn('Unexpected message format:', data);
           }
-
-          // Update the last message time for the chat
-          setLastMessageTimes(prev => ({
-            ...prev,
-            [data.message.chat_id]: new Date().getTime()
-          }));
-        }
       } catch (error) {
-        console.error('Error processing WebSocket message:', error);
+          console.error('Error processing WebSocket message:', error);
       }
-    };
+  };
+  
+  
+  
+  
+  
+
 
     // Clean up the WebSocket connection when the component is unmounted
     return () => {
@@ -74,16 +86,17 @@ const SimpleChatPlatform = ({ currentUser }) => {
 
   // Helper function to scroll to the bottom of the chat window
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Fetch the list of employees from the server
   const fetchEmployees = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users');
+      const response = await fetch('http://localhost:8080/api/staff_members');
       if (!response.ok) throw new Error('Failed to fetch employees');
       const data = await response.json();
-      setEmployees(data.filter(emp => emp.id !== currentUser.id)); // Filter out the current user from the list
+      console.log('Fetched employees:', data); // Log fetched employees for debugging
+      setEmployees(data.filter((emp) => emp.id !== currentUser.id)); // Filter out the current user from the list
     } catch (error) {
       console.error('Error fetching employees:', error);
     }
@@ -98,8 +111,8 @@ const SimpleChatPlatform = ({ currentUser }) => {
       const messageTimes = {};
       
       // Create a map of employees to their chat sessions
-      chats.forEach(chat => {
-        const otherParticipant = chat.participants.find(id => id !== currentUser.id);
+      chats.forEach((chat) => {
+        const otherParticipant = chat.participants.find((id) => id !== currentUser.id);
         chatMap[otherParticipant] = chat.id;
         messageTimes[chat.id] = new Date(chat.last_message_time).getTime();
       });
@@ -119,7 +132,7 @@ const SimpleChatPlatform = ({ currentUser }) => {
       const data = await response.json();
       const counts = {};
       
-      data.forEach(item => {
+      data.forEach((item) => {
         counts[item.chat_id] = item.count; // Store unread message count per chat
       });
 
@@ -128,6 +141,7 @@ const SimpleChatPlatform = ({ currentUser }) => {
       console.error('Error fetching unread counts:', error);
     }
   };
+
   // When an employee is selected for chatting
   const handleSelectEmployee = async (employee) => {
     setSelectedEmployee(employee); // Set the selected employee
@@ -146,7 +160,7 @@ const SimpleChatPlatform = ({ currentUser }) => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: currentUser.id, chatId }),
         });
-        setUnreadMessages(prev => ({ ...prev, [chatId]: 0 })); // Clear unread messages for this chat
+        setUnreadMessages((prev) => ({ ...prev, [chatId]: 0 })); // Clear unread messages for this chat
       } catch (error) {
         console.error('Error marking messages as read:', error);
       }
@@ -161,8 +175,8 @@ const SimpleChatPlatform = ({ currentUser }) => {
         });
         const newChat = await createResponse.json();
         setCurrentChat({ id: newChat.id, participants: [currentUser.id, employee.id] });
-        setEmployeeChatMap(prev => ({ ...prev, [employee.id]: newChat.id })); // Update the chat map with the new chat
-        setLastMessageTimes(prev => ({ ...prev, [newChat.id]: new Date().getTime() }));
+        setEmployeeChatMap((prev) => ({ ...prev, [employee.id]: newChat.id })); // Update the chat map with the new chat
+        setLastMessageTimes((prev) => ({ ...prev, [newChat.id]: new Date().getTime() }));
         setMessages([]); // Clear the message list for the new chat
       } catch (error) {
         console.error('Error creating new chat:', error);
@@ -181,26 +195,29 @@ const SimpleChatPlatform = ({ currentUser }) => {
     }
   };
 
+  
   // Handle sending a new message
   const handleSendMessage = () => {
     if (newMessage.trim() && currentChat && socket) {
-      const messageData = {
-        type: 'chatMessage',
-        chat_id: currentChat.id,
-        sender_id: currentUser.id,
-        content: newMessage,
-      };
+        if (socket.readyState === WebSocket.OPEN) {
+            const messageData = {
+                type: 'chatMessage',
+                chat_id: currentChat.id,
+                sender_id: currentUser.id,
+                content: newMessage,
+            };
 
-      socket.send(JSON.stringify(messageData)); // Send the new message through the WebSocket
-      setNewMessage(''); // Clear the input field
+            setNewMessage(''); // Clear input after sending
 
-      // Update the last message time for the chat
-      setLastMessageTimes(prev => ({
-        ...prev,
-        [currentChat.id]: new Date().getTime()
-      }));
+            socket.send(JSON.stringify(messageData)); // Send through WebSocket
+        } else {
+            console.warn('WebSocket is not open. Message cannot be sent at this time.');
+        }
     }
-  };
+};
+
+
+
 
   // Sort employees based on the time of the last message in their chat
   const sortedEmployees = [...employees].sort((a, b) => {
@@ -209,19 +226,23 @@ const SimpleChatPlatform = ({ currentUser }) => {
     return timeB - timeA;
   });
 
+  useEffect(() => {
+    console.log('Updated messages:', messages);
+}, [messages]); // This will log messages every time the state updates
+
   return (
-    
-    <div className='animated fadeInDown' style={{ 
-      display: 'flex', 
-      height: '20%', 
-      width: '100%', 
-      backgroundColor: '#f0f2f5', 
-      borderRadius: '10px', 
-      overflow: 'hidden', 
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-      
-      //animations
-      }}>
+    <div
+      className='animated fadeInDown'
+      style={{
+        display: 'flex',
+        height: '20rem',
+        width: '100%',
+        backgroundColor: '#f0f2f5',
+        borderRadius: '10px',
+        overflow: 'hidden',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      }}
+    >
       {/* Sidebar for employee list */}
       <div style={{ width: '250px', backgroundColor: '#ffffff', borderRight: '1px solid #e0e0e0', overflow: 'auto' }}>
         <h2 style={{ padding: '20px', borderBottom: '1px solid #e0e0e0', margin: 0, color: '#2c3e50' }}>Employees</h2>
@@ -230,7 +251,7 @@ const SimpleChatPlatform = ({ currentUser }) => {
           const unreadCount = unreadMessages[chatId] || 0;
           return (
             <div
-              key={employee.id}
+              key={employee.id} // Ensure employee.id is unique
               style={{
                 padding: '15px 20px',
                 cursor: 'pointer',
@@ -251,16 +272,16 @@ const SimpleChatPlatform = ({ currentUser }) => {
               </div>
               {/* Show unread message count if any */}
               {unreadCount > 0 && (
-                <div style={{ 
-                  backgroundColor: '#e74c3c', 
-                  color: 'white', 
-                  borderRadius: '50%', 
-                  width: '20px', 
-                  height: '20px', 
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center', 
-                  fontSize: '12px' 
+                <div style={{
+                  backgroundColor: '#e74c3c',
+                  color: 'white',
+                  borderRadius: '50%',
+                  width: '20px',
+                  height: '20px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '12px'
                 }}>
                   {unreadCount} {/* Show the number of unread messages */}
                 </div>
@@ -281,31 +302,35 @@ const SimpleChatPlatform = ({ currentUser }) => {
 
             {/* Message history */}
             <div style={{ flex: 1, overflow: 'auto', padding: '20px' }}>
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  style={{
-                    marginBottom: '15px',
-                    display: 'flex',
-                    justifyContent: message.sender_id === currentUser.id ? 'flex-end' : 'flex-start',
-                  }}
-                >
-                  <div
-                    style={{
-                      maxWidth: '70%',
-                      padding: '10px 15px',
-                      borderRadius: '18px',
-                      backgroundColor: message.sender_id === currentUser.id ? '#3498db' : '#f0f0f0',
-                      color: message.sender_id === currentUser.id ? 'white' : 'black',
-                    }}
-                  >
-                    <p style={{ margin: 0 }}>{message.content}</p> {/* Message content */}
-                    <p style={{ margin: '5px 0 0', fontSize: '0.8em', opacity: 0.7 }}>
-                      {new Date(message.timestamp).toLocaleTimeString()} {/* Message timestamp */}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            {messages.map((message) => {
+    console.log('Rendering message:', message); // Log each message as it renders
+    return (
+        <div
+            key={message.id}
+            style={{
+                marginBottom: '15px',
+                display: 'flex',
+                justifyContent: message.sender_id === currentUser.id ? 'flex-end' : 'flex-start',
+            }}
+        >
+            <div
+                style={{
+                    maxWidth: '70%',
+                    padding: '10px 15px',
+                    borderRadius: '18px',
+                    backgroundColor: message.sender_id === currentUser.id ? '#3498db' : '#f0f0f0',
+                    color: message.sender_id === currentUser.id ? 'white' : 'black',
+                }}
+            >
+                <p style={{ margin: 0 }}>{message.content}</p>
+                <p style={{ margin: '5px 0 0', fontSize: '0.8em', opacity: 0.7 }}>
+                    {new Date(message.timestamp).toLocaleTimeString()}
+                </p>
+            </div>
+        </div>
+    );
+})}
+
               {/* Empty div used to scroll to the bottom of the chat */}
               <div ref={messagesEndRef} />
             </div>
@@ -316,8 +341,12 @@ const SimpleChatPlatform = ({ currentUser }) => {
                 type="text"
                 value={newMessage} // Bind the input to the newMessage state
                 onChange={(e) => setNewMessage(e.target.value)} // Update the newMessage state on change
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} // Send message on pressing Enter
-                style={{ flex: 1, marginRight: '10px', padding: '10px', borderRadius: '20px', border: '1px solid #e0e0e0' }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSendMessage();
+                    e.preventDefault(); // Prevents any further actions on Enter key
+                  }
+                }}                style={{ flex: 1, marginRight: '10px', padding: '10px', borderRadius: '20px', border: '1px solid #e0e0e0' }}
                 placeholder="Type a message..."
               />
               <button 
