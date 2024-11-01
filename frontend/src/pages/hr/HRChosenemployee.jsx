@@ -215,52 +215,6 @@ function HRChosenemployee() {
         <>
             <Header />
             <SidebarNav position={position} />
-            {position === 'Super Admin' && (
-                <>
-                <div id="chosenroles">
-                   <h3>Roles for {editedEmployee.firstname}</h3>
-                   <div id="innerchosenroles">
-                    <form>
-                        <table>
-                            <tr>
-                                <td><div className="innerrole"><input type="checkbox" checked={roles.clockin_out}/><p>Clock In/Out</p></div></td>
-                                <td><div className="innerrole"><input type="checkbox" checked={roles.view_clockin_details}/><p>View clockin history</p></div></td>
-                                <td><div className="innerrole"><input type="checkbox" checked={roles.request_report}/><p>Request report</p></div></td>
-                                <td><div className="innerrole"><input type="checkbox" checked={roles.request_leave}/><p>Request leave</p></div></td>
-                                <td><div className="innerrole"><input type="checkbox" checked={roles.request_overtime}/><p>Request Overtime</p></div></td>
-                                <td><div className="innerrole"><input type="checkbox" checked={roles.view_employees}/><p>View employee details</p></div></td>
-                                <td><div className="innerrole"><input type="checkbox" checked={roles.edit_employee_details}/><p>Edit employee details</p></div></td>
-                            </tr>
-                            <tr>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.delete_employee}/><p>Delete employee</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.view_clockin_history}/><p>View employee clockin History</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.view_employee_documents}/><p>View employee documents</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.view_your_documents}/><p>View own documents</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.view_employee_missed_days}/><p>View employee missed days</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.give_back_missed_day}/><p>Return employees missed day</p></div></td>
-                            </tr>
-                            <tr>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.register_staff}/><p>Register staff</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.approve_request_overtime}/><p>Approve employee overtime </p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.approve_request_leave}/><p>Approve employee leave</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.approve_request_report}/><p>Approve employee report </p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.view_employee_payroll}/><p>View employee payroll</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.view_self_payroll_nfo}/><p>View Own Payroll</p></div></td>
-                            </tr>
-                            <tr>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.upload_own_documents}/><p>Upload own documents</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.view_employee_commissions}/><p>View employee commissions</p></div></td>
-                            <td><div className="innerrole"><input type="checkbox" checked={roles.create_new_commissions}/><p>Create new commissions</p></div></td>
-                            </tr>
-                        </table>
-                    </form>
-                   </div>
-                   <div id="chosenrolebuttonssection">
-                       <button>Confirm Changes</button>
-                   </div>
-                </div>
-                </>
-            )}
             <div id="chosencontent">
                 <div className="chosenemployee">
                     <div id="innerchosenemployee">
@@ -421,7 +375,10 @@ function HRChosenemployee() {
                     </div>
                 )}
                  {userPermissions.includes(8) && (
-                    <div id="chosendocuments">
+               <div 
+               id="chosendocuments" 
+               style={!userPermissions.includes(7) ? { marginTop: '4rem' } : {}}
+           >
                         <div id="doctitle">
                             <h4>Documents</h4>
                         </div>
@@ -443,7 +400,9 @@ function HRChosenemployee() {
                     </div>
                  )}
                   {userPermissions.includes(9) && (
-                    <div id="chosenmissedsection">
+                    <div id="chosenmissedsection"
+                    style={!userPermissions.includes(7) && !userPermissions.includes(8) ? { marginTop: '4rem' } : {}}
+                    >
                         <h4>Days Missed</h4>
                         <table id="missedtable">
                             <thead>

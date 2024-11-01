@@ -5,7 +5,6 @@ import SidebarNav from '../../components/sidebarNav.jsx';
 import Header from '../../components/header.jsx';
 import './style/index.css';
 import search from './assets/searchicon.png';
-import MessagingFloat from './MessageFloat.jsx';
 import personicon from './assets/personicon.png';
 import SimpleChatPlatform from '../../components/MessagePlatfom.jsx';
 
@@ -14,7 +13,7 @@ function HRhome() {
     const user = useSelector((state) => state.auth.data[0]); 
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [showChatPlatform, setShowChatPlatform] = useState(false);
+
     const userPermissions = useSelector((state) => state.auth.userPermissions);
 
     const filteredData = data.filter(employee => {
@@ -50,23 +49,15 @@ function HRhome() {
         setSearchQuery(event.target.value);
     };
 
-    const handleToggleChat = () => {
-        setShowChatPlatform((prev) => !prev);
-    }
 
     return (
         <>
             <Header />
             <SidebarNav position={position} />
-            <MessagingFloat onClick={handleToggleChat}/>
+    
             <div className='main-content'>
                 <div className="homecontent">
                     <h4 className='greeting'>G Mobility Staff</h4>
-                    {showChatPlatform && userPermissions.includes(1) && (
-                    <div className='chat-platform'>
-                        <SimpleChatPlatform currentUser={user}/>
-                    </div>
-                    )}
                     <div id="totalemployees">
                         <p><img src={personicon} alt="Person Icon" /> {data.length}</p>
                     </div>

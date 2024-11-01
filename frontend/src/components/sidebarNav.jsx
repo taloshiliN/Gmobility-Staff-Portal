@@ -263,13 +263,13 @@ function SidebarNav({position}) {
 
      {userPermissions.includes(26) && (
        <NavLink to="/reportrequests" className={`item ${location.pathname === '/reportrequests' ? 'active' : ''}`}>
-          <li>Report Requests </li>
+          <li>View Report Requests </li>
         </NavLink>
       )}
 
      {userPermissions.includes(27) && (
        <NavLink to='/printingrequest' className={`item ${location.pathname === '/printingrequest' ? 'active' : ''}`}>
-          <li>Report request</li>
+          <li>Create Report request</li>
         </NavLink>
         )}
       {userPermissions.includes(35) && (
