@@ -180,23 +180,25 @@ function SidebarNav({position}) {
         </NavLink>
       )}
 
-      {userPermissions.includes(27) && (
+     {userPermissions.includes(27) && (
        <NavLink to='/printingrequest' className={`item ${location.pathname === '/printingrequest' ? 'active' : ''}`}>
           <li>Report request</li>
         </NavLink>
         )}
-
+      {userPermissions.includes(35) && (
         <NavLink to="/overtimeview" className={`item ${location.pathname === '/overtimeview' ? 'active' : ''}`}>
           <li>View Overtime</li>
         </NavLink>
-        
+      )}
+     {userPermissions.includes(36) && (
         <NavLink to="/leaveview" className={`item ${location.pathname === '/leaveview' ? 'active' : ''}`}>
           <li>View Leave</li>
         </NavLink>
+      )}
 
         
       {userPermissions.includes(37) && (
-        <NavLink to="/printingview">
+        <NavLink to="/printingview"className={`item ${location.pathname === '/printingview' ? 'active' : ''}`}>
           <li>View Report </li>
         </NavLink>
         )}
@@ -265,19 +267,21 @@ function SidebarNav({position}) {
         </NavLink>
       )}
 
-      {userPermissions.includes(27) && (
+     {userPermissions.includes(27) && (
        <NavLink to='/printingrequest' className={`item ${location.pathname === '/printingrequest' ? 'active' : ''}`}>
           <li>Report request</li>
         </NavLink>
         )}
-
+      {userPermissions.includes(35) && (
         <NavLink to="/overtimeview" className={`item ${location.pathname === '/overtimeview' ? 'active' : ''}`}>
           <li>View Overtime</li>
         </NavLink>
-        
+      )}
+     {userPermissions.includes(36) && (
         <NavLink to="/leaveview" className={`item ${location.pathname === '/leaveview' ? 'active' : ''}`}>
           <li>View Leave</li>
         </NavLink>
+      )}
 
         
       {userPermissions.includes(37) && (
