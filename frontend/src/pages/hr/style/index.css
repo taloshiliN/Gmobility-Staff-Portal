@@ -111,7 +111,7 @@ body {
     color: white;
   }
   
-  /*highlght currently active link*/
+
   .tab {
     display: flex;
     align-items: center; 
@@ -314,7 +314,6 @@ body {
     padding-top: 1rem;
     display: flex; /* Use flexbox for alignment */
     flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: space-between; /* Space items evenly */
     width: 100%;
   }
   

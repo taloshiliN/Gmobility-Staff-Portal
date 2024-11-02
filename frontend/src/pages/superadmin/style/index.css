@@ -40,7 +40,6 @@ body {
     display: flex;
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center align items horizontally */
-    justify-content: space-between; /* Space out content evenly */
     margin-top: -0.4%
   }
 .hrsidebar::-webkit-scrollbar { 
@@ -314,15 +313,18 @@ body {
     padding-top: 1rem;
     display: flex; /* Use flexbox for alignment */
     flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: space-between; /* Space items evenly */
     width: 100%;
+    max-height: 76%; /* Set a maximum height (adjust as needed) */
+    overflow-y: auto; /* Make it scrollable when content overflows vertically */
   }
   
  
   .employeecard {
-    height: 20rem;
-    width: calc(25% - 1rem); /* 4 cards per row, accounting for margins */
+    height: 18rem;
+    width: calc(20% - 1rem); /* 4 cards per row, accounting for margins */
     background-color: white;
+    border-radius: 10px;
+    margin: 0 0.5rem;
     margin-bottom: 2rem; /* Space between rows */
     box-shadow: 0.5px 0.5px rgb(170, 170, 170);
   }

@@ -12,11 +12,14 @@ const wss = new WebSocket.Server({ server });
 
 // CORS configuration
 const corsOptions = {
-    origin: ["http://localhost:5173", 'http://localhost:5174'] , // Allow requests from this origin
+    origin: ["http://192.168.179.9:5173", "http://192.168.179.9:5174"], // Add the origin for the frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true  // Allow credentials if needed
-};
+    credentials: true // Allow credentials if needed
+  };
+  
+  app.use(cors(corsOptions));
+  
 
 app.use(cors(corsOptions));
 
@@ -44,7 +47,7 @@ db.connect(err => {
     console.log('Connected to database.');
     const PORT = process.env.PORT || 8080;
     server.listen(PORT, () => {
-        console.log(`Server listening on port http://0.0.0.0:${PORT}`);
+        console.log(`Server listening on port http://localhost:${PORT}`);
     });
 });
 
@@ -884,8 +887,8 @@ app.get('/hrpayroll', (req, res) => {
     const sql = "SELECT * FROM pay_roll ORDER BY id DESC";
     db.query(sql, (err, data) => {
         if (err) {
-            console.error('Error fetching leave requests:', err);
-            return res.status(500).json({ message: "Error fetching leave requests", error: err });
+            console.error('Error fetching pay roll requests:', err);
+            return res.status(500).json({ message: "Error fetching pay roll requests", error: err });
         }
         return res.json(data);
     });

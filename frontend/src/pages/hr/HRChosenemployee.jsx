@@ -212,6 +212,17 @@ function HRChosenemployee() {
             setSelectedDate(''); // Clear the date input
         };
         
+        const [isEditingDOB, setIsEditingDOB] = useState(false);
+
+        const displayDOB = editedEmployee.DOB && !isEditingDOB
+            ? new Date(new Date(editedEmployee.DOB).getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            : editedEmployee.DOB;
+    
+    
+            const handleDateFocus = () => setIsEditingDOB(true);
+            const handleDateBlur = () => setIsEditingDOB(false);
+        
+
     return (
         <>
             <Header />
@@ -279,13 +290,15 @@ function HRChosenemployee() {
                                 <tr>
                                     <td className='chosendetails'>Date of Birth:</td>
                                     <td>
-                                        <input  className='choseninput'
-                                            type="date" 
-                                            name="DOB" 
-                                            value={editedEmployee.DOB}
-                                            max={today}
-                                            onChange={handleInputChange} 
-                                        />
+                                    <input  className='choseninput'
+                                        type="date" 
+                                        name="DOB" 
+                                        value={displayDOB} 
+                                        onChange={handleInputChange} 
+                                        max={today}
+                                        onFocus={handleDateFocus}
+                                        onBlur={handleDateBlur}
+                                       />
                                     </td>
                                 </tr>
                                 <tr>

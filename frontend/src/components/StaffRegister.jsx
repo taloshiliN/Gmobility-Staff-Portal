@@ -19,7 +19,7 @@ function StaffRegistrationForm() {
   const [Position, setPosition] = useState("");
   const [profileImg, setProfileImage] = useState(null);
   const [password, setPassword] = useState("");
-  const today = new Date().toISOString().split('T')[0];
+  const [notification, setNotification] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -80,6 +80,9 @@ function StaffRegistrationForm() {
         })
         .then((response) => {
           console.log('Success:', response);
+          setNotification(true);
+          setTimeout(()=> setNotification(false), 3000);
+
           // Reset form fields after successful submission
           setName("");
           setSurname("");
@@ -109,7 +112,7 @@ function StaffRegistrationForm() {
       <SidebarNav position={uposition} />
    
       <div className="staffregistercontent">
-      
+        {notification && <div className='notification'>User Has been created successfully</div>}
       <form onSubmit={handleSubmit} encType='multipart/form-data'>
       <div className="formsection">
       <div className="registerform1">
@@ -173,7 +176,6 @@ function StaffRegistrationForm() {
             id="DOB"
             name="DOB"
             value={DOB}
-            max={today}
             onChange={(e) => setDOB(e.target.value)}
             required
           />
@@ -288,7 +290,6 @@ function StaffRegistrationForm() {
         </div>
       </form>
     </div>
- 
     </>
   );
 }
