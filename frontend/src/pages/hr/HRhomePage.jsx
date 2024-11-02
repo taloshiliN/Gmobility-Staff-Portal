@@ -113,7 +113,16 @@ function HRHomePage() {
               <Calendar id="calender" onChange={onChange} value={selectedDate} />
               <div id='allhomecards'>
                 <div id='payrollcard'>
-                  <div id='clockincard' onClick={() => navigate('/ClockinPage')}>
+                  <div id='clockincard' 
+              onClick={() => {
+                if (userPermissions.includes(2) || userPermissions.includes(3)) {
+                  navigate('/ClockinPage');
+                } else {
+                  // Optional: Show a message or handle cases where the user lacks permission
+                  alert('You do not have permission to view this page.');
+                }
+              }}
+                  >
                     <p>Today's Clock-In Time</p>
                     <h3>{todayClockIn ? todayClockIn : "No clock-in today"}</h3>
                   </div>

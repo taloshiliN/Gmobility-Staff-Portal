@@ -38,9 +38,12 @@ function SidebarNav({position}) {
           <li>Home</li>
         </NavLink>
 
-        <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
-          <li>View Clocking</li>
-        </NavLink>
+        {(userPermissions.includes(2) || userPermissions.includes(3)) && (
+     <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
+       <li>View Clocking</li>
+     </NavLink>
+      )}
+      
         {userPermissions.includes(4) && (
         <NavLink to="/hremployees" className={`item ${location.pathname === '/hremployees' ? 'active' : ''}`}>
           <li>View Employees</li>
@@ -125,9 +128,12 @@ function SidebarNav({position}) {
           <li>Home</li>
         </NavLink>
 
-        <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
-          <li>View Clocking</li>
-        </NavLink>
+        {(userPermissions.includes(2) || userPermissions.includes(3)) && (
+     <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
+       <li>View Clocking</li>
+     </NavLink>
+      )}
+
         {userPermissions.includes(4) && (
         <NavLink to="/hremployees" className={`item ${location.pathname === '/hremployees' ? 'active' : ''}`}>
           <li>View Employees</li>
@@ -212,9 +218,13 @@ function SidebarNav({position}) {
           <li>Home</li>
         </NavLink>
 
-        <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
-          <li>View Clocking</li>
-        </NavLink>
+        {(userPermissions.includes(2) || userPermissions.includes(3)) && (
+     <NavLink to="/ClockinPage" className={`item ${location.pathname === '/ClockinPage' ? 'active' : ''}`}>
+       <li>View Clocking</li>
+     </NavLink>
+      )}
+
+
         {userPermissions.includes(4) && (
         <NavLink to="/hremployees" className={`item ${location.pathname === '/hremployees' ? 'active' : ''}`}>
           <li>View Employees</li>

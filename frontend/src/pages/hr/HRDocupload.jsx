@@ -124,7 +124,7 @@ function HRDocupload() {
                                             <td id="uploaddeletebutton">
                                                 <button onClick={() => handleDelete(doc.id)}>Delete</button>
                                             </td>
-                                            )}
+                                            )}  
                                         </tr>
                                     ))
                                 ) : (
@@ -139,7 +139,7 @@ function HRDocupload() {
                 <div id="newuploadsection">
                     <p>Upload file</p>
                     <form onSubmit={handleSubmit}>
-                        <input type="file"  onChange={handleFileChange} />
+                        <input type="file"  accept="application/pdf" onChange={handleFileChange} />
                         <input id="docuploadbutton" type="submit" value="Upload" />
                     </form>
                 </div>

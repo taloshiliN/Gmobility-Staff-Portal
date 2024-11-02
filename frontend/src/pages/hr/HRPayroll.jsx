@@ -75,12 +75,15 @@ function HRPayroll() {
                 prevEmployees.map(emp => 
                     emp.id === updatedEmployee.id ? { ...emp, ...editedValues } : emp
                 )
+                
             );
             setSelectedEmployee(updatedEmployee); // Update the selected employee with new data
+            
         } catch (err) {
             console.error('Error updating payroll:', err);
             setError(err.message);
         }
+        window.location.reload();
     };
 
     const handleCancel = () => {
@@ -95,6 +98,7 @@ function HRPayroll() {
                 gross_pay: selectedEmployee.gross_pay
             });
         }
+        window.location.reload();
     };
 
     const filteredPayrollInfo = selectedEmployee

@@ -19,6 +19,7 @@ function StaffRegistrationForm() {
   const [Position, setPosition] = useState("");
   const [profileImg, setProfileImage] = useState(null);
   const [password, setPassword] = useState("");
+  const today = new Date().toISOString().split('T')[0];
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -172,6 +173,7 @@ function StaffRegistrationForm() {
             id="DOB"
             name="DOB"
             value={DOB}
+            max={today}
             onChange={(e) => setDOB(e.target.value)}
             required
           />

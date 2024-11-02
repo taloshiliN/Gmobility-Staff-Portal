@@ -12,6 +12,7 @@ function HRChosenemployee() {
     const location = useLocation();
     const { employee } = location.state || {};
     const userPermissions = useSelector((state) => state.auth.userPermissions);
+    const today = new Date().toISOString().split('T')[0];
 
     if (!employee || !employee.id) {
         console.error('Employee data is missing or invalid');
@@ -281,7 +282,8 @@ function HRChosenemployee() {
                                         <input  className='choseninput'
                                             type="date" 
                                             name="DOB" 
-                                            value={editedEmployee.DOB} 
+                                            value={editedEmployee.DOB}
+                                            max={today}
                                             onChange={handleInputChange} 
                                         />
                                     </td>
