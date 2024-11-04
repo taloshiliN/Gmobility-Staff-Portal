@@ -12,11 +12,12 @@ const wss = new WebSocket.Server({ server });
 
 // CORS configuration
 const corsOptions = {
-    origin: ["http://192.168.179.9:5173", "http://192.168.179.9:5174"], // Add the origin for the frontend
+    origin: ["http://192.168.178.42:5173", "http://192.168.178.42:5174", "http://localhost:8080", "http://localhost:5173"], // Add localhost frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true // Allow credentials if needed
-  };
+};
+
   
   app.use(cors(corsOptions));
   
@@ -31,12 +32,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-//     password: "Shagina03!!",
-    password: "",
+    host: "192.168.178.42", // Replace with your XAMPP server's IP address
+    user: "youruser",
+    password: "yourpassword",
     database: "sp_db"
 });
+
+
 
 // Check database connection
 db.connect(err => {
